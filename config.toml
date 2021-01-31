@@ -16,7 +16,7 @@ disqusShortname = "yourdiscussshortname"
 
 [params]
     author = "Atul Agarwal"
-    description = "About Atul"
+    description = "Co-founder at Shovel Company"
     keywords = "blog,developer,personal"
     info = "Co-founder at [shovel company](https://shovel.company/), Currently living in Bangalore, Used to be a physical design engineer at [MediaTek](https://www.mediatek.com)"
     avatarURL = "images/myphoto.jpg"
