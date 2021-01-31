@@ -1,4 +1,4 @@
-baseURL = "http://www.example.com"
+baseURL = "http://www.atulagarwal.dev"
 title = "Atul Agarwal"
 
 theme = "hugo-coder"
@@ -16,12 +16,12 @@ disqusShortname = "yourdiscussshortname"
 
 [params]
     author = "Atul Agarwal"
-    description = "Atul Agarwal's personal website"
+    description = "About Atul"
     keywords = "blog,developer,personal"
-    info = ""
+    info = "Co-founder at [shovel company](https://shovel.company/), Currently living in Bangalore, Used to be a physical design engineer at [MediaTek](https://www.mediatek.com)"
     avatarURL = "images/myphoto.jpg"
     #gravatar = "john.doe@example.com"
-    footerContent = "Enter a text here."
+    footerContent = "Try Again, Fail Again, Fail Better"
 
     dateFormat = "January 2, 2006"
 
@@ -121,17 +121,17 @@ disqusShortname = "yourdiscussshortname"
 [[params.social]]
     name = "Github"
     icon = "fa fa-github"
-    weight = 1
-    url = "https://github.com/atul006/"
+    weight = 3
+    url = "https://github.com/asquare8/"
 [[params.social]]
     name = "Twitter"
     icon = "fa fa-twitter"
-    weight = 3
+    weight = 1
     url = "https://twitter.com/asquare08/"
 [[params.social]]
     name = "LinkedIn"
     icon = "fa fa-linkedin"
-    weight = 4
+    weight = 2
     url = "https://www.linkedin.com/in/iitjatul/"
 
 
