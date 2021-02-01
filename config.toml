@@ -13,6 +13,7 @@ pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
 disqusShortname = "yourdiscussshortname"
+googleAnalytics = "G-X6Y46GD89G"
 
 [params]
     author = "Atul Agarwal"
