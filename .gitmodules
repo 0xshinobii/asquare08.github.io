@@ -1,5 +1,5 @@
 
 [submodule "themes/hugo-coder"]
 	path = themes/hugo-coder
-	url = git@github.com:asquare8/hugo-coder.git
+	url = https://github.com/asquare8/hugo-coder.git 
 	branch = master
