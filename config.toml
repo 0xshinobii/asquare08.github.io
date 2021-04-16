@@ -19,7 +19,7 @@ googleAnalytics = "UA-188589894-1"
     author = "Atul Agarwal"
     description = "Co-founder at Shovel Company"
     keywords = "blog,developer,personal"
-    info = "Co-founder at [shovel company](https://shovel.company/), Currently living in Bangalore, Used to be a physical design engineer at [MediaTek](https://www.mediatek.com)"
+    info = "I believe in positive-sum game"
     avatarURL = "images/myphoto.jpg"
     #gravatar = "john.doe@example.com"
     footerContent = "Try Again, Fail Again, Fail Better"
@@ -28,7 +28,7 @@ googleAnalytics = "UA-188589894-1"
 
     hideFooter = false
     hideCredits = true
-    hideCopyright = false
+    hideCopyright = true
     since = 2019
 
     # Git Commit in Footer, uncomment the line below to enable it.
