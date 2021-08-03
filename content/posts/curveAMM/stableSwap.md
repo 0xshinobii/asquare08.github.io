@@ -39,7 +39,7 @@ $$\begin{align}
 Ann\sum x_i + D = DAnn + \frac{D^{n+1}}{n^n\prod x_i}
 \end{align}$$
 
-This is the equation that [Curve](https://curve.fi/files/stableswap-paper.pdf) AMM follows. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation (2) need to be solved for $x_j$ assuming all other parameters are constant and known. Newton's method is used to solve the above equation numerically.
+This is the equation that [Curve's](https://curve.fi) AMM follows for stable coin pools. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation (2) need to be solved for $x_j$ assuming all other parameters are constant and known. Newton's method is used to solve the above equation numerically.
 
 ### Newton's Method
 
@@ -53,7 +53,7 @@ where $f(x_n)$ is continuously differentiable in the vicinity of the root. Check
 
 ### Swapping Tokens
 
-Coming back to the StableSwap equation, let's look at how it is used in the [Curve](https://curve.fi/files/stableswap-paper.pdf) protocol. I have taken [3pool](https://curve.fi/3pool/) (DAI/USDC/USDT ) as an example.
+Coming back to the StableSwap equation, let's look at how it is used in the [Curve](https://curve.fi) protocol. I have taken [3pool](https://curve.fi/3pool/) (DAI/USDC/USDT ) as an example.
 
 Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token `i` is USDC, and the output token `j` is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $(2)$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $(2)$ which forms a polynomial equation of degree 2 in $y$ and can be simplified as
 
@@ -91,7 +91,7 @@ This is implemented in the `get_D(xp, amp)` function of the 3poolSwap [contract]
 
 ### Next Up
 
-Stableswap invariant works fantastically for stable coin pools and has lower price slippage and higher APR compared to existing AMMs like the constant product. However, it cannot be used as it is for non-stable coin pools. For that, a little tweak is required in the stableswap invariant. [Curve](https://curve.fi/files/stableswap-paper.pdf) has introduced [CurveCrypto](https://curve.fi/files/crypto-pools-paper.pdf) invariant which is encouraged from stableswap invariant and can be used for non-stable coin pools like the [tricrypto2](https://curve.fi/tricrypto2/) pool. In the next post, I will be explaining the CurveCrypto invariant and how is used as AMM in [the tricrypto2](https://curve.fi/tricrypto2/) pool.
+Stableswap invariant works fantastically for stable coin pools and has lower price slippage and higher APR compared to existing AMMs like the constant product. However, it cannot be used as it is for non-stable coin pools. For that, a little tweak is required in the stableswap invariant. [Curve](https://curve.fi) has introduced [CurveCrypto](https://curve.fi/files/crypto-pools-paper.pdf) invariant which is encouraged from stableswap invariant and can be used for non-stable coin pools like the [tricrypto2](https://curve.fi/tricrypto2/) pool. In the next post, I will be explaining the CurveCrypto invariant and how is used as AMM in [the tricrypto2](https://curve.fi/tricrypto2/) pool.
 
 ### References
 
