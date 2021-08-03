@@ -28,7 +28,6 @@ An^n\sum x_i + D = DAn^n + \frac{D^{n+1}}{n^n\prod x_i}
 
 where $x_i$ represents the balance of $i^{th}$token, $D = \sum x_i$ is the total amount of tokens when they have an equal price, $A$ is the amplification coefficient and $n$ is the number of tokens in the pool. To know more, check out the derivation of the above equation in the [Curve whitepaper](https://curve.fi/files/stableswap-paper.pdf).
 
-
 {{< figure src="/images/posts/stableSwap/stableswap.png" caption="Figure 1: Comparison of constant product, constant sum, and stableswap invariant" link= "https://curve.fi/files/stableswap-paper.pdf" target="https://curve.fi/files/stableswap-paper.pdf" >}}
 
 As it can be seen in Figure 1, the stableswap invariant is a combination of the constant sum and constant product invariant. Check out [this notebook](https://github.com/asquare8/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb) to see the impact of different parameters on the stableswap invariant curve.
@@ -36,10 +35,11 @@ As it can be seen in Figure 1, the stableswap invariant is a combination of the 
 Let's write $An^n$ as $Ann$ as in the contract code then the above equation can be rewritten as
 
 $$\begin{align}
+\label{eqn:stableswap}
 Ann\sum x_i + D = DAnn + \frac{D^{n+1}}{n^n\prod x_i}
 \end{align}$$
 
-This is the equation that [Curve's](https://curve.fi) AMM follows for stable coin pools. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation (2) need to be solved for $x_j$ assuming all other parameters are constant and known. Newton's method is used to solve the above equation numerically.
+This is the equation that [Curve's](https://curve.fi) AMM follows for stable coin pools. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation $\ref{eqn:stableswap}$ need to be solved for $x_j$ assuming all other parameters are constant and known. Newton's method is used to solve the above equation numerically.
 
 ### Newton's Method
 
@@ -68,14 +68,15 @@ $$b = S + \frac{D}{Ann},~~~~~c=\frac{D^{n+1}}{n^nPAnn}, ~~~~~ S= \sum_{i\not=j}^
 The root of the above equation can be calculated using Newton's method by iterating the below equation until convergence.
 
 $$\begin{equation}
+\label{eqn:getYIteration}
 y_{n+1} = y_n - \frac{y_n^2+(b-D)y-c}{2y_n +b-D} = \frac{y_n^2+c}{2y_n+b-D}
 \end{equation}$$
 
-Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation (5). Check out the implementation of the above algorithm in the `get_y(i,j,x,xp)` function of 3poolSwap [contract](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code). The variable naming is consistent with the code.
+Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation $\ref{eqn:getYIteration}$. Check out the implementation of the above algorithm in the `get_y(i,j,x,xp)` function of 3poolSwap [contract](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code). The variable naming is consistent with the code.
 
 ### Parameter D
 
-The value of parameter $D$ is calculated by solving equation (2) for $D$, given all other parameters are constant. The function $f(D)$, which a polynomial function of degree $n+1$ can be represented as
+The value of parameter $D$ is calculated by solving equation $\ref{eqn:stableswap}$ for $D$, given all other parameters are constant. The function $f(D)$, which a polynomial function of degree $n+1$ can be represented as
 
 $$\begin{equation}
 f(D) = \frac{D^{n+1}}{n^n\prod x_i} + (Ann -1)D - AnnS = 0
