@@ -17,9 +17,9 @@ googleAnalytics = "UA-188589894-1"
 
 [params]
     author = "Atul Agarwal"
-    description = "Co-founder at Shovel Company"
+    description = ""
     keywords = "blog,developer,personal"
-    info = "I believe in positive-sum game"
+    info = "I believe in positive-sum games"
     avatarURL = "images/myphoto.jpg"
     #gravatar = "john.doe@example.com"
     footerContent = "Try Again, Fail Again, Fail Better"
