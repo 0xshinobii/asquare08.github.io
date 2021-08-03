@@ -71,7 +71,7 @@ $$\begin{equation}
 y_{n+1} = y_n - \frac{y_n^2+(b-D)y-c}{2y_n +b-D} = \frac{y_n^2+c}{2y_n+b-D}
 \end{equation}$$
 
-Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation (5). Check out the implementation of the above algorithm in the `get_y(i,j,x,xp)` function of 3poolSwap [contract](https://www.notion.so/2c7db0a1a60cb6fe97d0b483032ff1c7). The variable naming is consistent with the code.
+Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation (5). Check out the implementation of the above algorithm in the `get_y(i,j,x,xp)` function of 3poolSwap [contract](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code). The variable naming is consistent with the code.
 
 ### Parameter D
 
@@ -87,7 +87,7 @@ $$\begin{equation}
 D_{n+1} = D_n - \frac{f(D_n)}{f'(D_n)} = \frac{(AnnS+nD_P)D_n}{(Ann-1)D_n+(n+1)D_P}
 \end{equation}$$
 
-This is implemented in the `get_D(xp, amp)` function of the 3poolSwap [contract](https://www.notion.so/2c7db0a1a60cb6fe97d0b483032ff1c7) and is called before performing any swap.
+This is implemented in the `get_D(xp, amp)` function of the 3poolSwap [contract](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code) and is called before performing any swap.
 
 ### Next Up
 
@@ -96,7 +96,7 @@ Stableswap invariant works fantastically for stable coin pools and has lower pri
 ### References
 
 - [https://curve.fi/files/stableswap-paper.pdf](https://curve.fi/files/stableswap-paper.pdf)
-- [https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code](https://www.notion.so/2c7db0a1a60cb6fe97d0b483032ff1c7)
+- [https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code)
 - [https://en.wikipedia.org/wiki/Newton's_method](https://en.wikipedia.org/wiki/Newton%27s_method)
 - [https://keisan.casio.com/exec/system/1244946907](https://keisan.casio.com/exec/system/1244946907)
 - [https://github.com/asquare8/AMM-Models/blob/main/Curve AMM plots.ipynb](https://github.com/asquare8/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb)
