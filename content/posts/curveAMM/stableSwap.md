@@ -55,7 +55,7 @@ where $f(x_n)$ is continuously differentiable in the vicinity of the root. Check
 
 Coming back to the StableSwap equation, let's look at how it is used in the [Curve](https://curve.fi) protocol. I have taken [3pool](https://curve.fi/3pool/) (DAI/USDC/USDT ) as an example.
 
-Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token `i` is USDC, and the output token `j` is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $(2)$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $(2)$ which forms a polynomial equation of degree 2 in $y$ and can be simplified as
+Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token `i` is USDC, and the output token `j` is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $\ref{eqn:stableswap}$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $\ref{eqn:stableswap}$ which forms a polynomial equation of degree 2 in $y$ and can be simplified as
 
 $$\begin{equation}
 f(y) = y^2 + (b-D)y - c = 0
