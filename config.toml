@@ -12,14 +12,14 @@ pygmentsStyle = "b2"
 pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
-disqusShortname = "yourdiscussshortname"
+disqusShortname = "atul"
 googleAnalytics = "UA-188589894-1"
 
 [params]
     author = "Atul Agarwal"
-    description = "Co-founder at Shovel Company"
+    description = ""
     keywords = "blog,developer,personal"
-    info = "I believe in positive-sum game"
+    info = "I believe in positive-sum games"
     avatarURL = "images/myphoto.jpg"
     #gravatar = "john.doe@example.com"
     footerContent = "Try Again, Fail Again, Fail Better"
@@ -61,58 +61,6 @@ googleAnalytics = "UA-188589894-1"
     # Custom JS
     customJS = []
 
-# If you want to use fathom(https://usefathom.com) for analytics, add this section
-[params.fathomAnalytics]
-    siteID = "ABCDE"
-    # Default value is cdn.usefathom.com, overwrite this if you are self-hosting
-    serverURL = "analytics.example.com"
-
-# If you want to use plausible(https://plausible.io) for analytics, add this section
-[params.plausibleAnalytics]
-    domain = "example.com"
-    # Default value is plausible.io, overwrite this if you are self-hosting or using a custom domain
-    serverURL = "analytics.example.com"
-
-# If you want to use goatcounter(https://goatcounter.com) for analytics, add this section
-[params.goatCounter]
-    code = "code"
-
-# If you want to use Cloudflare Web Analytics(https://cloudflare.com) for analytics, add this section
-[params.cloudflare]
-    token = "token"
-
-# If you want to use Matomo(https://matomo.org) for analytics, add this section
-[params.matomo]
-    # Default value is "1", overwrite this if you are cloud-hosting
-    siteID = "ABCDE"
-    # For cloud-hosting, use provided URL, e.g. example.matomo.cloud
-    serverURL = "analytics.example.com"
-
-# If you want to implement a Content-Security-Policy, add this section
-[params.csp]
-	  childsrc = ["'self'"]
-	  fontsrc = [
-        "'self'",
-		    "https://fonts.gstatic.com",
-		    "https://cdn.jsdelivr.net/"
-    ]
-	  formaction = ["'self'"]
-	  framesrc = ["'self'"]
-	  imgsrc = ["'self'"]
-	  objectsrc = ["'none'"]
-	  stylesrc = [
-        "'self'",
-		    "'unsafe-inline'",
-		    "https://fonts.googleapis.com/",
-		    "https://cdn.jsdelivr.net/"
-    ]
-	  scriptsrc = [
-        "'self'",
-		    "'unsafe-inline'",
-		    "https://www.google-analytics.com"
-    ]
-	  prefetchsrc = ["'self'"]
-
 [taxonomies]
   category = "categories"
   series = "series"
@@ -124,16 +72,19 @@ googleAnalytics = "UA-188589894-1"
     icon = "fa fa-github"
     weight = 3
     url = "https://github.com/asquare8/"
+    target = "blank"
 [[params.social]]
     name = "Twitter"
     icon = "fa fa-twitter"
     weight = 1
     url = "https://twitter.com/asquare08/"
+    target = "blank"
 [[params.social]]
     name = "LinkedIn"
     icon = "fa fa-linkedin"
     weight = 2
     url = "https://www.linkedin.com/in/iitjatul/"
+    target = "blank"
 
 
 [languages]
