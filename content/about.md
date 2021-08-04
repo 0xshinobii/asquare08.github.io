@@ -3,7 +3,7 @@ title = "About Me"
 slug = "about"
 +++
 
-Hi folks
+Hi folks,
 
 I am an electrical engineer turned software developer. Started my journey as a chip designer at [MediaTek](https://www.mediatek.com) for 3 years, switched to the software world after that, and joined [Shovel Company](https:/shovel.company).
 
