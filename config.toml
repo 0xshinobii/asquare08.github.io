@@ -28,8 +28,8 @@ googleAnalytics = "UA-188589894-1"
 
     hideFooter = false
     hideCredits = true
-    hideCopyright = true
-    since = 2019
+    hideCopyright = false
+    since = ''
 
     # Git Commit in Footer, uncomment the line below to enable it.
     commit = "https://github.com/luizdepra/hugo-coder/tree/"
@@ -72,19 +72,19 @@ googleAnalytics = "UA-188589894-1"
     icon = "fa fa-github"
     weight = 3
     url = "https://github.com/asquare8/"
-    target = "blank"
+    target = "_blank"
 [[params.social]]
     name = "Twitter"
     icon = "fa fa-twitter"
     weight = 1
     url = "https://twitter.com/asquare08/"
-    target = "blank"
+    target = "_blank"
 [[params.social]]
     name = "LinkedIn"
     icon = "fa fa-linkedin"
     weight = 2
     url = "https://www.linkedin.com/in/iitjatul/"
-    target = "blank"
+    target = "_blank"
 
 
 [languages]
