@@ -20,7 +20,7 @@ googleAnalytics = "UA-188589894-1"
     description = ""
     keywords = "blog,developer,personal"
     info = "I believe in positive-sum games"
-    avatarURL = "images/myphoto.jpg"
+    avatarURL = "images/myphoto.png"
     #gravatar = "john.doe@example.com"
     footerContent = "Try Again, Fail Again, Fail Better"
 
