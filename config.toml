@@ -17,10 +17,10 @@ googleAnalytics = "UA-188589894-1"
 
 [params]
     author = "Atul Agarwal"
-    description = ""
+    description = "atul agarwal"
     keywords = "blog,developer,personal"
     info = "I believe in positive-sum games"
-    avatarURL = "images/myphoto.png"
+    avatarURL = "images/myphoto.jpeg"
     #gravatar = "john.doe@example.com"
     footerContent = "Try Again, Fail Again, Fail Better"
 
@@ -73,18 +73,21 @@ googleAnalytics = "UA-188589894-1"
     weight = 3
     url = "https://github.com/asquare8/"
     target = "_blank"
+    rel = "noopener"
 [[params.social]]
     name = "Twitter"
     icon = "fa fa-twitter"
     weight = 1
     url = "https://twitter.com/asquare08/"
     target = "_blank"
+    rel = "noopener"
 [[params.social]]
     name = "LinkedIn"
     icon = "fa fa-linkedin"
     weight = 2
     url = "https://www.linkedin.com/in/iitjatul/"
     target = "_blank"
+    rel = "noopener"
 
 
 [languages]
