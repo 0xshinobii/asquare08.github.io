@@ -5,7 +5,7 @@ slug = "about"
 
 Hi folks,
 
-I am a hardware engineer turned software developer. I started my journey as a chip designer at [MediaTek](https://www.mediatek.com) for 3 years, switched to the software world, and joined [Shovel Company](https:/shovel.company).
+I am a hardware engineer turned software developer. I started my journey as a chip designer at [MediaTek](https://www.mediatek.com) for 3 years, switched to the software world, and joined [Shovel Company](https://shovel.company).
 
 Currently, I am a blockchain developer at [DefiDollar](https://defidollar.finance). I love working on complex math equations and building products on the Ethereum ecosystem.
 
