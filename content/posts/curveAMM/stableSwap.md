@@ -6,11 +6,13 @@ math = true
 series = ["AMM Design"]
 +++
 
-With the race to increase capital efficiency between the decentralized exchanges, their AMM mechanism and code are getting hard to understand. [StableSwap](https://curve.fi/files/stableswap-paper.pdf) mechanism of [Curve's](https://curve.fi/) AMM is one such example of that. Here is what I have understood about the StableSwap mechanism for stable coin liquidity.
+It is common to integrate with decentralized exchanges (DEX) while building DeFi products. [Curve](https://curve.fi) is the most preferred choice when it comes to stable coins because of low slippage. However, to integrate with such protocols, one needs to clearly understand its automated market maker (AMM) design. [Curve's](https://curve.fi) stableswap AMM algorithm is more complex and calculation-heavy than [Uniswap's](https://uniswap.org/) constant product AMM.
+
+In this post, I have explained the maths behind the stableswap invariant, the method used to solve it, and how it is used in the protocol while swapping tokens or finding other parameters.
 
 ### StableSwap Invariant
 
-An invariant is nothing but an equation that an AMM follows. Examples of invariants are
+An invariant is an equation that defines the relationship between balances of pool tokens and pool parameters. The AMM design makes sure that this relationship is strictly followed before and after each trade. Examples of invariants are
 
 - Constant sum or linear invariant
 
@@ -26,7 +28,7 @@ $$\begin{equation}
 An^n\sum x_i + D = DAn^n + \frac{D^{n+1}}{n^n\prod x_i}
 \end{equation}$$
 
-where $x_i$ represents the balance of $i^{th}$token, $D = \sum x_i$ is the total amount of tokens when they have an equal price, $A$ is the amplification coefficient and $n$ is the number of tokens in the pool. To know more, check out the derivation of the above equation in the [Curve whitepaper](https://curve.fi/files/stableswap-paper.pdf).
+where $x_i$ represents the balance of $i^{th}$ token in the pool, $D = \sum x_i$ is the total amount of tokens when they have an equal price _i.e._ at equilibrium when all tokens have equal balance, $A$ is the amplification coefficient and $n$ is the number of tokens in the pool. To know more, check out the derivation of the above equation in the [Curve whitepaper](https://curve.fi/files/stableswap-paper.pdf).
 
 {{< figure src="/images/posts/stableSwap/stableswap.png" caption="Figure 1: Comparison of constant product, constant sum, and stableswap invariant" link= "https://curve.fi/files/stableswap-paper.pdf" target="https://curve.fi/files/stableswap-paper.pdf" >}}
 
