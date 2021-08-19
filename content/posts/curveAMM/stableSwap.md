@@ -57,7 +57,7 @@ where $f(x_n)$ is continuously differentiable in the vicinity of the root. Check
 
 Coming back to the StableSwap equation, let's look at how it is used in the [Curve](https://curve.fi) protocol. I have taken [3pool](https://curve.fi/3pool/) (DAI/USDC/USDT ) as an example.
 
-Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token `i` is USDC, and the output token `j` is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $\ref{eqn:stableswap}$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $\ref{eqn:stableswap}$ which forms a polynomial equation of degree 2 in $y$ and can be simplified as
+Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token $i$ is USDC, and the output token $j$ is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $\ref{eqn:stableswap}$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $\ref{eqn:stableswap}$ which forms a polynomial equation of degree $2$ in $y$ and can be simplified as
 
 $$\begin{equation}
 f(y) = y^2 + (b-D)y - c = 0
@@ -84,7 +84,7 @@ $$\begin{equation}
 f(D) = \frac{D^{n+1}}{n^n\prod x_i} + (Ann -1)D - AnnS = 0
 \end{equation}$$
 
-where $S=\sum x_i$. The derivative of above function is $f'(D) = (n+1)D_P/D + (Ann-1)$, where $D_P = \frac{D^{n+1}}{n^n\prod x_i}$. Hence root of $f(D) =0$ can be calculated using newtons formula by iterating below equation until convergence.
+where $S=\sum x_i$. The derivative of above function is $f'(D) = (n+1)D_P/D + (Ann-1)$, where $D_P = \frac{D^{n+1}}{n^n\prod x_i}$. Therefore, the root of $f(D) =0$ can be calculated using newtons formula by iterating below equation until convergence.
 
 $$\begin{equation}
 D_{n+1} = D_n - \frac{f(D_n)}{f'(D_n)} = \frac{(AnnS+nD_P)D_n}{(Ann-1)D_n+(n+1)D_P}
