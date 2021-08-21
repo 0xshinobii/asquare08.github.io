@@ -1,5 +1,5 @@
 +++
-date = "2021-08-03"
+date = "2021-08-20"
 title = "Understanding the Curve AMM, Part -1: StableSwap Invariant"
 description = "Curve StableSwap Invariant"
 math = true
