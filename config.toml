@@ -71,7 +71,7 @@ googleAnalytics = "UA-188589894-1"
     name = "Github"
     icon = "fa fa-github"
     weight = 3
-    url = "https://github.com/asquare8/"
+    url = "https://github.com/asquare08/"
     target = "_blank"
     rel = "noopener"
 [[params.social]]

@@ -32,7 +32,7 @@ where $x_i$ represents the balance of $i^{th}$ token in the pool, $D = \sum x_i$
 
 {{< figure src="/images/posts/stableSwap/stableswap.png" caption="Figure 1: Comparison of constant product, constant sum, and stableswap invariant" link= "https://curve.fi/files/stableswap-paper.pdf" target="https://curve.fi/files/stableswap-paper.pdf" >}}
 
-As it can be seen in Figure 1, the stableswap invariant is a combination of the constant sum and constant product invariant. Check out [this notebook](https://github.com/asquare8/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb) to see the impact of different parameters on the stableswap invariant curve.
+As it can be seen in Figure 1, the stableswap invariant is a combination of the constant sum and constant product invariant. Check out [this notebook](https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb) to see the impact of different parameters on the stableswap invariant curve.
 
 Let's write $An^n$ as $Ann$ as in the contract code then the above equation can be rewritten as
 
@@ -102,4 +102,4 @@ Stableswap invariant works fantastically for stable coin pools and has lower pri
 - [https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code)
 - [https://en.wikipedia.org/wiki/Newton's_method](https://en.wikipedia.org/wiki/Newton%27s_method)
 - [https://keisan.casio.com/exec/system/1244946907](https://keisan.casio.com/exec/system/1244946907)
-- [https://github.com/asquare8/AMM-Models/blob/main/Curve AMM plots.ipynb](https://github.com/asquare8/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb)
+- [https://github.com/asquare08/AMM-Models/blob/main/Curve AMM plots.ipynb](https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb)
