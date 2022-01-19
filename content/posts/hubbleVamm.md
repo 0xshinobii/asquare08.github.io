@@ -6,15 +6,15 @@ math = true
 series = ["AMM Design"]
 +++
 
-Automatic market-makers (AMMs) are one of the major innovations which decentralized finance brought. They use the maths function to price assets when exchanging two or more tokens. First, [Uniswap](http://uniswap.org) brought markets created by $x·y = k$ invariant which doesn’t make any assumption about the pricing of underlying assets and spreads liquidity across all prices evenly. Next, [Curve](http://curve.fi) introduced the stableswap invariant which allowed to focus most of the liquidity around price 1.0, a very useful feature for creating stablecoin-to-stablecoin liquidity.
+Automatic market-makers (AMMs) are one of the major innovations which decentralized finance has brought. They use the maths function to price assets when exchanging two or more tokens. First, [Uniswap](http://uniswap.org) brought markets created by $x·y = k$ invariant which doesn’t make any assumption about the pricing of underlying assets and spreads liquidity across all prices evenly. Next, [Curve](http://curve.fi) introduced the stableswap invariant which allowed to focus most of the liquidity around price 1.0, a very useful feature for creating stablecoin-to-stablecoin liquidity.
 
 Since the inception of AMMs, there have been several notable improvements in AMMs. One such improvement is Curve V2 which introduced CurveCrypto Invariant and can be used to create liquidity for tokens that are not necessarily pegged to each other *i.e.* their price changes frequently *w.r.t.* each other.
 
 ## Limitation of AMMs in Leverage Trading
 
-All these innovations work perfectly fine when it comes to token swaps but it is difficult to apply the same to derivatives, such as perpetual contracts. As derivative trading involves leverage, the position value will be bounded by the pool size, and also the liquidity providers might suffer from high impermanent loss.
+All these innovations work perfectly fine when it comes to token swaps but it is difficult to apply the same to derivatives, such as perpetual futures. As derivative trading involves leverage, the position value will be bounded by the pool size, and also the liquidity providers might suffer from high impermanent loss.
 
-To overcome this problem, [Perpetual protocol](https://www.perp.fi/) introduced the concept of V*irtual AMMs* or *vAMMs*. As the “virtual” part of vAMM implies, there is no real asset pool stored inside the vAMM itself. Instead, the real asset is stored in a smart contract vault that manages all of the collateral backing the vAMM; and the vAMM is just used for pricing the perps. In fact, that is how the Mark Price is determined. The perpetual protocol [uses](https://medium.com/perpetual-protocol/a-deep-dive-into-our-virtual-amm-vamm-40345c522eeb) $x*y = k$ (Uniswap v2) invariant in their vAMM. Perpetual protocol V2 is [planned](https://medium.com/perpetual-protocol/introducing-perpetual-protocol-v2-curie-730d3e9aa609) to be utilizing the UniswapV3 which relies on *makers* who provide liquidity around tight ranges and move liquidity accordingly as price changes.
+To overcome this problem, [Perpetual protocol](https://www.perp.fi/) introduced the concept of *Virtual AMMs* or *vAMMs*. As the “virtual” part of vAMM implies, there is no real asset pool stored inside the vAMM itself. Instead, the real asset is stored in a smart contract vault that manages all of the collateral backing the vAMM; and the vAMM is just used for pricing the perps. In fact, that is how the Mark Price is determined. The perpetual protocol [uses](https://medium.com/perpetual-protocol/a-deep-dive-into-our-virtual-amm-vamm-40345c522eeb) $x*y = k$ (Uniswap v2) invariant in their vAMM. Perpetual protocol V2 is [planned](https://medium.com/perpetual-protocol/introducing-perpetual-protocol-v2-curie-730d3e9aa609) to be utilizing the Uniswap V3 which relies on *makers* who provide liquidity around tight ranges and move liquidity accordingly as price changes.
 
 ## Hubble vAMM
 
@@ -48,14 +48,17 @@ $$
 
 where D is the total value of the pool in the terms of the base token (0th token) when the pool is in equilibrium and $p_i$ is the price of the $i^{th}$ token. When we change $p$, the price peg changes but balances don’t. We can calculate the new $D$ for the new values of $p$ and substitute new $D$ and $p_i$ to calculate $X_{cp}$.
 
-We track $X_{cp}$ at every exchange or deposit. We also track the $virtual\_price = X_{cp}/total\_supply$, where $total\_supply$ is the virtual LP token supply. It keeps track of all the losses after $p$ adjustments. Note that, since it is a vAMM, neither there are actual LP tokens minted nor any fee is charged inside the vAMM. It is used just for calculation purposes.
+We track $X_{cp}$ at every exchange or deposit. We also track the $virtual\_price = X_{cp}/total\\_supply$, where $total\\_supply$ is the virtual LP token supply. It keeps track of all the losses after $p$ adjustments. Note that, since it is a vAMM, neither there are actual LP tokens minted nor any fee is charged inside the vAMM. It is used just for calculation purposes.
 
 After every operation, we multiply a variable `xcp_profit` by `virtual_price/old_virtual_price`, starting with $1.0$. We undo the price adjustment if it causes `virtual_price-1` to fall lower than half of `xcp_profit-1`.
 Internally, we have a price oracle given by an exponential moving average applied in N-dimensional price space. Suppose that the last reported price is
 $p_{last}$, and the update happened $t$ seconds ago while the half-time of the EMA is $T_{1/2}$. Then the oracle price $p^*$ is given as:
 
 $$
-\alpha=2^{-\frac{t}{T_{1 / 2}}} \\\mathbf{p}^{*}=\mathbf{p}_{l a s t}(1-\alpha)+\alpha \mathbf{p}_{prev}^{*}
+\alpha=2^{-\frac{t}{T_{1 / 2}}}
+$$
+$$
+\mathbf{p}^{*}=\mathbf{p}_{l a s t}(1-\alpha)+\alpha \mathbf{p}_{prev}^{*}
 $$
 
 ### CurveCrypto Invariant
