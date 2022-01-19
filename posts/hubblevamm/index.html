@@ -1,0 +1,283 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=content-language content="en">
+<meta name=author content="Atul Agarwal">
+<meta name=description content="CurveCrypto Invariant">
+<meta name=keywords content="blog,developer,personal">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Hubble vAMM: CurveCrypto Invariant">
+<meta name=twitter:description content="CurveCrypto Invariant">
+<meta property="og:title" content="Hubble vAMM: CurveCrypto Invariant">
+<meta property="og:description" content="CurveCrypto Invariant">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.atulagarwal.dev/posts/hubblevamm/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-01-18T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-01-18T00:00:00+00:00">
+<meta property="og:see_also" content="https://www.atulagarwal.dev/posts/curveamm/stableswap/">
+<title>
+Hubble vAMM: CurveCrypto Invariant · Atul Agarwal
+</title>
+<link rel=canonical href=https://www.atulagarwal.dev/posts/hubblevamm/>
+<link rel=preconnect href=https://fonts.gstatic.com>
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel=stylesheet>
+<link rel=preload href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as=font type=font/woff2 crossorigin>
+<link rel=stylesheet href=/css/coder.min.f48a4da9bd32cecaff90717ae85529411dd087c10fc0dfca9c9c329c7327e5e1.css integrity="sha256-9IpNqb0yzsr/kHF66FUpQR3Qh8EPwN/KnJwynHMn5eE=" crossorigin=anonymous media=screen>
+<link rel=stylesheet href=/css/coder-dark.min.89c82b6022b96f77aeb521b240daec4f87ea029d84d1c78b8acd0735b91b3c92.css integrity="sha256-icgrYCK5b3eutSGyQNrsT4fqAp2E0ceLis0HNbkbPJI=" crossorigin=anonymous media=screen>
+<link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
+<link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
+<link rel=apple-touch-icon href=/images/apple-touch-icon.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png>
+<script defer src=https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js integrity=sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4 crossorigin=anonymous></script>
+<meta name=generator content="Hugo 0.92.0">
+</head>
+<body class=colorscheme-auto onload=twemoji.parse(document.body)>
+<div class=float-container>
+<a id=dark-mode-toggle class=colorscheme-toggle>
+<i class="fa fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</div>
+<main class=wrapper>
+<nav class=navigation>
+<section class=container>
+<a class=navigation-title href=/>
+Atul Agarwal
+</a>
+<input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle>
+<i class="fa fa-bars fa-fw" aria-hidden=true></i>
+</label>
+<ul class=navigation-list>
+<li class=navigation-item>
+<a class=navigation-link href=/posts/>Posts</a>
+</li>
+<li class=navigation-item>
+<a class=navigation-link href=/about/>About</a>
+</li>
+</ul>
+</section>
+</nav>
+<div class=content>
+<section class="container post">
+<article>
+<header>
+<div class=post-title>
+<h1 class=title>
+<a class=title-link href=https://www.atulagarwal.dev/posts/hubblevamm/>
+Hubble vAMM: CurveCrypto Invariant
+</a>
+</h1>
+</div>
+<div class=post-meta>
+<div class=date>
+<span class=posted-on>
+<i class="fa fa-calendar" aria-hidden=true></i>
+<time datetime=2022-01-18T00:00:00Z>
+January 18, 2022
+</time>
+</span>
+<span class=reading-time>
+<i class="fa fa-clock-o" aria-hidden=true></i>
+7-minute read
+</span>
+</div>
+</div>
+</header>
+<div>
+<p>Automatic market-makers (AMMs) are one of the major innovations which decentralized finance has brought. They use the maths function to price assets when exchanging two or more tokens. First, <a href=http://uniswap.org>Uniswap</a> brought markets created by $x·y = k$ invariant which doesn’t make any assumption about the pricing of underlying assets and spreads liquidity across all prices evenly. Next, <a href=http://curve.fi>Curve</a> introduced the stableswap invariant which allowed to focus most of the liquidity around price 1.0, a very useful feature for creating stablecoin-to-stablecoin liquidity.</p>
+<p>Since the inception of AMMs, there have been several notable improvements in AMMs. One such improvement is Curve V2 which introduced CurveCrypto Invariant and can be used to create liquidity for tokens that are not necessarily pegged to each other <em>i.e.</em> their price changes frequently <em>w.r.t.</em> each other.</p>
+<h2 id=limitation-of-amms-in-leverage-trading>
+Limitation of AMMs in Leverage Trading
+<a class=heading-link href=#limitation-of-amms-in-leverage-trading>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h2>
+<p>All these innovations work perfectly fine when it comes to token swaps but it is difficult to apply the same to derivatives, such as perpetual futures. As derivative trading involves leverage, the position value will be bounded by the pool size, and also the liquidity providers might suffer from high impermanent loss.</p>
+<p>To overcome this problem, <a href=https://www.perp.fi/>Perpetual protocol</a> introduced the concept of <em>Virtual AMMs</em> or <em>vAMMs</em>. As the “virtual” part of vAMM implies, there is no real asset pool stored inside the vAMM itself. Instead, the real asset is stored in a smart contract vault that manages all of the collateral backing the vAMM; and the vAMM is just used for pricing the perps. In fact, that is how the Mark Price is determined. The perpetual protocol <a href=https://medium.com/perpetual-protocol/a-deep-dive-into-our-virtual-amm-vamm-40345c522eeb>uses</a> $x*y = k$ (Uniswap v2) invariant in their vAMM. Perpetual protocol V2 is <a href=https://medium.com/perpetual-protocol/introducing-perpetual-protocol-v2-curie-730d3e9aa609>planned</a> to be utilizing the Uniswap V3 which relies on <em>makers</em> who provide liquidity around tight ranges and move liquidity accordingly as price changes.</p>
+<h2 id=hubble-vamm>
+Hubble vAMM
+<a class=heading-link href=#hubble-vamm>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h2>
+<p>At Hubble, we are using CurveCrypto Invariant in our vAMM. As described in Curve V2 <a href=https://curve.fi/files/crypto-pools-paper.pdf>whitepaper</a>, it is way more efficient than $x · y = k$ invariant and concentrates liquidity given by the current “internal oracle” price but only moves that price when the loss is smaller than part of the profit which the system makes. This creates 5 − 10 times higher liquidity than the Uniswap invariant.</p>
+<p>Here is an example of how it works under the hood.</p>
+<ul>
+<li>Before starting any trade, we add virtual liquidity to the pool and set the initial rate. Let say we have a vUSDT/vETH pool with 1,000,000 vUSDT and 1000 vETH initially, setting the initial vETH price 1000 vUSDT.</li>
+<li>Alice adds 1000 USDT to the smart contract vault as margin and wants to long 5 ETH <em>i.e.</em> 5x leverage. The protocol calculates the amount of vUSDT required to buy 5 vETH using CurveCrypto invariant and adds the same to the vAMM pool and removes the 5 vETH from it. The final state of the pool after the transaction is 995 vETH and 1,005,008.997 vUSDT.</li>
+<li>Another trader Bob also adds a 1000 USDT margin and wants to short 5 ETH <em>i.e.</em> 5x leverage. The protocol calculates the amount of vUSDT required to sell 5 vETH using CurveCrypto invariant and removes the same from the vAMM pool and adds the 5 vETH to it. The final state of the pool after the transaction is 1000 vETH and 1,000,000 vUSDT.</li>
+</ul>
+<h2 id=unique-properties-of-hubble-vamm>
+Unique Properties of Hubble vAMM
+<a class=heading-link href=#unique-properties-of-hubble-vamm>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h2>
+<h3 id=repegging>
+Repegging
+<a class=heading-link href=#repegging>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h3>
+<p>In contrast to Uniswap V3, Curve V2 uses an internal oracle to concentrate liquidity and the <a href=https://www.notion.so/Hubble-vAMM-CurveCrypto-Invariant-a37aa328c0104106a3047e85d8f08dd5>repegging algorithm</a> takes care of the price update. This makes our vAMM &lsquo;smart&rsquo; enough to concentrate liquidity around the current price by itself.</p>
+<p>Since Curve V2 is not path independent, there is a need for Makers in the system to counter the profit/loss due to that. Makers add virtual liquidity to the pool on leverage and earn a part of the trading fee. The good part is, makers don&rsquo;t have to worry about the price range in which they have to provide liquidity to deepen the liquidity around the current price. The repegging algorithm deepens liquidity around current price automatically and hence makers earn fee regardless of the price change. During highly volatile market, makers don&rsquo;t have to worry about getting out of range and lose out on pool fee.</p>
+<h2 id=maths-behind-hubble-vamm>
+Maths behind Hubble vAMM
+<a class=heading-link href=#maths-behind-hubble-vamm>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h2>
+<p>The main advantage of using this vAMM is that the repegging algorithm takes care of liquidity concentration around the current price.</p>
+<h3 id=repegging-algorithm>
+Repegging Algorithm
+<a class=heading-link href=#repegging-algorithm>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h3>
+<p>The repegging profit/loss is quantified by constant-product invariant at the <em>equilibrium point</em>. For a pool with $n$ tokens, it is given as</p>
+<p>$$
+X_{c p}=\left(\prod \frac{D}{n p_{i}}\right)^{\frac{1}{n}}
+$$</p>
+<p>where D is the total value of the pool in the terms of the base token (0th token) when the pool is in equilibrium and $p_i$ is the price of the $i^{th}$ token. When we change $p$, the price peg changes but balances don’t. We can calculate the new $D$ for the new values of $p$ and substitute new $D$ and $p_i$ to calculate $X_{cp}$.</p>
+<p>We track $X_{cp}$ at every exchange or deposit. We also track the $virtual_price = X_{cp}/total\_supply$, where $total\_supply$ is the virtual LP token supply. It keeps track of all the losses after $p$ adjustments. Note that, since it is a vAMM, neither there are actual LP tokens minted nor any fee is charged inside the vAMM. It is used just for calculation purposes.</p>
+<p>After every operation, we multiply a variable <code>xcp_profit</code> by <code>virtual_price/old_virtual_price</code>, starting with $1.0$. We undo the price adjustment if it causes <code>virtual_price-1</code> to fall lower than half of <code>xcp_profit-1</code>.
+Internally, we have a price oracle given by an exponential moving average applied in N-dimensional price space. Suppose that the last reported price is
+$p_{last}$, and the update happened $t$ seconds ago while the half-time of the EMA is $T_{1/2}$. Then the oracle price $p^*$ is given as:</p>
+<p>$$
+\alpha=2^{-\frac{t}{T_{1 / 2}}}
+$$
+$$
+\mathbf{p}^{<em>}=\mathbf{p}<em>{l a s t}(1-\alpha)+\alpha \mathbf{p}</em>{prev}^{</em>}
+$$</p>
+<h3 id=curvecrypto-invariant>
+CurveCrypto Invariant
+<a class=heading-link href=#curvecrypto-invariant>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h3>
+<p>This invariant is encouraged by the StableSwap invariant. For a pool with $n$ number of coins, it is represented as</p>
+<p>$$
+\begin{equation}
+KD^{n-1}\sum x_i = KD^n + \bigg(\frac{D}{n}\bigg)^n
+\end{equation}
+$$</p>
+<p>$$
+\begin{equation}
+K = AK_0\frac{\gamma^2}{\big(\gamma+1-K_0\big)^2}, \hskip{2em} K_0 = \frac{\prod x_i n^n}{D^n}
+\end{equation}
+$$</p>
+<p>where $x_i$ represents the balance of $i^{th}$token, $D = nx_{eq}$ is the total deposits in the pool when it is in equilibrium, $A$ is amplification coefficient, and $\gamma > 0$ is usually a small number. Figure 1 shows the graph of equation (1) and its comparison with the constant product ($xy =k$) and stable swap invariant.</p>
+<figure><a href=https://curve.fi/files/crypto-pools-paper.pdf target=https://curve.fi/files/crypto-pools-paper.pdf><img src=/images/posts/curveCrypto/curveCrypto.png alt="Figure 1: Comparison of AMM invariants: constant-product (dashed line), stable swap (blue), and curve crypto invariant (orange)"></a><figcaption>
+<p>Figure 1: Comparison of AMM invariants: constant-product (dashed line), stable swap (blue), and curve crypto invariant (orange)</p>
+</figcaption>
+</figure>
+<p>Figure 1: Comparison of AMM invariants: constant-product (dashed line), stable swap (blue), and curve crypto invariant (orange)
+Image source: <a href=https://curve.fi/files/crypto-pools-paper.pdf>https://curve.fi/files/crypto-pools-paper.pdf</a></p>
+<p>Check out this <a href=https://github.com/asquare8/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb>notebook</a> to know more about the effects of varying $A$ or $\gamma$ on the curve. To get the amount of output token ($x_j$), given input token amount ($x_i$), equation (1) needs to be solved for $x_j$ by <a href=https://en.wikipedia.org/wiki/Newton%27s_method>Newton&rsquo;s method</a>.</p>
+<h3 id=swapping-tokens-newton_y>
+Swapping Tokens (newton_y)
+<a class=heading-link href=#swapping-tokens-newton_y>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h3>
+<p>Suppose a trader wants to swap $dx$ amount of token $i$ for token $j$. The amount of token to be received by the trader $dy = y_{initial} - y_{new}$, where $y_{initial}$ is the balance of token $x_j$ before this trade and $y_{new}$ is calculated by solving the equation (1) for $x_j = y$, given all other parameters are known. We need to find the roots of the equation</p>
+<p>$$
+\begin{equation}
+f(y) = KD^{n-1}\sum x_i + \prod x_i - KD^n - \bigg(\frac{D}{N}\bigg)^n = 0
+\end{equation}
+$$</p>
+<p>Substituting $S = \sum x_i = \sum_{i \not= j}^{n} x_i + y$, $\prod x_i = y\prod_{i \not= j}^n x_i = \frac{K_0D^n}{n^n}$, $K$ from equation (2), and $Ann = An^n$ in the above equation gives</p>
+<p>$$
+\begin{equation}
+f(y) = S-D + \frac{D(K_0-1)(\gamma+1-K_0)^2}{AnnK_0\gamma^2} = 0
+\end{equation}
+$$</p>
+<p>Using $S' = 1$ and $K_0' = \frac{K_0}{y}$, the derivative of $f(y)$ can be represented as</p>
+<p>$$
+\begin{equation}
+y_nf'(y_n) = y_n + \frac{D(\gamma+1-K_0)^2}{Ann\gamma^2} + S\bigg(\frac{2K_0}{\gamma+1-K_0}+1\bigg) - D\bigg(\frac{2K_0}{\gamma+1-K_0}+1\bigg)
+\end{equation}
+$$</p>
+<p>Finally, $y_{new}$ can be calculated by finding the root of equation (4) by iterating the below equation until convergence.</p>
+<p>$$
+\begin{equation}
+y_{n+1} = y_n - \frac{f(y_n)}{f'(y_n)} = \frac{y_nf'(y_n)-f(y_n)}{f'(y_n)}
+\end{equation}
+$$</p>
+<p>Check out the implementation of the above algorithm in the <code>newton_y(Ann,gamma,x,D,i)</code> function of Curve&rsquo;s math <a href=https://etherscan.io/address/0x8F68f4810CcE3194B6cB6F3d50fa58c2c9bDD1d5#code>contract</a>.</p>
+<p>Similarly, <code>newton_D(ANN, gamma, x)</code> is used to calculate $D$ given <em>A</em>, <em>gamma,</em> and balances $x$.</p>
+<h2 id=references>
+References
+<a class=heading-link href=#references>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h2>
+<ul>
+<li><a href=https://curve.fi/files/crypto-pools-paper.pdf>https://curve.fi/files/crypto-pools-paper.pdf</a></li>
+<li><a href=https://etherscan.io/address/0xD51a44d3FaE010294C616388b506AcdA1bfAAE46#code>https://etherscan.io/address/0xD51a44d3FaE010294C616388b506AcdA1bfAAE46#code</a></li>
+<li><a href=https://medium.com/perpetual-protocol/a-deep-dive-into-our-virtual-amm-vamm-40345c522eeb>https://medium.com/perpetual-protocol/a-deep-dive-into-our-virtual-amm-vamm-40345c522eeb</a></li>
+</ul>
+</div>
+<footer>
+<section class=see-also>
+<h3 id=see-also-in-amm-design>
+See also in AMM Design
+<a class=heading-link href=#see-also-in-amm-design>
+<i class="fa fa-link" aria-hidden=true></i>
+</a>
+</h3>
+<nav>
+<ul>
+<li>
+<a href=/posts/curveamm/stableswap/>Understanding the Curve AMM, Part -1: StableSwap Invariant</a>
+</li>
+</ul>
+</nav>
+</section>
+<div id=disqus_thread></div>
+<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//atul.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</footer>
+</article>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],processEscapes:!0,processEnvironments:!0,tags:'ams'},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}}</script>
+</section>
+</div>
+<footer class=footer>
+<section class=container>
+<p>Try Again, Fail Again, Fail Better</p>
+</section>
+<section class=container , id=custom-container>
+<ul>
+<li>
+<a href=https://twitter.com/asquare08/ aria-label=Twitter rel=noopener target=_blank>
+<i class="fa fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://www.linkedin.com/in/iitjatul/ aria-label=LinkedIn rel=noopener target=_blank>
+<i class="fa fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/asquare08/ aria-label=Github rel=noopener target=_blank>
+<i class="fa fa-github" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</section>
+<section class=container , style=font-size:small>
+©
+2022
+Atul Agarwal
+</section>
+</footer>
+<script>var element=document.getElementById("custom-container");window.location.pathname==='/'&&(element.style.display="none")</script>
+</main>
+<script src=/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-188589894-1','auto'),ga('send','pageview'))</script>
+</body>
+</html>
