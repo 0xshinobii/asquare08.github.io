@@ -71,23 +71,23 @@ googleAnalytics = "UA-188589894-1"
     name = "Github"
     icon = "fa fa-github"
     weight = 3
-    url = "https://github.com/asquare08/"
+    url = "https://github.com/0xshinobii/"
     target = "_blank"
     rel = "noopener"
 [[params.social]]
     name = "Twitter"
     icon = "fa fa-twitter"
     weight = 1
-    url = "https://twitter.com/asquare08/"
+    url = "https://twitter.com/0xshinobii/"
     target = "_blank"
     rel = "noopener"
-[[params.social]]
-    name = "LinkedIn"
-    icon = "fa fa-linkedin"
-    weight = 2
-    url = "https://www.linkedin.com/in/iitjatul/"
-    target = "_blank"
-    rel = "noopener"
+# [[params.social]]
+#     name = "LinkedIn"
+#     icon = "fa fa-linkedin"
+#     weight = 2
+#     url = "https://www.linkedin.com/in/iitjatul/"
+#     target = "_blank"
+#     rel = "noopener"
 
 
 [languages]
