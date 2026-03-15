@@ -1,128 +1,1185 @@
-<!doctype html><html lang=en>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=content-language content="en">
-<meta name=author content="Atul Agarwal">
-<meta name=description content="atul agarwal">
-<meta name=keywords content="blog,developer,personal">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Atul Agarwal">
-<meta name=twitter:description content="atul agarwal">
-<meta property="og:title" content="Atul Agarwal">
-<meta property="og:description" content="atul agarwal">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.atulagarwal.dev/">
-<title>Atul Agarwal</title>
-<link rel=canonical href=https://www.atulagarwal.dev/>
-<link rel=preconnect href=https://fonts.gstatic.com>
-<link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel=stylesheet>
-<link rel=preload href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as=font type=font/woff2 crossorigin>
-<link rel=stylesheet href=/css/coder.min.f48a4da9bd32cecaff90717ae85529411dd087c10fc0dfca9c9c329c7327e5e1.css integrity="sha256-9IpNqb0yzsr/kHF66FUpQR3Qh8EPwN/KnJwynHMn5eE=" crossorigin=anonymous media=screen>
-<link rel=stylesheet href=/css/coder-dark.min.89c82b6022b96f77aeb521b240daec4f87ea029d84d1c78b8acd0735b91b3c92.css integrity="sha256-icgrYCK5b3eutSGyQNrsT4fqAp2E0ceLis0HNbkbPJI=" crossorigin=anonymous media=screen>
-<link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
-<link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png>
-<link rel=alternate type=application/rss+xml href=/index.xml title="Atul Agarwal">
-<script defer src=https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js integrity=sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4 crossorigin=anonymous></script>
-<meta name=generator content="Hugo 0.92.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atul Agarwal - Protocol Engineer & DeFi Founder</title>
+    <meta name="description" content="Protocol engineer and DeFi founder with 5+ years in web3. Building the financial primitives of the decentralized web.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Root Variables */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #131829;
+            --bg-tertiary: #1a1f3a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #0066ff;
+            --accent-tertiary: #00ff88;
+            --border-color: #1e293b;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-tertiary);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-primary);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+                padding: 1rem 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.75rem 2rem;
+                color: var(--text-secondary);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 8rem;
+            padding-bottom: 6rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(30px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-title {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-weight: 500;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        /* About Section */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .about-highlight {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .tech-skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-badge {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .skill-badge:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        @media (max-width: 768px) {
+            .about {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .project-role {
+            color: var(--accent-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-date {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-highlights li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .project-highlights li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 4px;
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            font-weight: 500;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--accent-primary);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            gap: 0.5rem;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .skill-category h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .skill-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-tertiary);
+        }
+
+        /* Thought Leadership Section */
+        .thought-leadership {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .thought-leadership h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-list {
+            list-style: none;
+        }
+
+        .blog-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .blog-item:last-child {
+            border-bottom: none;
+        }
+
+        .blog-item:hover {
+            padding-left: 1rem;
+        }
+
+        .blog-link {
+            color: var(--accent-primary);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .blog-description {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .contact h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-detail {
+            color: var(--text-secondary);
+        }
+
+        .contact-cta {
+            display: inline-block;
+            padding: 1.25rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .contact-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(0, 217, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .section {
+                padding: 4rem 0;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding-top: 6rem;
+                padding-bottom: 4rem;
+            }
+
+            .hero::before,
+            .hero::after {
+                width: 300px;
+                height: 300px;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-link {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-links {
+                gap: 0;
+            }
+
+            .skill-category {
+                padding: 1rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+            }
+
+            .project-date {
+                margin-top: 0.5rem;
+                white-space: normal;
+            }
+
+            .contact-details {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Smooth Scroll Animation */
+        .section > h2 {
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section > h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), transparent);
+            border-radius: 2px;
+        }
+    </style>
 </head>
-<body class=colorscheme-auto onload=twemoji.parse(document.body)>
-<div class=float-container>
-<a id=dark-mode-toggle class=colorscheme-toggle>
-<i class="fa fa-adjust fa-fw" aria-hidden=true></i>
-</a>
-</div>
-<main class=wrapper>
-<nav class=navigation>
-<section class=container>
-<a class=navigation-title href=/>
-Atul Agarwal
-</a>
-<input type=checkbox id=menu-toggle>
-<label class="menu-button float-right" for=menu-toggle>
-<i class="fa fa-bars fa-fw" aria-hidden=true></i>
-</label>
-<ul class=navigation-list>
-<li class=navigation-item>
-<a class=navigation-link href=/posts/>Posts</a>
-</li>
-<li class=navigation-item>
-<a class=navigation-link href=/about/>About</a>
-</li>
-</ul>
-</section>
-</nav>
-<div class=content>
-<section class="container centered">
-<div class=about>
-<div class=avatar><img src=/images/myphoto.jpeg alt=avatar></div>
-<h1>Atul Agarwal</h1>
-<h2 style=font-size:large>I believe in positive-sum games</h2>
-<ul>
-<li>
-<a href=https://twitter.com/asquare08/ aria-label=Twitter rel=noopener target=_blank>
-<i class="fa fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://www.linkedin.com/in/iitjatul/ aria-label=LinkedIn rel=noopener target=_blank>
-<i class="fa fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://github.com/asquare08/ aria-label=Github rel=noopener target=_blank>
-<i class="fa fa-github" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-<div id=mobile-screen , class=mobile-screen>
-<ul>
-<li>
-<a href=/posts/>Posts</a>
-</li>
-<li>
-<a href=/about/>About</a>
-</li>
-</ul>
-</div>
-</div>
-</section>
-<script>var element=document.getElementById("mobile-screen");window.matchMedia('(max-width: 768px)').matches||(element.style.display="none")</script>
-</div>
-<footer class=footer>
-<section class=container>
-<p>Try Again, Fail Again, Fail Better</p>
-</section>
-<section class=container , id=custom-container>
-<ul>
-<li>
-<a href=https://twitter.com/asquare08/ aria-label=Twitter rel=noopener target=_blank>
-<i class="fa fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://www.linkedin.com/in/iitjatul/ aria-label=LinkedIn rel=noopener target=_blank>
-<i class="fa fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://github.com/asquare08/ aria-label=Github rel=noopener target=_blank>
-<i class="fa fa-github" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</section>
-<section class=container , style=font-size:small>
-©
-2022
-Atul Agarwal
-</section>
-</footer>
-<script>var element=document.getElementById("custom-container");window.location.pathname==='/'&&(element.style.display="none")</script>
-</main>
-<script src=/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js></script>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-188589894-1','auto'),ga('send','pageview'))</script>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <nav>
+            <div class="logo">atul</div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#writing">Writing</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <div class="hero-title">
+                    <span>$ Welcome to my portfolio</span>
+                </div>
+                <h1>Atul Agarwal</h1>
+                <div class="hero-title" style="color: var(--accent-primary); margin-top: -0.5rem;">
+                    Protocol Engineer & DeFi Founder
+                </div>
+                <p class="hero-tagline">
+                    Building the financial primitives of the decentralized web. 5+ years shipping production-grade protocols, smart contracts, and cross-chain infrastructure in web3.
+                </p>
+
+                <div class="social-links">
+                    <a href="https://x.com/0xshinobii" target="_blank" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                        Twitter
+                    </a>
+                    <a href="https://github.com/0xshinobii" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </a>
+                    <a href="mailto:atulagarwal893@gmail.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </a>
+                </div>
+
+                <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                    Get in Touch →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2>About</h2>
+            <div class="about fade-in">
+                <div class="about-text">
+                    <p>
+                        I'm a <span class="about-highlight">protocol engineer and DeFi founder</span> with 5+ years of deep experience shipping production-grade blockchain infrastructure. My career spans smart contracts, protocol design, advanced mathematics, backend systems, and cross-chain infrastructure.
+                    </p>
+                    <p>
+                        Before diving fully into web3, I spent <span class="about-highlight">3 years at MediaTek</span> as a hardware engineer working on chip design and validation. That background instilled rigorous system thinking—designing for edge cases, understanding constraints, and optimizing for production at scale.
+                    </p>
+                    <p>
+                        I've founded and shipped <span class="about-highlight">two DeFi protocols from zero to production</span>: a perpetual futures exchange with virtual AMMs, and a lending protocol on Aptos that peaked at $7M TVL. I own the full stack—protocol design, smart contracts, backend systems, and cross-chain bridging.
+                    </p>
+                    <p>
+                        My technical depth includes <span class="about-highlight">AMM mathematics</span> (Curve StableSwap, CurveCrypto invariants), <span class="about-highlight">order book systems</span>, <span class="about-highlight">liquidation engines</span>, and <span class="about-highlight">cross-chain interoperability</span>. I'm comfortable with complex numerical methods like Newton's method for on-chain computation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section" id="experience">
+        <div class="container">
+            <h2>Experience</h2>
+
+            <div class="projects-grid">
+                <!-- Moar Market -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">Moar Market</div>
+                            <div class="project-role">Founder & Lead Engineer</div>
+                        </div>
+                        <div class="project-date">2024 – Present</div>
+                    </div>
+
+                    <p class="project-description">
+                        Built a multi-asset lending/borrowing protocol on Aptos from scratch — protocol design, Move smart contracts, and the entire backend stack. Sole engineer owning every layer of the system.
+                    </p>
+
+                    <ul class="project-highlights">
+                        <li>Live protocol with <span style="color: var(--accent-primary);">$2M TVL</span>, peaked at <span style="color: var(--accent-primary);">$7M in January 2025</span></li>
+                        <li>Wrote all Move smart contracts: collateral vaults, interest rate models, oracle integrations, and liquidation logic</li>
+                        <li>Built full backend: indexer, liquidator bot, risk monitoring, and API layer serving the frontend</li>
+                        <li>Defined risk parameters, collateral factors, and liquidation incentives for safe multi-asset markets</li>
+                    </ul>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">Move</span>
+                        <span class="tech-tag">Aptos</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">DeFi Lending</span>
+                    </div>
+
+                    <a href="https://moar.market" target="_blank" class="project-link">
+                        moar.market <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Hubble Exchange -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">Hubble Exchange</div>
+                            <div class="project-role">Co-Founder & Protocol Engineer</div>
+                        </div>
+                        <div class="project-date">2021 – 2024</div>
+                    </div>
+
+                    <p class="project-description">
+                        Co-founded a decentralized perpetual futures exchange on Avalanche. Evolved from a virtual AMM (V1) to a decentralized limit order book on a custom Subnet (V2). Deep work on AMM invariant math, cross-chain bridging, and liquidation systems.
+                    </p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
+                        <ul class="project-highlights" style="margin-left: 0;">
+                            <li>Implemented Curve-style vAMM using CurveCrypto invariant — ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
+                            <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V2: Decentralized Limit Order Book (DLOB)</div>
+                        <ul class="project-highlights" style="margin-left: 0;">
+                            <li>Architected order-book DEX on a custom Avalanche Subnet where validators doubled as order matchers</li>
+                            <li>Built cross-chain asset bridge using LayerZero (lock-mint mechanism) for seamless L1-to-subnet transfers</li>
+                            <li>Developed liquidator bot, order-matching service, and monitoring infrastructure</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">Solidity</span>
+                        <span class="tech-tag">Avalanche Subnets</span>
+                        <span class="tech-tag">LayerZero</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">AMM Math</span>
+                    </div>
+
+                    <a href="https://hubble.exchange" target="_blank" class="project-link">
+                        hubble.exchange <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- DefiDollar -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">DefiDollar</div>
+                            <div class="project-role">Smart Contract Engineer</div>
+                        </div>
+                        <div class="project-date">2021</div>
+                    </div>
+
+                    <p class="project-description">
+                        Contributed to a stablecoin index protocol that aggregated yield-bearing stablecoins into a single diversified token. Worked on Solidity smart contracts and protocol integrations across DeFi yield sources.
+                    </p>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">Solidity</span>
+                        <span class="tech-tag">Ethereum</span>
+                        <span class="tech-tag">DeFi</span>
+                        <span class="tech-tag">Stablecoins</span>
+                    </div>
+                </div>
+
+                <!-- MediaTek -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">MediaTek</div>
+                            <div class="project-role">Chip Design Engineer</div>
+                        </div>
+                        <div class="project-date">2018 – 2021</div>
+                    </div>
+
+                    <p class="project-description">
+                        3 years designing digital circuits for SoCs at one of the world's largest semiconductor companies. This hardware engineering background brings systems-level thinking and mathematical rigor to protocol development.
+                    </p>
+
+                    <ul class="project-highlights">
+                        <li>Timing closure, RTL verification, and physical design for production SoCs</li>
+                        <li>Built the engineering discipline — edge-case thinking, constraint optimization, and production-grade reliability — that I carry into smart contract work</li>
+                    </ul>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">VLSI</span>
+                        <span class="tech-tag">RTL Design</span>
+                        <span class="tech-tag">Physical Design</span>
+                        <span class="tech-tag">Bangalore</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2>Technical Skills</h2>
+
+            <div class="skills-section fade-in">
+                <div class="skill-category">
+                    <h3>Languages & Frameworks</h3>
+                    <ul class="skill-list">
+                        <li>Solidity (Foundry, Hardhat)</li>
+                        <li>Move (Aptos)</li>
+                        <li>Rust</li>
+                        <li>TypeScript / JavaScript</li>
+                        <li>Python</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Chains & Infrastructure</h3>
+                    <ul class="skill-list">
+                        <li>Ethereum / EVM</li>
+                        <li>Avalanche & Subnets</li>
+                        <li>Aptos / MoveVM</li>
+                        <li>LayerZero (cross-chain bridging)</li>
+                        <li>Validator & node operations</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>DeFi Primitives</h3>
+                    <ul class="skill-list">
+                        <li>AMMs (Constant Product, Curve)</li>
+                        <li>Order Book Systems</li>
+                        <li>Lending Protocols</li>
+                        <li>Liquidation Engines</li>
+                        <li>Price Oracles</li>
+                        <li>Risk Management</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Advanced Mathematics</h3>
+                    <ul class="skill-list">
+                        <li>Curve invariants (StableSwap, CurveCrypto)</li>
+                        <li>Newton's method (on-chain)</li>
+                        <li>Mechanism design</li>
+                        <li>Numerical methods</li>
+                        <li>Game theory fundamentals</li>
+                        <li>Statistical modeling</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Backend & DevOps</h3>
+                    <ul class="skill-list">
+                        <li>Node.js / Backend services</li>
+                        <li>PostgreSQL / Database design</li>
+                        <li>Docker & CI/CD</li>
+                        <li>Monitoring & observability</li>
+                        <li>Git, Linux, API design</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Writing Section -->
+    <section class="section" id="writing">
+        <div class="container">
+            <h2>Writing & Thought Leadership</h2>
+
+            <div class="thought-leadership fade-in">
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    I write technical deep-dives on DeFi protocol mathematics and mechanism design.
+                </p>
+                <ul class="blog-list">
+                    <li class="blog-item">
+                        <a href="posts/curveamm/stableswap/" class="blog-link">Understanding the Curve AMM: StableSwap Invariant</a>
+                        <div class="blog-description">Deep dive into the math behind Curve's bonding curve — Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
+                    </li>
+                    <li class="blog-item">
+                        <a href="posts/hubblevamm/" class="blog-link">Hubble vAMM: CurveCrypto Invariant</a>
+                        <div class="blog-description">Technical analysis of extending Curve's invariant to volatile-asset perpetual futures — how Hubble V1 adapted CurveCrypto for on-chain derivatives pricing.</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="section" id="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="projects-grid fade-in">
+                <div class="project-card" style="padding: 1.5rem;">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Delhi</div>
+                            <div class="project-role">Master of Technology (M.Tech)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" style="padding: 1.5rem;">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Jodhpur</div>
+                            <div class="project-role">Bachelor of Technology (B.Tech)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="contact fade-in">
+                <h2>Let's Build Together</h2>
+                <p class="contact-subtitle">
+                    Open to senior protocol engineering roles, engineering lead positions, and CTO opportunities. Based in Goa, India — fully remote, any timezone.
+                </p>
+
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <strong>Location:</strong><br>
+                        Goa, India (Remote)
+                    </div>
+                    <div class="contact-detail">
+                        <strong>Email:</strong><br>
+                        <a href="mailto:atulagarwal893@gmail.com">atulagarwal893@gmail.com</a>
+                    </div>
+                    <div class="contact-detail">
+                        <strong>Twitter:</strong><br>
+                        <a href="https://x.com/0xshinobii" target="_blank">@0xshinobii</a>
+                    </div>
+                    <div class="contact-detail">
+                        <strong>GitHub:</strong><br>
+                        <a href="https://github.com/0xshinobii" target="_blank">0xshinobii</a>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="mailto:atulagarwal893@gmail.com" class="contact-cta">
+                        Send me an Email
+                    </a>
+                    <a href="atul_agarwal_resume.pdf" target="_blank" class="contact-cta" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary);">
+                        Download Resume
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
+                <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
+                <a href="mailto:atulagarwal893@gmail.com">Email</a>
+            </div>
+            <p>Built by Atul Agarwal. Designed for web3. © 2026.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll Navigation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        document.getElementById('navLinks').classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // IntersectionObserver for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active navigation link highlighting based on scroll position
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Header background on scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(10, 14, 39, 0.95)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+            } else {
+                header.style.background = 'rgba(10, 14, 39, 0.8)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
