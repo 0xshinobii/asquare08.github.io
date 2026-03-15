@@ -621,6 +621,54 @@
             box-shadow: 0 20px 50px rgba(0, 217, 255, 0.4);
         }
 
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-form .form-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form .form-row {
+                flex-direction: column;
+            }
+        }
+
         /* Footer */
         footer {
             padding: 2rem 0;
@@ -757,13 +805,13 @@
                         <i class="fab fa-github"></i>
                         GitHub
                     </a>
-                    <a href="mailto:atulagarwal893@gmail.com" class="social-link">
+                    <a href="#" class="social-link email-link" data-user="atulagarwal893" data-domain="gmail.com">
                         <i class="fas fa-envelope"></i>
                         Email
                     </a>
                 </div>
 
-                <a class="cta-button" href="mailto:atulagarwal893@gmail.com">
+                <a class="cta-button" href="#contact">
                     Get in Touch →
                 </a>
             </div>
@@ -942,9 +990,10 @@
                 <div class="skill-category">
                     <h3>Protocol Design</h3>
                     <ul class="skill-list">
-                        <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers</li>
+                        <li>Perpetual futures exchange — vAMM, funding rates, margin systems</li>
+                        <li>Lending & borrowing platforms — leveraged lending, interest rate models, liquidation engines</li>
                         <li>Order book architecture — DLOB on custom L1/Subnet</li>
-                        <li>Lending mechanics — interest rate models, liquidation engines, risk parameters</li>
+                        <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers</li>
                         <li>Cross-chain bridging — LayerZero, lock-mint patterns</li>
                     </ul>
                 </div>
@@ -1033,7 +1082,7 @@
                     </div>
                     <div class="contact-detail">
                         <strong>Email:</strong><br>
-                        <a href="mailto:atulagarwal893@gmail.com">atulagarwal893@gmail.com</a>
+                        <a href="#" class="email-link email-text" data-user="atulagarwal893" data-domain="gmail.com"></a>
                     </div>
                     <div class="contact-detail">
                         <strong>Twitter:</strong><br>
@@ -1045,14 +1094,25 @@
                     </div>
                 </div>
 
-                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="mailto:atulagarwal893@gmail.com" class="contact-cta">
-                        Send me an Email
-                    </a>
-                    <a href="atul_agarwal_resume.pdf" target="_blank" class="contact-cta" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary);">
-                        Download Resume
-                    </a>
-                </div>
+                <!-- Contact Form -->
+                <form class="contact-form" action="https://formspree.io/f/mqeydwrg" method="POST">
+                    <div class="form-row">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="_replyto" placeholder="Your Email" required>
+                    </div>
+                    <input type="text" name="subject" placeholder="Subject" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <!-- Honeypot for spam -->
+                    <input type="text" name="_gotcha" style="display:none">
+                    <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <button type="submit" class="contact-cta" style="border: none; cursor: pointer; font-size: 1rem;">
+                            Send Message
+                        </button>
+                        <a href="atul_agarwal_resume.pdf" target="_blank" class="contact-cta" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary);">
+                            Download Resume
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
@@ -1063,7 +1123,7 @@
             <div class="footer-content">
                 <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
                 <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
-                <a href="mailto:atulagarwal893@gmail.com">Email</a>
+                <a href="#" class="email-link" data-user="atulagarwal893" data-domain="gmail.com">Email</a>
             </div>
             <p>Built by Atul Agarwal. Designed for web3. © 2026.</p>
         </div>
@@ -1139,6 +1199,20 @@
                     link.classList.add('active');
                 }
             });
+        });
+
+        // Email obfuscation — bots see data attributes, JS assembles the mailto
+        document.querySelectorAll('.email-link').forEach(link => {
+            const u = link.dataset.user;
+            const d = link.dataset.domain;
+            if (u && d) {
+                const addr = u + '@' + d;
+                link.href = 'mail' + 'to:' + addr;
+                // If the link should display the email address (has email-text class)
+                if (link.classList.contains('email-text')) {
+                    link.textContent = addr;
+                }
+            }
         });
 
         // Header background on scroll

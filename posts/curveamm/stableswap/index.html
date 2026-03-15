@@ -308,10 +308,16 @@ D_{n+1} = D_n - \frac{f(D_n)}{f'(D_n)} = \frac{(AnnS+nD_P)D_n}{(Ann-1)D_n+(n+1)D
         <div class="footer-content">
             <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
             <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
-            <a href="mailto:atulagarwal893@gmail.com">Email</a>
+            <a href="#" class="email-link" data-user="atulagarwal893" data-domain="gmail.com">Email</a>
         </div>
         <p>Built by Atul Agarwal. Designed for web3.</p>
     </footer>
+    <script>
+    document.querySelectorAll('.email-link').forEach(function(link) {
+        var u = link.dataset.user, d = link.dataset.domain;
+        if (u && d) { link.href = 'mail' + 'to:' + u + '@' + d; }
+    });
+    </script>
 
     <!-- MathJax for equations -->
     <script>
