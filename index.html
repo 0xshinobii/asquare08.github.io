@@ -309,10 +309,8 @@
 
         /* About Section */
         .about {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .about-text h2 {
@@ -353,13 +351,6 @@
             background: var(--bg-secondary);
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-        }
-
-        @media (max-width: 768px) {
-            .about {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
         }
 
         /* Projects Section */
@@ -780,13 +771,13 @@
                         I'm a <span class="about-highlight">protocol engineer and DeFi founder</span> with 5+ years of deep experience shipping production-grade blockchain infrastructure. My career spans smart contracts, protocol design, advanced mathematics, backend systems, and cross-chain infrastructure.
                     </p>
                     <p>
-                        Before diving fully into web3, I spent <span class="about-highlight">3 years at MediaTek</span> as a hardware engineer working on chip design and validation. That background instilled rigorous system thinking—designing for edge cases, understanding constraints, and optimizing for production at scale.
+                        Before diving fully into web3, I spent <span class="about-highlight">3 years at MediaTek</span> as a hardware engineer working on chip design and validation. That background instilled rigorous system thinking — designing for edge cases, understanding constraints, and optimizing for production at scale.
                     </p>
                     <p>
-                        I've founded and shipped <span class="about-highlight">two DeFi protocols from zero to production</span>: a perpetual futures exchange with virtual AMMs, and a lending protocol on Aptos that peaked at $7M TVL. I own the full stack—protocol design, smart contracts, backend systems, and cross-chain bridging.
+                        I've co-founded and shipped <span class="about-highlight">two DeFi protocols from zero to production</span>: a decentralized perpetual futures exchange with a <span class="about-highlight">centralized limit order book on a custom Avalanche Subnet</span> (evolved from a Curve-style vAMM in V1), and a <span class="about-highlight">leveraged lending protocol</span> on Aptos that peaked at $7M TVL. I own smart contracts end-to-end and contribute significantly to backend systems.
                     </p>
                     <p>
-                        My technical depth includes <span class="about-highlight">AMM mathematics</span> (Curve StableSwap, CurveCrypto invariants), <span class="about-highlight">order book systems</span>, <span class="about-highlight">liquidation engines</span>, and <span class="about-highlight">cross-chain interoperability</span>. I'm comfortable with complex numerical methods like Newton's method for on-chain computation.
+                        My technical depth includes <span class="about-highlight">order book systems</span>, <span class="about-highlight">AMM mathematics</span> (Curve StableSwap, CurveCrypto invariants), <span class="about-highlight">liquidation engines</span>, and <span class="about-highlight">cross-chain interoperability</span>. I'm comfortable with complex numerical methods like Newton's method for on-chain computation.
                     </p>
                 </div>
             </div>
@@ -804,19 +795,19 @@
                     <div class="project-header">
                         <div>
                             <div class="project-title">Moar Market</div>
-                            <div class="project-role">Founder & Lead Engineer</div>
+                            <div class="project-role">Founder</div>
                         </div>
                         <div class="project-date">2024 – Present</div>
                     </div>
 
                     <p class="project-description">
-                        Built a multi-asset lending/borrowing protocol on Aptos from scratch — protocol design, Move smart contracts, and the entire backend stack. Sole engineer owning every layer of the system.
+                        Built a <strong style="color: var(--accent-primary);">leveraged lending (undercollateralized lending)</strong> protocol on Aptos from scratch. Integrations with <a href="https://hyperion.xyz" target="_blank">Hyperion</a>, <a href="https://tapp.xyz" target="_blank">Tapp</a>, and <a href="https://panora.exchange" target="_blank">Panora</a> across the Aptos ecosystem.
                     </p>
 
                     <ul class="project-highlights">
-                        <li>Live protocol with <span style="color: var(--accent-primary);">$2M TVL</span>, peaked at <span style="color: var(--accent-primary);">$7M in January 2025</span></li>
-                        <li>Wrote all Move smart contracts: collateral vaults, interest rate models, oracle integrations, and liquidation logic</li>
-                        <li>Built full backend: indexer, liquidator bot, risk monitoring, and API layer serving the frontend</li>
+                        <li>Live protocol with <a href="https://defillama.com/protocol/moar-market" target="_blank" style="color: var(--accent-primary);">$2M TVL</a>, peaked at <span style="color: var(--accent-primary);">$7M in January 2025</span></li>
+                        <li>Owned all Move smart contracts: collateral vaults, interest rate models, oracle integrations, and liquidation logic</li>
+                        <li>Co-built backend: indexer, liquidator bot, risk monitoring, and API layer serving the frontend</li>
                         <li>Defined risk parameters, collateral factors, and liquidation incentives for safe multi-asset markets</li>
                     </ul>
 
@@ -825,7 +816,7 @@
                         <span class="tech-tag">Aptos</span>
                         <span class="tech-tag">TypeScript</span>
                         <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">DeFi Lending</span>
+                        <span class="tech-tag">Leveraged Lending</span>
                     </div>
 
                     <a href="https://moar.market" target="_blank" class="project-link">
@@ -844,37 +835,37 @@
                     </div>
 
                     <p class="project-description">
-                        Co-founded a decentralized perpetual futures exchange on Avalanche. Evolved from a virtual AMM (V1) to a decentralized limit order book on a custom Subnet (V2). Deep work on AMM invariant math, cross-chain bridging, and liquidation systems.
+                        Co-founded a decentralized perpetual futures exchange on Avalanche. Built a <strong style="color: var(--accent-primary);">centralized limit order book (CLOB) on a custom Avalanche Subnet</strong> in V2, after proving the model with a Curve-style vAMM in V1.
                     </p>
 
                     <div style="margin-bottom: 1.5rem;">
-                        <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
+                        <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V2: Centralized Limit Order Book (CLOB) on Avalanche Subnet</div>
+                        <ul class="project-highlights" style="margin-left: 0;">
+                            <li>Owned all Solidity smart contracts for the order-book DEX on a custom Avalanche Subnet where validators doubled as order matchers</li>
+                            <li>Built cross-chain asset bridge using LayerZero (lock-mint mechanism) for seamless L1-to-subnet transfers</li>
+                            <li>Co-built liquidator bot, order-matching service, and monitoring infrastructure</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
                         <ul class="project-highlights" style="margin-left: 0;">
                             <li>Implemented Curve-style vAMM using CurveCrypto invariant — ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
                             <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system</li>
                         </ul>
                     </div>
 
-                    <div style="margin-bottom: 1.5rem;">
-                        <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V2: Decentralized Limit Order Book (DLOB)</div>
-                        <ul class="project-highlights" style="margin-left: 0;">
-                            <li>Architected order-book DEX on a custom Avalanche Subnet where validators doubled as order matchers</li>
-                            <li>Built cross-chain asset bridge using LayerZero (lock-mint mechanism) for seamless L1-to-subnet transfers</li>
-                            <li>Developed liquidator bot, order-matching service, and monitoring infrastructure</li>
-                        </ul>
-                    </div>
-
                     <div class="project-tech">
                         <span class="tech-tag">Solidity</span>
                         <span class="tech-tag">Avalanche Subnets</span>
+                        <span class="tech-tag">CLOB</span>
                         <span class="tech-tag">LayerZero</span>
                         <span class="tech-tag">TypeScript</span>
-                        <span class="tech-tag">Python</span>
                         <span class="tech-tag">AMM Math</span>
                     </div>
 
-                    <a href="https://hubble.exchange" target="_blank" class="project-link">
-                        hubble.exchange <i class="fas fa-arrow-right"></i>
+                    <a href="https://x.com/HubbleExchange" target="_blank" class="project-link">
+                        @HubbleExchange <i class="fab fa-twitter"></i>
                     </a>
                 </div>
 
