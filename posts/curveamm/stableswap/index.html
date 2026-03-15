@@ -1,248 +1,332 @@
-<!doctype html><html lang=en>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=content-language content="en">
-<meta name=author content="Atul Agarwal">
-<meta name=description content="Curve StableSwap Invariant">
-<meta name=keywords content="blog,developer,personal">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Understanding the Curve AMM, Part -1: StableSwap Invariant">
-<meta name=twitter:description content="Curve StableSwap Invariant">
-<meta property="og:title" content="Understanding the Curve AMM, Part -1: StableSwap Invariant">
-<meta property="og:description" content="Curve StableSwap Invariant">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://www.atulagarwal.dev/posts/curveamm/stableswap/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-08-20T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-08-20T00:00:00+00:00">
-<meta property="og:see_also" content="https://www.atulagarwal.dev/posts/hubblevamm/">
-<title>
-Understanding the Curve AMM, Part -1: StableSwap Invariant · Atul Agarwal
-</title>
-<link rel=canonical href=https://www.atulagarwal.dev/posts/curveamm/stableswap/>
-<link rel=preconnect href=https://fonts.gstatic.com>
-<link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel=stylesheet>
-<link rel=preload href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as=font type=font/woff2 crossorigin>
-<link rel=stylesheet href=/css/coder.min.f48a4da9bd32cecaff90717ae85529411dd087c10fc0dfca9c9c329c7327e5e1.css integrity="sha256-9IpNqb0yzsr/kHF66FUpQR3Qh8EPwN/KnJwynHMn5eE=" crossorigin=anonymous media=screen>
-<link rel=stylesheet href=/css/coder-dark.min.89c82b6022b96f77aeb521b240daec4f87ea029d84d1c78b8acd0735b91b3c92.css integrity="sha256-icgrYCK5b3eutSGyQNrsT4fqAp2E0ceLis0HNbkbPJI=" crossorigin=anonymous media=screen>
-<link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
-<link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png>
-<script defer src=https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js integrity=sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4 crossorigin=anonymous></script>
-<meta name=generator content="Hugo 0.92.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Atul Agarwal">
+    <meta name="description" content="Curve StableSwap Invariant — deep dive into the math behind Curve's bonding curve, Newton's method, and swap mechanics.">
+    <meta property="og:title" content="Understanding the Curve AMM, Part 1: StableSwap Invariant">
+    <meta property="og:description" content="Curve StableSwap Invariant">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.atulagarwal.dev/posts/curveamm/stableswap/">
+    <meta property="article:published_time" content="2021-08-20T00:00:00+00:00">
+    <meta property="og:see_also" content="https://www.atulagarwal.dev/posts/hubblevamm/">
+    <title>Understanding the Curve AMM: StableSwap Invariant · Atul Agarwal</title>
+
+    <!-- Fonts (same as main site) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <style>
+        /* Same root variables as main site */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #131829;
+            --bg-tertiary: #1a1f3a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #0066ff;
+            --accent-tertiary: #00ff88;
+            --border-color: #1e293b;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Header — matches main site */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+        }
+        .logo {
+            font-family: 'Fira Code', monospace; font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent-primary); }
+
+        /* Article layout */
+        .article-container {
+            max-width: 780px; margin: 0 auto; padding: 7rem 2rem 4rem;
+        }
+
+        /* Post header */
+        .post-header { margin-bottom: 3rem; }
+        .post-title {
+            font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 700;
+            line-height: 1.3; margin-bottom: 1rem;
+        }
+        .post-meta {
+            color: var(--text-tertiary); font-size: 0.9rem;
+            display: flex; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .post-meta i { margin-right: 0.4rem; }
+
+        /* Article body */
+        .post-body { color: var(--text-secondary); }
+        .post-body p { margin-bottom: 1.5rem; }
+        .post-body a { color: var(--accent-primary); text-decoration: none; }
+        .post-body a:hover { color: var(--accent-tertiary); }
+
+        .post-body h2, .post-body h3 {
+            color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem;
+        }
+        .post-body h2 { font-size: 1.6rem; }
+        .post-body h3 { font-size: 1.3rem; }
+
+        .post-body ul, .post-body ol {
+            margin-bottom: 1.5rem; padding-left: 1.5rem;
+        }
+        .post-body li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+
+        .post-body code {
+            font-family: 'Fira Code', monospace; font-size: 0.85em;
+            background: var(--bg-tertiary); padding: 0.2rem 0.5rem;
+            border-radius: 4px; color: var(--accent-primary);
+        }
+
+        .post-body figure {
+            margin: 2rem 0; text-align: center;
+        }
+        .post-body figure img {
+            max-width: 100%; border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .post-body figcaption {
+            color: var(--text-tertiary); font-size: 0.85rem; margin-top: 0.75rem;
+        }
+
+        /* "See also" section */
+        .see-also {
+            margin-top: 3rem; padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .see-also h3 { color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem; }
+        .see-also a { color: var(--accent-primary); text-decoration: none; }
+        .see-also a:hover { color: var(--accent-tertiary); }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--accent-primary); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 2rem; transition: var(--transition);
+        }
+        .back-link:hover { color: var(--accent-tertiary); }
+
+        /* Footer — matches main site */
+        footer {
+            padding: 2rem 0; border-top: 1px solid var(--border-color);
+            text-align: center; color: var(--text-tertiary); font-size: 0.9rem;
+        }
+        .footer-content {
+            display: flex; justify-content: center; gap: 1.5rem;
+            margin-bottom: 1rem; flex-wrap: wrap;
+        }
+        .footer-content a { color: var(--accent-primary); text-decoration: none; }
+        .footer-content a:hover { color: var(--accent-tertiary); }
+
+        /* MathJax overrides for dark theme */
+        .MathJax { color: var(--text-primary) !important; }
+        mjx-container { overflow-x: auto; padding: 0.5rem 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-container { padding: 6rem 1.25rem 3rem; }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
-<body class=colorscheme-auto onload=twemoji.parse(document.body)>
-<div class=float-container>
-<a id=dark-mode-toggle class=colorscheme-toggle>
-<i class="fa fa-adjust fa-fw" aria-hidden=true></i>
-</a>
-</div>
-<main class=wrapper>
-<nav class=navigation>
-<section class=container>
-<a class=navigation-title href=/>
-Atul Agarwal
-</a>
-<input type=checkbox id=menu-toggle>
-<label class="menu-button float-right" for=menu-toggle>
-<i class="fa fa-bars fa-fw" aria-hidden=true></i>
-</label>
-<ul class=navigation-list>
-<li class=navigation-item>
-<a class=navigation-link href=/posts/>Posts</a>
-</li>
-<li class=navigation-item>
-<a class=navigation-link href=/about/>About</a>
-</li>
-</ul>
-</section>
-</nav>
-<div class=content>
-<section class="container post">
-<article>
-<header>
-<div class=post-title>
-<h1 class=title>
-<a class=title-link href=https://www.atulagarwal.dev/posts/curveamm/stableswap/>
-Understanding the Curve AMM, Part -1: StableSwap Invariant
-</a>
-</h1>
-</div>
-<div class=post-meta>
-<div class=date>
-<span class=posted-on>
-<i class="fa fa-calendar" aria-hidden=true></i>
-<time datetime=2021-08-20T00:00:00Z>
-August 20, 2021
-</time>
-</span>
-<span class=reading-time>
-<i class="fa fa-clock-o" aria-hidden=true></i>
-5-minute read
-</span>
-</div>
-</div>
-</header>
-<div>
-<p>It is common to integrate with decentralized exchanges (DEX) while building DeFi products. <a href=https://curve.fi>Curve</a> is the most preferred choice when it comes to stable coins because of low slippage. However, to integrate with such protocols, one needs to clearly understand its automated market maker (AMM) design. <a href=https://curve.fi>Curve&rsquo;s</a> stableswap AMM algorithm is more complex and calculation-heavy than <a href=https://uniswap.org/>Uniswap&rsquo;s</a> constant product AMM.</p>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a class="logo" href="/">atul</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#experience">Experience</a></li>
+                <li><a href="/#skills">Skills</a></li>
+                <li><a href="/#writing">Writing</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Article -->
+    <article class="article-container">
+        <a href="/#writing" class="back-link"><i class="fas fa-arrow-left"></i> Back to Writing</a>
+
+        <div class="post-header">
+            <h1 class="post-title">Understanding the Curve AMM, Part 1: StableSwap Invariant</h1>
+            <div class="post-meta">
+                <span><i class="fa fa-calendar"></i> August 20, 2021</span>
+                <span><i class="fa fa-clock"></i> 5-minute read</span>
+            </div>
+        </div>
+
+        <div class="post-body">
+<p>It is common to integrate with decentralized exchanges (DEX) while building DeFi products. <a href="https://curve.fi">Curve</a> is the most preferred choice when it comes to stable coins because of low slippage. However, to integrate with such protocols, one needs to clearly understand its automated market maker (AMM) design. <a href="https://curve.fi">Curve's</a> stableswap AMM algorithm is more complex and calculation-heavy than <a href="https://uniswap.org/">Uniswap's</a> constant product AMM.</p>
+
 <p>In this post, I have explained the maths behind the stableswap invariant, the method used to solve it, and how it is used in the protocol while swapping tokens or finding other parameters.</p>
-<h3 id=stableswap-invariant>
-StableSwap Invariant
-<a class=heading-link href=#stableswap-invariant>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
+
+<h3>StableSwap Invariant</h3>
+
 <p>An invariant is an equation that defines the relationship between balances of pool tokens and pool parameters. The AMM design makes sure that this relationship is strictly followed before and after each trade. Examples of invariants are</p>
+
 <ul>
 <li>Constant sum or linear invariant</li>
 </ul>
+
 <p>$$\sum x_i = const$$</p>
+
 <ul>
 <li>Constant product invariant</li>
 </ul>
+
 <p>$$\prod x_i = const$$</p>
+
 <p>Stableswap invariant is a combination of the above two and offers very low price slippage than Uniswap for stable coin pools. It is given by</p>
+
 <p>$$\begin{equation}
 An^n\sum x_i + D = DAn^n + \frac{D^{n+1}}{n^n\prod x_i}
 \end{equation}$$</p>
-<p>where $x_i$ represents the balance of $i^{th}$ token in the pool, $D = \sum x_i$ is the total amount of tokens when they have an equal price <em>i.e.</em> at equilibrium when all tokens have equal balance, $A$ is the amplification coefficient and $n$ is the number of tokens in the pool. To know more, check out the derivation of the above equation in the <a href=https://curve.fi/files/stableswap-paper.pdf>Curve whitepaper</a>.</p>
-<figure><a href=https://curve.fi/files/stableswap-paper.pdf target=https://curve.fi/files/stableswap-paper.pdf><img src=/images/posts/stableSwap/stableswap.png alt="Figure 1: Comparison of constant product, constant sum, and stableswap invariant"></a><figcaption>
-<p>Figure 1: Comparison of constant product, constant sum, and stableswap invariant</p>
-</figcaption>
+
+<p>where $x_i$ represents the balance of $i^{th}$ token in the pool, $D = \sum x_i$ is the total amount of tokens when they have an equal price <em>i.e.</em> at equilibrium when all tokens have equal balance, $A$ is the amplification coefficient and $n$ is the number of tokens in the pool. To know more, check out the derivation of the above equation in the <a href="https://curve.fi/files/stableswap-paper.pdf">Curve whitepaper</a>.</p>
+
+<figure><a href="https://curve.fi/files/stableswap-paper.pdf" target="_blank"><img src="/images/posts/stableSwap/stableswap.png" alt="Figure 1: Comparison of constant product, constant sum, and stableswap invariant"></a>
+<figcaption>Figure 1: Comparison of constant product, constant sum, and stableswap invariant</figcaption>
 </figure>
-<p>As it can be seen in Figure 1, the stableswap invariant is a combination of the constant sum and constant product invariant. Check out <a href=https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb>this notebook</a> to see the impact of different parameters on the stableswap invariant curve.</p>
-<p>Let&rsquo;s write $An^n$ as $Ann$ as in the contract code then the above equation can be rewritten as</p>
+
+<p>As it can be seen in Figure 1, the stableswap invariant is a combination of the constant sum and constant product invariant. Check out <a href="https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb">this notebook</a> to see the impact of different parameters on the stableswap invariant curve.</p>
+
+<p>Let's write $An^n$ as $Ann$ as in the contract code then the above equation can be rewritten as</p>
+
 <p>$$\begin{align}
 \label{eqn:stableswap}
 Ann\sum x_i + D = DAnn + \frac{D^{n+1}}{n^n\prod x_i}
 \end{align}$$</p>
-<p>This is the equation that <a href=https://curve.fi>Curve&rsquo;s</a> AMM follows for stable coin pools. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation $\ref{eqn:stableswap}$ need to be solved for $x_j$ assuming all other parameters are constant and known. Newton&rsquo;s method is used to solve the above equation numerically.</p>
-<h3 id=newtons-method>
-Newton&rsquo;s Method
-<a class=heading-link href=#newtons-method>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
-<p><a href=https://en.wikipedia.org/wiki/Newton%27s_method>Newton’s Method</a>, also known as <em>Newton Raphson Method</em>, is an iterative process that can approximate solutions to an equation with incredible accuracy. It’s a method to approximate numerical solutions (i.e., x-intercepts, zeros, or roots) to equations that are too hard for us to solve by hand. To find the roots of the equation $f(x)=0$, the following equation is iterated until a sufficiently precise value is reached.</p>
+
+<p>This is the equation that <a href="https://curve.fi">Curve's</a> AMM follows for stable coin pools. This basically means that if a trader wants to swap token $x_i$ (input token) with token $x_j$ (output token), to get the amount to token $x_j$ that needs to be transferred to the trader, equation $\ref{eqn:stableswap}$ need to be solved for $x_j$ assuming all other parameters are constant and known. Newton's method is used to solve the above equation numerically.</p>
+
+<h3>Newton's Method</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton's Method</a>, also known as <em>Newton Raphson Method</em>, is an iterative process that can approximate solutions to an equation with incredible accuracy. It's a method to approximate numerical solutions (i.e., x-intercepts, zeros, or roots) to equations that are too hard for us to solve by hand. To find the roots of the equation $f(x)=0$, the following equation is iterated until a sufficiently precise value is reached.</p>
+
 <p>$$\begin{equation}
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
 \end{equation}$$</p>
-<p>where $f(x_n)$ is continuously differentiable in the vicinity of the root. Check out the simulation of Newton&rsquo;s method <a href=https://keisan.casio.com/exec/system/1244946907>here</a> to get a feel of it.</p>
-<h3 id=swapping-tokens>
-Swapping Tokens
-<a class=heading-link href=#swapping-tokens>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
-<p>Coming back to the StableSwap equation, let&rsquo;s look at how it is used in the <a href=https://curve.fi>Curve</a> protocol. I have taken <a href=https://curve.fi/3pool/>3pool</a> (DAI/USDC/USDT ) as an example.</p>
-<p>Let&rsquo;s say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token $i$ is USDC, and the output token $j$ is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $\ref{eqn:stableswap}$ for $y$ and with the amount of USDC equal to $x$. But first, let&rsquo;s rearrange the equation $\ref{eqn:stableswap}$ which forms a polynomial equation of degree $2$ in $y$ and can be simplified as</p>
+
+<p>where $f(x_n)$ is continuously differentiable in the vicinity of the root. Check out the simulation of Newton's method <a href="https://keisan.casio.com/exec/system/1244946907">here</a> to get a feel of it.</p>
+
+<h3>Swapping Tokens</h3>
+
+<p>Coming back to the StableSwap equation, let's look at how it is used in the <a href="https://curve.fi">Curve</a> protocol. I have taken <a href="https://curve.fi/3pool/">3pool</a> (DAI/USDC/USDT) as an example.</p>
+
+<p>Let's say the trader wants to know the amount DAI will they receive for depositing $dx$ amount of USDC. In this case, the input token $i$ is USDC, and the output token $j$ is DAI. The updated amount of USDC in the pool can be calculated as $x = x_i + dx$ where, $x_i$ is the current balance of USDC. Since the token amounts always need to follow the StableSwap invariant, updated DAI amount ($y = x_j$) in the pool can be calculated by numerically solving equation $\ref{eqn:stableswap}$ for $y$ and with the amount of USDC equal to $x$. But first, let's rearrange the equation $\ref{eqn:stableswap}$ which forms a polynomial equation of degree $2$ in $y$ and can be simplified as</p>
+
 <p>$$\begin{equation}
 f(y) = y^2 + (b-D)y - c = 0
 \end{equation}$$</p>
+
 <p>where,</p>
+
 <p>$$b = S + \frac{D}{Ann},~~~~~c=\frac{D^{n+1}}{n^nPAnn}, ~~~~~ S= \sum_{i\not=j}^{n}x_i, ~~~~~ and ~~~~~ P = \prod_{i\not=j}^{n}x_i$$</p>
-<p>The root of the above equation can be calculated using Newton&rsquo;s method by iterating the below equation until convergence.</p>
+
+<p>The root of the above equation can be calculated using Newton's method by iterating the below equation until convergence.</p>
+
 <p>$$\begin{equation}
 \label{eqn:getYIteration}
 y_{n+1} = y_n - \frac{y_n^2+(b-D)y-c}{2y_n +b-D} = \frac{y_n^2+c}{2y_n+b-D}
 \end{equation}$$</p>
-<p>Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation $\ref{eqn:getYIteration}$. Check out the implementation of the above algorithm in the <code>get_y(i,j,x,xp)</code> function of 3poolSwap <a href=https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code>contract</a>. The variable naming is consistent with the code.</p>
-<h3 id=parameter-d>
-Parameter D
-<a class=heading-link href=#parameter-d>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
+
+<p>Finally, the amount of token $j$ to be received by the trader can be calculated as $dy = y_{initial} - y_{final}$, where $y_{initial}$ is the balance of token $j$ before the trade and $y_{final}$ is the updated balance calculated from equation $\ref{eqn:getYIteration}$. Check out the implementation of the above algorithm in the <code>get_y(i,j,x,xp)</code> function of 3poolSwap <a href="https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code">contract</a>. The variable naming is consistent with the code.</p>
+
+<h3>Parameter D</h3>
+
 <p>The value of parameter $D$ is calculated by solving equation $\ref{eqn:stableswap}$ for $D$, given all other parameters are constant. The function $f(D)$, which a polynomial function of degree $n+1$ can be represented as</p>
+
 <p>$$\begin{equation}
 f(D) = \frac{D^{n+1}}{n^n\prod x_i} + (Ann -1)D - AnnS = 0
 \end{equation}$$</p>
+
 <p>where $S=\sum x_i$. The derivative of above function is $f'(D) = (n+1)D_P/D + (Ann-1)$, where $D_P = \frac{D^{n+1}}{n^n\prod x_i}$. Therefore, the root of $f(D) =0$ can be calculated using newtons formula by iterating below equation until convergence.</p>
+
 <p>$$\begin{equation}
 D_{n+1} = D_n - \frac{f(D_n)}{f'(D_n)} = \frac{(AnnS+nD_P)D_n}{(Ann-1)D_n+(n+1)D_P}
 \end{equation}$$</p>
-<p>This is implemented in the <code>get_D(xp, amp)</code> function of the 3poolSwap <a href=https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code>contract</a> and is called before performing any swap.</p>
-<h3 id=next-up>
-Next Up
-<a class=heading-link href=#next-up>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
-<p>Stableswap invariant works fantastically for stable coin pools and has lower price slippage and higher APR compared to existing AMMs like the constant product. However, it cannot be used as it is for non-stable coin pools. For that, a little tweak is required in the stableswap invariant. <a href=https://curve.fi>Curve</a> has introduced <a href=https://curve.fi/files/crypto-pools-paper.pdf>CurveCrypto</a> invariant which is encouraged from stableswap invariant and can be used for non-stable coin pools like the <a href=https://curve.fi/tricrypto2/>tricrypto2</a> pool. In the next post, I will be explaining the CurveCrypto invariant and how is used as AMM in <a href=https://curve.fi/tricrypto2/>the tricrypto2</a> pool.</p>
-<h3 id=references>
-References
-<a class=heading-link href=#references>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
+
+<p>This is implemented in the <code>get_D(xp, amp)</code> function of the 3poolSwap <a href="https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code">contract</a> and is called before performing any swap.</p>
+
+<h3>Next Up</h3>
+
+<p>Stableswap invariant works fantastically for stable coin pools and has lower price slippage and higher APR compared to existing AMMs like the constant product. However, it cannot be used as it is for non-stable coin pools. For that, a little tweak is required in the stableswap invariant. <a href="https://curve.fi">Curve</a> has introduced <a href="https://curve.fi/files/crypto-pools-paper.pdf">CurveCrypto</a> invariant which is encouraged from stableswap invariant and can be used for non-stable coin pools like the <a href="https://curve.fi/tricrypto2/">tricrypto2</a> pool. In the next post, I will be explaining the CurveCrypto invariant and how is used as AMM in <a href="https://curve.fi/tricrypto2/">the tricrypto2</a> pool.</p>
+
+<h3>References</h3>
+
 <ul>
-<li><a href=https://curve.fi/files/stableswap-paper.pdf>https://curve.fi/files/stableswap-paper.pdf</a></li>
-<li><a href=https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code>https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code</a></li>
-<li><a href=https://en.wikipedia.org/wiki/Newton%27s_method>https://en.wikipedia.org/wiki/Newton&rsquo;s_method</a></li>
-<li><a href=https://keisan.casio.com/exec/system/1244946907>https://keisan.casio.com/exec/system/1244946907</a></li>
-<li><a href=https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb>https://github.com/asquare08/AMM-Models/blob/main/Curve AMM plots.ipynb</a></li>
+<li><a href="https://curve.fi/files/stableswap-paper.pdf">Curve StableSwap Whitepaper</a></li>
+<li><a href="https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7#code">3pool Contract on Etherscan</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton's Method — Wikipedia</a></li>
+<li><a href="https://keisan.casio.com/exec/system/1244946907">Newton's Method Simulation</a></li>
+<li><a href="https://github.com/asquare08/AMM-Models/blob/main/Curve%20AMM%20plots.ipynb">AMM Models Notebook</a></li>
 </ul>
-</div>
-<footer>
-<section class=see-also>
-<h3 id=see-also-in-amm-design>
-See also in AMM Design
-<a class=heading-link href=#see-also-in-amm-design>
-<i class="fa fa-link" aria-hidden=true></i>
-</a>
-</h3>
-<nav>
-<ul>
-<li>
-<a href=/posts/hubblevamm/>Hubble vAMM: CurveCrypto Invariant</a>
-</li>
-</ul>
-</nav>
-</section>
-<div id=disqus_thread></div>
-<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//atul.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</footer>
-</article>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],processEscapes:!0,processEnvironments:!0,tags:'ams'},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}}</script>
-</section>
-</div>
-<footer class=footer>
-<section class=container>
-<p>Try Again, Fail Again, Fail Better</p>
-</section>
-<section class=container , id=custom-container>
-<ul>
-<li>
-<a href=https://twitter.com/asquare08/ aria-label=Twitter rel=noopener target=_blank>
-<i class="fa fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://www.linkedin.com/in/iitjatul/ aria-label=LinkedIn rel=noopener target=_blank>
-<i class="fa fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://github.com/asquare08/ aria-label=Github rel=noopener target=_blank>
-<i class="fa fa-github" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</section>
-<section class=container , style=font-size:small>
-©
-2022
-Atul Agarwal
-</section>
-</footer>
-<script>var element=document.getElementById("custom-container");window.location.pathname==='/'&&(element.style.display="none")</script>
-</main>
-<script src=/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js></script>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-188589894-1','auto'),ga('send','pageview'))</script>
+
+            <!-- See also -->
+            <div class="see-also">
+                <h3>See also in AMM Design</h3>
+                <ul><li><a href="/posts/hubblevamm/">Hubble vAMM: CurveCrypto Invariant</a></li></ul>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
+            <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
+            <a href="mailto:atulagarwal893@gmail.com">Email</a>
+        </div>
+        <p>Built by Atul Agarwal. Designed for web3.</p>
+    </footer>
+
+    <!-- MathJax for equations -->
+    <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams'
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 </html>
