@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atul Agarwal - Protocol Engineer & DeFi Founder</title>
-    <meta name="description" content="Protocol engineer and DeFi founder with 5+ years in web3. Building the financial primitives of the decentralized web.">
+    <title>Atul Agarwal - Protocol Engineer & Builder</title>
+    <meta name="description" content="Protocol engineer and builder. 5+ years shipping DeFi protocols, now exploring the intersection of AI and finance.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,6 +42,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -309,8 +310,6 @@
 
         /* About Section */
         .about {
-            max-width: 900px;
-            margin: 0 auto;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -405,7 +404,7 @@
         .project-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
+            align-items: flex-start;
             margin-bottom: 1rem;
         }
 
@@ -480,7 +479,7 @@
         }
 
         .project-link:hover {
-            gap: 0.5rem;
+            transform: translateX(4px);
         }
 
         /* Skills Section */
@@ -742,14 +741,14 @@
             }
         }
 
-        /* Smooth Scroll Animation */
-        .section > h2 {
+        /* Section heading underline accent */
+        .section h2 {
             position: relative;
             padding-bottom: 1rem;
             margin-bottom: 2rem;
         }
 
-        .section > h2::after {
+        .section h2::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -785,25 +784,18 @@
     <section class="hero" id="hero">
         <div class="container">
             <div class="hero-content fade-in">
-                <div class="hero-title">
-                    <span>$ Welcome to my portfolio</span>
-                </div>
                 <h1>Atul Agarwal</h1>
-                <div class="hero-title" style="color: var(--accent-primary); margin-top: -0.5rem;">
-                    Protocol Engineer & DeFi Founder
+                <div class="hero-title">
+                    Protocol Engineer & Builder
                 </div>
                 <p class="hero-tagline">
-                    Building the financial primitives of the decentralized web. 5+ years shipping production-grade protocols, smart contracts, and cross-chain infrastructure in web3.
+                    From chip design to DeFi protocols to AI and finance. I like building things in hard, unfamiliar domains.
                 </p>
 
                 <div class="social-links">
                     <a href="https://x.com/0xshinobii" target="_blank" class="social-link">
                         <i class="fab fa-twitter"></i>
                         Twitter
-                    </a>
-                    <a href="https://github.com/0xshinobii" target="_blank" class="social-link">
-                        <i class="fab fa-github"></i>
-                        GitHub
                     </a>
                     <a href="#" class="social-link email-link" data-user="atulagarwal893" data-domain="gmail.com">
                         <i class="fas fa-envelope"></i>
@@ -825,19 +817,13 @@
             <div class="about fade-in">
                 <div class="about-text">
                     <p>
-                        I'm a <span class="about-highlight">protocol engineer and DeFi founder</span> with 5+ years of deep experience shipping production-grade blockchain infrastructure. My career spans smart contracts, protocol design, advanced mathematics, backend systems, and cross-chain infrastructure.
+                        I started my career designing chips at <span class="about-highlight">MediaTek</span>, taught myself software engineering, and made the jump to DeFi in 2021. Since then, I've <span class="about-highlight">co-founded two protocols from zero to production</span> — a perpetual futures exchange on Avalanche and a leveraged lending protocol on Aptos that peaked at <span class="about-highlight">$7M TVL</span>.
                     </p>
                     <p>
-                        Before diving fully into web3, I spent <span class="about-highlight">3 years at MediaTek</span> as a hardware engineer working on chip design and validation. That background instilled rigorous system thinking — designing for edge cases, understanding constraints, and optimizing for production at scale.
+                        The common thread across everything I've built is going deep on hard problems: porting <span class="about-highlight">Newton's method solvers to Solidity</span> for on-chain AMM pricing, designing a <span class="about-highlight">custom Avalanche Subnet</span> where validators act as order matchers, or picking up a <span class="about-highlight">new smart contract language</span> (Move) to build on an ecosystem most developers considered too early.
                     </p>
                     <p>
-                        I've co-founded and shipped <span class="about-highlight">two DeFi protocols from zero to production</span>: a decentralized perpetual futures exchange with a <span class="about-highlight">decentralized limit order book on a custom Avalanche Subnet</span> (evolved from a Curve-style vAMM in V1), and a <span class="about-highlight">leveraged lending protocol</span> on Aptos that peaked at $7M TVL. I own smart contracts end-to-end and contribute significantly to backend systems.
-                    </p>
-                    <p>
-                        My technical depth includes <span class="about-highlight">order book systems</span>, <span class="about-highlight">AMM mathematics</span> (Curve StableSwap, CurveCrypto invariants), <span class="about-highlight">liquidation engines</span>, and <span class="about-highlight">cross-chain interoperability</span>. I'm comfortable with complex numerical methods like Newton's method for on-chain computation.
-                    </p>
-                    <p>
-                        Currently exploring the intersection of <span class="about-highlight">AI and finance</span> — particularly the <span class="about-highlight">agent economy</span>, where autonomous AI agents transact, manage assets, and operate as independent economic actors. I'm interested in building the financial infrastructure that treats agents as first-class users: programmable credit, inference insurance, and machine-to-machine payment rails.
+                        Currently exploring the intersection of <span class="about-highlight">AI and finance</span> — particularly the <span class="about-highlight">agent economy</span>, where autonomous AI agents transact, manage assets, and operate as independent economic actors. I'm interested in building financial infrastructure that treats agents as first-class users: programmable credit, inference insurance, and machine-to-machine payment rails.
                     </p>
                 </div>
             </div>
@@ -880,28 +866,6 @@
                     <a href="https://moar.market" target="_blank" class="project-link">
                         moar.market <i class="fas fa-arrow-right"></i>
                     </a>
-                </div>
-
-                <!-- Deploy — Kairos -->
-                <div class="project-card fade-in">
-                    <div class="project-header">
-                        <div>
-                            <div class="project-title">Deploy</div>
-                            <div class="project-role">Side Project</div>
-                        </div>
-                        <div class="project-date">2026</div>
-                    </div>
-
-                    <p class="project-description">
-                        MVP for an automated grid trading bot on <a href="https://hyperliquid.xyz" target="_blank">Hyperliquid</a> perpetual futures. Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management.
-                    </p>
-
-                    <div class="project-tech">
-                        <span class="tech-tag">TypeScript</span>
-                        <span class="tech-tag">Hyperliquid</span>
-                        <span class="tech-tag">RabbitMQ</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                    </div>
                 </div>
 
                 <!-- Hubble Exchange -->
@@ -959,13 +923,35 @@
                     </div>
 
                     <p class="project-description">
-                        Contributed to a stablecoin index protocol that aggregated yield-bearing stablecoins into a single diversified token. Worked on Solidity smart contracts and protocol integrations across DeFi yield sources.
+                        Smart contract development for a stablecoin index protocol on Ethereum — aggregated yield-bearing stablecoins into a single diversified token. First production Solidity role after transitioning from hardware engineering.
                     </p>
 
                     <div class="project-tech">
                         <span class="tech-tag">Solidity</span>
                         <span class="tech-tag">Ethereum</span>
                         <span class="tech-tag">Yield Aggregation</span>
+                    </div>
+                </div>
+
+                <!-- Deploy — Kairos -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">Deploy</div>
+                            <div class="project-role">Side Project</div>
+                        </div>
+                        <div class="project-date">2026</div>
+                    </div>
+
+                    <p class="project-description">
+                        MVP for an automated grid trading bot on <a href="https://hyperliquid.xyz" target="_blank">Hyperliquid</a> perpetual futures. Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management.
+                    </p>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Hyperliquid</span>
+                        <span class="tech-tag">RabbitMQ</span>
+                        <span class="tech-tag">PostgreSQL</span>
                     </div>
                 </div>
 
@@ -976,21 +962,17 @@
                             <div class="project-title">MediaTek</div>
                             <div class="project-role">Chip Design Engineer</div>
                         </div>
-                        <div class="project-date">2018 – 2021</div>
+                        <div class="project-date">2017 – 2020</div>
                     </div>
 
                     <p class="project-description">
-                        3 years designing digital circuits for SoCs at one of the world's largest semiconductor companies. This hardware engineering background brings systems-level thinking and mathematical rigor to protocol development.
+                        Designed digital circuits for production SoCs at one of the world's largest semiconductor companies. Worked on timing closure, RTL verification, and physical design across multiple chip tapeouts.
                     </p>
-
-                    <ul class="project-highlights">
-                        <li>Timing closure, RTL verification, and physical design for production SoCs</li>
-                        <li>Built the engineering discipline — edge-case thinking, constraint optimization, and production-grade reliability — that I carry into smart contract work</li>
-                    </ul>
 
                     <div class="project-tech">
                         <span class="tech-tag">VLSI / RTL</span>
                         <span class="tech-tag">SoC Design</span>
+                        <span class="tech-tag">Timing Closure</span>
                     </div>
                 </div>
             </div>
@@ -1000,15 +982,16 @@
     <!-- Skills Section -->
     <section class="section" id="skills">
         <div class="container">
-            <h2>Technical Skills</h2>
+            <h2>Skills</h2>
 
             <div class="skills-section fade-in">
                 <div class="skill-category">
-                    <h3>Smart Contract Languages</h3>
+                    <h3>Languages</h3>
                     <ul class="skill-list">
                         <li>Solidity — Foundry, Hardhat, EVM internals</li>
                         <li>Move — Aptos framework, resource model</li>
                         <li>Rust — systems-level blockchain tooling</li>
+                        <li>TypeScript / Python — backend services, bots, APIs</li>
                     </ul>
                 </div>
 
@@ -1016,7 +999,7 @@
                     <h3>Protocol Design</h3>
                     <ul class="skill-list">
                         <li>Perpetual futures exchange — funding rates, margin systems, liquidation engines</li>
-                        <li>Lending & borrowing platforms — leveraged lending, interest rate models, liquidation engines</li>
+                        <li>Lending & borrowing platforms — leveraged lending, interest rate models, collateral management</li>
                         <li>Order book architecture — DLOB on custom L1/Subnet</li>
                         <li>Cross-chain bridging — LayerZero, lock-mint patterns</li>
                         <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers</li>
@@ -1035,7 +1018,6 @@
                 <div class="skill-category">
                     <h3>Backend & Tooling</h3>
                     <ul class="skill-list">
-                        <li>TypeScript / Python — bots, indexers, APIs, trading engines</li>
                         <li>PostgreSQL, RabbitMQ, Docker, monitoring</li>
                         <li>Event-driven architecture — WebSocket listeners, message queues, state machines</li>
                     </ul>
@@ -1047,7 +1029,7 @@
     <!-- Writing Section -->
     <section class="section" id="writing">
         <div class="container">
-            <h2>Writing & Thought Leadership</h2>
+            <h2>Writing</h2>
 
             <div class="thought-leadership fade-in">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
@@ -1078,6 +1060,7 @@
                             <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Delhi</div>
                             <div class="project-role">Master of Technology (M.Tech)</div>
                         </div>
+                        <div class="project-date">2017</div>
                     </div>
                 </div>
                 <div class="project-card" style="padding: 1.5rem;">
@@ -1086,6 +1069,7 @@
                             <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Jodhpur</div>
                             <div class="project-role">Bachelor of Technology (B.Tech)</div>
                         </div>
+                        <div class="project-date">2015</div>
                     </div>
                 </div>
             </div>
@@ -1098,7 +1082,7 @@
             <div class="contact fade-in">
                 <h2>Let's Build Together</h2>
                 <p class="contact-subtitle">
-                    Open to senior protocol engineering roles, engineering lead positions, and CTO opportunities. Based in Goa, India — fully remote, any timezone.
+                    Open to engineering and founding roles at the intersection of finance and technology. Based in Goa, India — fully remote, any timezone.
                 </p>
 
                 <div class="contact-details">
@@ -1109,10 +1093,6 @@
                     <div class="contact-detail">
                         <strong>Twitter:</strong><br>
                         <a href="https://x.com/0xshinobii" target="_blank">@0xshinobii</a>
-                    </div>
-                    <div class="contact-detail">
-                        <strong>GitHub:</strong><br>
-                        <a href="https://github.com/0xshinobii" target="_blank">0xshinobii</a>
                     </div>
                 </div>
 
@@ -1144,10 +1124,9 @@
         <div class="container">
             <div class="footer-content">
                 <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
-                <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
                 <a href="#" class="email-link" data-user="atulagarwal893" data-domain="gmail.com">Email</a>
             </div>
-            <p>Built by Atul Agarwal. Designed for web3. © 2026.</p>
+            <p>Built by Atul Agarwal. © 2026.</p>
         </div>
     </footer>
 
@@ -1173,13 +1152,6 @@
 
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
         });
 
         // IntersectionObserver for fade-in animations
@@ -1210,7 +1182,7 @@
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (pageYOffset >= sectionTop - 200) {
+                if (window.scrollY >= sectionTop - 200) {
                     current = section.getAttribute('id');
                 }
             });

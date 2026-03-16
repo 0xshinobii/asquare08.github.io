@@ -35,14 +35,14 @@ class ResumePDF(FPDF):
         # Subtitle
         self.set_font("DejaVu", "", 11)
         self.set_text_color(*ACCENT)
-        self.cell(self.content_width, 5, "Protocol Engineer & DeFi Founder", align="C", new_x="LMARGIN", new_y="NEXT")
+        self.cell(self.content_width, 5, "Protocol Engineer & Builder", align="C", new_x="LMARGIN", new_y="NEXT")
         self.ln(1.5)
 
         # Contact
         self.set_font("DejaVu", "", 8)
         self.set_text_color(*GRAY)
         self.cell(self.content_width, 4,
-                  "atulagarwal893@gmail.com  ·  x.com/0xshinobii  ·  github.com/0xshinobii  ·  atulagarwal.dev  ·  Goa, India (Remote)",
+                  "atulagarwal893@gmail.com  ·  x.com/0xshinobii  ·  atulagarwal.dev  ·  Goa, India (Remote)",
                   align="C", new_x="LMARGIN", new_y="NEXT")
         self.ln(2)
 
@@ -142,14 +142,22 @@ class ResumePDF(FPDF):
                     self.cell(self.indented_width, 4, line, new_x="LMARGIN", new_y="NEXT")
         self.ln(0.3)
 
-    def edu_line(self, school, degree):
+    def edu_line(self, school, degree, year):
+        self.set_font("DejaVu", "I", 9)
+        self.set_text_color(*GRAY)
+        year_w = self.get_string_width(year) + 4
         self.set_font("DejaVu", "B", 9)
         self.set_text_color(*DARK)
         self.set_x(self.l_margin + self.tab)
         school_w = self.get_string_width(school)
         self.cell(school_w, 4.5, school, new_x="RIGHT", new_y="TOP")
         self.set_font("DejaVu", "", 9)
-        self.cell(self.indented_width - school_w, 4.5, " — " + degree, new_x="LMARGIN", new_y="NEXT")
+        deg_text = " — " + degree
+        deg_w = self.indented_width - school_w - year_w
+        self.cell(deg_w, 4.5, deg_text, new_x="RIGHT", new_y="TOP")
+        self.set_font("DejaVu", "I", 9)
+        self.set_text_color(*GRAY)
+        self.cell(year_w, 4.5, year, align="R", new_x="LMARGIN", new_y="NEXT")
         self.ln(0.5)
 
     def writing_bullet(self, title, url, description):
@@ -180,13 +188,13 @@ def build_pdf(filename):
     # Summary
     pdf.section_title("Summary")
     pdf.body_text(
-        "Protocol engineer and DeFi founder with 5+ years shipping production-grade blockchain "
-        "infrastructure. Co-founded two DeFi protocols from zero to production: a perpetual futures "
-        "exchange with a decentralized limit order book (DLOB) on a custom Avalanche Subnet, and a "
-        "leveraged lending protocol on Aptos that peaked at $7M TVL. Own smart contracts end-to-end "
-        "across Solidity and Move; deep expertise in AMM invariant mathematics, order book systems, "
-        "liquidation engines, and cross-chain bridging. Currently exploring the intersection of AI "
-        "and finance — the agent economy, autonomous economic actors, and machine-to-machine payment rails."
+        "Started in chip design at MediaTek, taught myself software engineering, and jumped to DeFi in 2021. "
+        "Co-founded two protocols from zero to production — a perpetual futures exchange on Avalanche and a "
+        "leveraged lending protocol on Aptos that peaked at $7M TVL. The common thread: going deep on hard "
+        "problems — porting Newton's method solvers to Solidity, designing a custom Avalanche Subnet where "
+        "validators act as order matchers, or picking up Move to build on an early ecosystem. Currently "
+        "exploring the intersection of AI and finance — the agent economy, autonomous economic actors, "
+        "and machine-to-machine payment rails."
     )
 
     # Experience
@@ -199,11 +207,6 @@ def build_pdf(filename):
     pdf.bullet("Owned all Move smart contracts: collateral vaults, interest rate models, oracle integrations, liquidation logic")
     pdf.bullet("Co-built backend: indexer, liquidator bot, risk monitoring, and API layer")
     pdf.bullet("Defined risk parameters, collateral factors, and liquidation incentives for multi-asset markets")
-
-    # Deploy
-    pdf.job_header("Deploy — Side Project", "2026")
-    pdf.job_desc("MVP for an automated grid trading bot on Hyperliquid perpetual futures.")
-    pdf.bullet("Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management")
 
     # Hubble Exchange
     pdf.job_header("Hubble Exchange — Co-Founder & Protocol Engineer", "2021 – 2024")
@@ -218,30 +221,36 @@ def build_pdf(filename):
 
     # DefiDollar
     pdf.job_header("DefiDollar — Smart Contract Engineer", "2021")
-    pdf.bullet("Solidity smart contracts and protocol integrations for a stablecoin index protocol aggregating yield-bearing stablecoins")
+    pdf.job_desc("Smart contract development for a stablecoin index protocol on Ethereum — aggregated yield-bearing stablecoins into a single diversified token.")
+
+    # Deploy
+    pdf.job_header("Deploy — Side Project", "2026")
+    pdf.job_desc("MVP for an automated grid trading bot on Hyperliquid perpetual futures.")
+    pdf.bullet("Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management")
 
     # MediaTek
-    pdf.job_header("MediaTek — Chip Design Engineer", "2018 – 2021")
-    pdf.bullet("3 years designing digital circuits for production SoCs — timing closure, RTL verification, physical design")
-    pdf.bullet("Built the engineering rigor (edge-case thinking, constraint optimization) that carries into smart contract work")
+    pdf.job_header("MediaTek — Chip Design Engineer", "2017 – 2020")
+    pdf.job_desc("Designed digital circuits for production SoCs — timing closure, RTL verification, and physical design across multiple chip tapeouts.")
 
-    # Technical Skills
-    pdf.section_title("Technical Skills")
-    pdf.skill_line("Smart Contract Languages",
-                   "Solidity (Foundry, Hardhat, EVM internals), Move (Aptos framework, resource model), Rust")
+    # Skills
+    pdf.section_title("Skills")
+    pdf.skill_line("Languages",
+                   "Solidity (Foundry, Hardhat, EVM internals), Move (Aptos framework, resource model), "
+                   "Rust, TypeScript, Python")
     pdf.skill_line("Protocol Design",
                    "Perpetual futures (vAMM, funding rates, margin systems, liquidation engines), "
-                   "lending & borrowing (leveraged lending, interest rate models), DLOB on custom L1/Subnet, "
-                   "AMM invariants (StableSwap, CurveCrypto, Newton's method solvers), cross-chain bridging (LayerZero)")
-    pdf.skill_line("Chains", "Ethereum/EVM, Avalanche (custom Subnets, validator operations), Aptos/MoveVM")
-    pdf.skill_line("Backend",
-                   "TypeScript, Python — bots, indexers, APIs, trading engines; "
-                   "PostgreSQL, RabbitMQ, Docker; event-driven architecture (WebSockets, message queues, state machines)")
+                   "lending & borrowing (leveraged lending, interest rate models, collateral management), "
+                   "DLOB on custom L1/Subnet, AMM invariants (StableSwap, CurveCrypto, Newton's method solvers), "
+                   "cross-chain bridging (LayerZero)")
+    pdf.skill_line("Chains & Infra", "Ethereum/EVM, Avalanche (custom Subnets, validator operations), Aptos/MoveVM")
+    pdf.skill_line("Backend & Tooling",
+                   "PostgreSQL, RabbitMQ, Docker, monitoring; "
+                   "event-driven architecture (WebSocket listeners, message queues, state machines)")
 
     # Education
     pdf.section_title("Education")
-    pdf.edu_line("Indian Institute of Technology (IIT) Delhi", "Master of Technology (M.Tech)")
-    pdf.edu_line("Indian Institute of Technology (IIT) Jodhpur", "Bachelor of Technology (B.Tech)")
+    pdf.edu_line("Indian Institute of Technology (IIT) Delhi", "Master of Technology (M.Tech)", "2017")
+    pdf.edu_line("Indian Institute of Technology (IIT) Jodhpur", "Bachelor of Technology (B.Tech)", "2015")
 
     # Writing
     pdf.section_title("Writing")
