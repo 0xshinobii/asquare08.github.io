@@ -12,15 +12,15 @@ LINE_COLOR = (204, 204, 204)
 class ResumePDF(FPDF):
     def __init__(self):
         super().__init__(format="letter")
-        self.set_auto_page_break(auto=True, margin=12)
+        self.set_auto_page_break(auto=False)
         # Use system Arial for Unicode support (en-dashes, bullets, etc.)
         self.add_font("DejaVu", "", fname="/System/Library/Fonts/Supplemental/Arial.ttf")
         self.add_font("DejaVu", "B", fname="/System/Library/Fonts/Supplemental/Arial Bold.ttf")
         self.add_font("DejaVu", "I", fname="/System/Library/Fonts/Supplemental/Arial Bold Italic.ttf")
         self.add_page()
-        self.set_margins(left=15, top=13, right=15)
+        self.set_margins(left=15, top=12, right=15)
         self.set_x(15)
-        self.set_y(13)
+        self.set_y(12)
         self.content_width = self.w - 30  # 15mm margins each side
         self.tab = 8  # 1-tab indent for section content
         self.indented_width = self.content_width - self.tab
@@ -29,14 +29,14 @@ class ResumePDF(FPDF):
         # Name
         self.set_font("DejaVu", "B", 20)
         self.set_text_color(*BLACK)
-        self.cell(self.content_width, 9, "Atul Agarwal", align="C", new_x="LMARGIN", new_y="NEXT")
-        self.ln(2)
+        self.cell(self.content_width, 8, "Atul Agarwal", align="C", new_x="LMARGIN", new_y="NEXT")
+        self.ln(1.5)
 
         # Subtitle
         self.set_font("DejaVu", "", 11)
         self.set_text_color(*ACCENT)
         self.cell(self.content_width, 5, "Protocol Engineer & DeFi Founder", align="C", new_x="LMARGIN", new_y="NEXT")
-        self.ln(2)
+        self.ln(1.5)
 
         # Contact
         self.set_font("DejaVu", "", 8)
@@ -44,29 +44,29 @@ class ResumePDF(FPDF):
         self.cell(self.content_width, 4,
                   "atulagarwal893@gmail.com  ·  x.com/0xshinobii  ·  github.com/0xshinobii  ·  atulagarwal.dev  ·  Goa, India (Remote)",
                   align="C", new_x="LMARGIN", new_y="NEXT")
-        self.ln(3)
+        self.ln(2)
 
     def section_line(self):
         self.set_draw_color(*LINE_COLOR)
         y = self.get_y()
         self.line(15, y, self.w - 15, y)
-        self.ln(3)
+        self.ln(2)
 
     def section_title(self, title):
         self.section_line()
         self.set_font("DejaVu", "B", 11)
         self.set_text_color(*BLACK)
         self.cell(self.content_width, 5, title, new_x="LMARGIN", new_y="NEXT")
-        self.ln(2)
+        self.ln(1.5)
 
     def body_text(self, text):
         self.set_font("DejaVu", "", 9)
         self.set_text_color(*DARK)
         self.set_x(self.l_margin + self.tab)
-        self.multi_cell(self.indented_width, 4.2, text, new_x="LMARGIN", new_y="NEXT")
+        self.multi_cell(self.indented_width, 4, text, new_x="LMARGIN", new_y="NEXT")
 
     def job_header(self, title, date):
-        self.ln(2)
+        self.ln(1.5)
         self.set_font("DejaVu", "B", 9.5)
         self.set_text_color(*BLACK)
         date_w = self.get_string_width(date) + 4
@@ -76,22 +76,22 @@ class ResumePDF(FPDF):
         self.set_font("DejaVu", "I", 9)
         self.set_text_color(*GRAY)
         self.cell(date_w, 4.5, date, align="R", new_x="LMARGIN", new_y="NEXT")
-        self.ln(1)
+        self.ln(0.5)
 
     def job_desc(self, text):
         self.set_font("DejaVu", "", 9)
         self.set_text_color(*GRAY)
         self.set_x(self.l_margin + self.tab)
-        self.multi_cell(self.indented_width, 4.2, text, new_x="LMARGIN", new_y="NEXT")
-        self.ln(0.5)
+        self.multi_cell(self.indented_width, 4, text, new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.3)
 
     def sub_heading(self, text):
-        self.ln(1.5)
+        self.ln(1)
         self.set_font("DejaVu", "B", 9)
         self.set_text_color(*DARK)
         self.set_x(self.l_margin + self.tab)
-        self.cell(self.indented_width, 4.2, text, new_x="LMARGIN", new_y="NEXT")
-        self.ln(0.5)
+        self.cell(self.indented_width, 4, text, new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.3)
 
     def bullet(self, text):
         self.set_font("DejaVu", "", 9)
@@ -100,23 +100,22 @@ class ResumePDF(FPDF):
         bullet_w = 5
         x = self.l_margin + self.tab + bullet_indent
         self.set_x(x)
-        self.cell(bullet_w, 4.2, "•", new_x="RIGHT", new_y="TOP")
-        self.multi_cell(self.indented_width - bullet_indent - bullet_w, 4.2, text, new_x="LMARGIN", new_y="NEXT")
-        self.ln(0.3)
+        self.cell(bullet_w, 4, "•", new_x="RIGHT", new_y="TOP")
+        self.multi_cell(self.indented_width - bullet_indent - bullet_w, 4, text, new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.2)
 
     def skill_line(self, label, text):
-        self.set_font("DejaVu", "", 9)
+        self.ln(1)
+        self.set_font("DejaVu", "B", 9)
         self.set_text_color(*DARK)
         self.set_x(self.l_margin + self.tab)
         label_w = self.get_string_width(label + ": ")
-        self.set_font("DejaVu", "B", 9)
-        self.cell(label_w, 4.2, label + ":", new_x="RIGHT", new_y="TOP")
+        self.cell(label_w, 4, label + ": ", new_x="RIGHT", new_y="TOP")
         self.set_font("DejaVu", "", 9)
-        self.cell(1, 4.2, " ", new_x="RIGHT", new_y="TOP")
-        remaining_w = self.indented_width - label_w - 1
+        remaining_w = self.indented_width - label_w
         # Check if text fits in one line
         if self.get_string_width(text) <= remaining_w:
-            self.cell(remaining_w, 4.2, text, new_x="LMARGIN", new_y="NEXT")
+            self.cell(remaining_w, 4, text, new_x="LMARGIN", new_y="NEXT")
         else:
             # First line remainder, continuation lines also at tab indent
             words = text.split(" ")
@@ -129,19 +128,19 @@ class ResumePDF(FPDF):
                     line = test
                 else:
                     if first_line:
-                        self.cell(remaining_w, 4.2, line, new_x="LMARGIN", new_y="NEXT")
+                        self.cell(remaining_w, 4, line, new_x="LMARGIN", new_y="NEXT")
                         first_line = False
                     else:
                         self.set_x(self.l_margin + self.tab)
-                        self.cell(self.indented_width, 4.2, line, new_x="LMARGIN", new_y="NEXT")
+                        self.cell(self.indented_width, 4, line, new_x="LMARGIN", new_y="NEXT")
                     line = word
             if line:
                 if first_line:
-                    self.cell(remaining_w, 4.2, line, new_x="LMARGIN", new_y="NEXT")
+                    self.cell(remaining_w, 4, line, new_x="LMARGIN", new_y="NEXT")
                 else:
                     self.set_x(self.l_margin + self.tab)
-                    self.cell(self.indented_width, 4.2, line, new_x="LMARGIN", new_y="NEXT")
-        self.ln(0.5)
+                    self.cell(self.indented_width, 4, line, new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.3)
 
     def edu_line(self, school, degree):
         self.set_font("DejaVu", "B", 9)
@@ -151,7 +150,7 @@ class ResumePDF(FPDF):
         self.cell(school_w, 4.5, school, new_x="RIGHT", new_y="TOP")
         self.set_font("DejaVu", "", 9)
         self.cell(self.indented_width - school_w, 4.5, " — " + degree, new_x="LMARGIN", new_y="NEXT")
-        self.ln(1)
+        self.ln(0.5)
 
     def writing_bullet(self, title, url, description):
         self.set_font("DejaVu", "", 9)
@@ -160,16 +159,16 @@ class ResumePDF(FPDF):
         bullet_w = 5
         x = self.l_margin + self.tab + bullet_indent
         self.set_x(x)
-        self.cell(bullet_w, 4.2, "•", new_x="RIGHT", new_y="TOP")
+        self.cell(bullet_w, 4, "•", new_x="RIGHT", new_y="TOP")
         # Title in accent color
         self.set_text_color(*ACCENT)
         title_w = self.get_string_width(title)
-        self.cell(title_w, 4.2, title, link=url, new_x="RIGHT", new_y="TOP")
+        self.cell(title_w, 4, title, link=url, new_x="RIGHT", new_y="TOP")
         # Description in dark
         self.set_text_color(*DARK)
         remaining = " — " + description
-        self.multi_cell(self.indented_width - bullet_indent - bullet_w - title_w, 4.2, remaining, new_x="LMARGIN", new_y="NEXT")
-        self.ln(0.3)
+        self.multi_cell(self.indented_width - bullet_indent - bullet_w - title_w, 4, remaining, new_x="LMARGIN", new_y="NEXT")
+        self.ln(0.2)
 
 
 def build_pdf(filename):
@@ -186,7 +185,8 @@ def build_pdf(filename):
         "exchange with a decentralized limit order book (DLOB) on a custom Avalanche Subnet, and a "
         "leveraged lending protocol on Aptos that peaked at $7M TVL. Own smart contracts end-to-end "
         "across Solidity and Move; deep expertise in AMM invariant mathematics, order book systems, "
-        "liquidation engines, and cross-chain bridging."
+        "liquidation engines, and cross-chain bridging. Currently exploring the intersection of AI "
+        "and finance — the agent economy, autonomous economic actors, and machine-to-machine payment rails."
     )
 
     # Experience
@@ -199,6 +199,11 @@ def build_pdf(filename):
     pdf.bullet("Owned all Move smart contracts: collateral vaults, interest rate models, oracle integrations, liquidation logic")
     pdf.bullet("Co-built backend: indexer, liquidator bot, risk monitoring, and API layer")
     pdf.bullet("Defined risk parameters, collateral factors, and liquidation incentives for multi-asset markets")
+
+    # Deploy
+    pdf.job_header("Deploy — Side Project", "2026")
+    pdf.job_desc("MVP for an automated grid trading bot on Hyperliquid perpetual futures.")
+    pdf.bullet("Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management")
 
     # Hubble Exchange
     pdf.job_header("Hubble Exchange — Co-Founder & Protocol Engineer", "2021 – 2024")
@@ -222,13 +227,16 @@ def build_pdf(filename):
 
     # Technical Skills
     pdf.section_title("Technical Skills")
-    pdf.skill_line("Languages", "Solidity (Foundry, Hardhat), Move (Aptos), Rust, TypeScript, Python")
+    pdf.skill_line("Smart Contract Languages",
+                   "Solidity (Foundry, Hardhat, EVM internals), Move (Aptos framework, resource model), Rust")
     pdf.skill_line("Protocol Design",
-                   "Perpetual futures exchange (vAMM, funding rates, margin systems), lending & borrowing platforms "
-                   "(leveraged lending, liquidation engines), DLOB architecture, AMM invariants (StableSwap, CurveCrypto), "
-                   "cross-chain bridging (LayerZero)")
-    pdf.skill_line("Chains", "Ethereum/EVM, Avalanche Subnets, Aptos/MoveVM")
-    pdf.skill_line("Backend", "Node.js, PostgreSQL, Docker, bots & indexers")
+                   "Perpetual futures (vAMM, funding rates, margin systems, liquidation engines), "
+                   "lending & borrowing (leveraged lending, interest rate models), DLOB on custom L1/Subnet, "
+                   "AMM invariants (StableSwap, CurveCrypto, Newton's method solvers), cross-chain bridging (LayerZero)")
+    pdf.skill_line("Chains", "Ethereum/EVM, Avalanche (custom Subnets, validator operations), Aptos/MoveVM")
+    pdf.skill_line("Backend",
+                   "TypeScript, Python — bots, indexers, APIs, trading engines; "
+                   "PostgreSQL, RabbitMQ, Docker; event-driven architecture (WebSockets, message queues, state machines)")
 
     # Education
     pdf.section_title("Education")
