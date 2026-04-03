@@ -201,7 +201,7 @@ def build_pdf(filename):
     pdf.section_title("Experience")
 
     # Moar Market
-    pdf.job_header("Moar Market — Founder", "2024 – Present")
+    pdf.job_header("Moar Market — Co-Founder and CTO", "2024 – 2026")
     pdf.job_desc("Leveraged lending protocol on Aptos with integrations across Hyperion, Tapp, and Panora.")
     pdf.bullet("Live protocol with $2M TVL, peaked at $7M in January 2026")
     pdf.bullet("Owned all Move smart contracts: collateral vaults, interest rate models, oracle integrations, liquidation logic")
@@ -209,7 +209,7 @@ def build_pdf(filename):
     pdf.bullet("Defined risk parameters, collateral factors, and liquidation incentives for multi-asset markets")
 
     # Hubble Exchange
-    pdf.job_header("Hubble Exchange — Co-Founder & Protocol Engineer", "2021 – 2024")
+    pdf.job_header("Hubble Exchange — Protocol Engineer", "2021 – 2024")
     pdf.job_desc("Decentralized perpetual futures exchange on Avalanche — evolved from vAMM (V1) to DLOB on custom Subnet (V2).")
     pdf.sub_heading("V2: Decentralized Limit Order Book (DLOB) on Avalanche Subnet")
     pdf.bullet("Owned all Solidity smart contracts for order-book DEX on custom Avalanche Subnet with validators as order matchers")
