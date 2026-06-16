@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atul Agarwal - Protocol Engineer & Builder</title>
-    <meta name="description" content="Protocol engineer and builder. 5+ years shipping DeFi protocols, now exploring the intersection of AI and finance.">
+    <meta name="description" content="Blockchain engineer with 5+ years shipping smart contracts across Ethereum, Avalanche, and Aptos. Co-founded Moar Market ($7.5M TVL); early engineer at Hubble Exchange ($100M+ volume). Audit coordination, backend distributed systems, and AI agent tooling for DeFi.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -789,13 +789,17 @@
                     Protocol Engineer & Builder
                 </div>
                 <p class="hero-tagline">
-                    5+ years shipping DeFi protocols end-to-end — smart contracts, liquidation engines, cross-chain bridges, and the backend infra behind them.
+                    5+ years shipping DeFi protocols end-to-end. Now building AI agents that execute onchain.
                 </p>
 
                 <div class="social-links">
                     <a href="https://x.com/0xshinobii" target="_blank" class="social-link">
                         <i class="fab fa-twitter"></i>
                         Twitter
+                    </a>
+                    <a href="https://github.com/0xshinobii" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                        GitHub
                     </a>
                     <a href="#" class="social-link email-link" data-user="atulagarwal893" data-domain="gmail.com">
                         <i class="fas fa-envelope"></i>
@@ -817,13 +821,13 @@
             <div class="about fade-in">
                 <div class="about-text">
                     <p>
-                        I started my career designing chips at <span class="about-highlight">MediaTek</span>, taught myself software engineering, and made the jump to DeFi in 2021. Since then, I've <span class="about-highlight">built two protocols from zero to production</span> — a perpetual futures exchange on Avalanche and a leveraged lending protocol on Aptos that peaked at <span class="about-highlight">$7M TVL</span>.
+                        I started my career designing chips at <span class="about-highlight">MediaTek</span>, taught myself software engineering, and made the jump to DeFi in 2021. Since then I've shipped smart contracts across <span class="about-highlight">Ethereum, Avalanche, and Aptos</span> — co-founding Moar Market, a leveraged lending protocol that peaked at <span class="about-highlight">$7.5M TVL</span>, and building the core contracts for Hubble Exchange, a perpetual futures DEX that did <span class="about-highlight">$100M+ in cumulative volume</span>.
                     </p>
                     <p>
-                        The common thread across everything I've built is going deep on hard problems: porting <span class="about-highlight">Newton's method solvers to Solidity</span> for on-chain AMM pricing, designing a <span class="about-highlight">custom Avalanche Subnet</span> where validators act as order matchers, or picking up a <span class="about-highlight">new smart contract language</span> (Move) to build on an ecosystem most developers considered too early.
+                        The common thread is going deep on hard problems: porting <span class="about-highlight">Newton's method solvers to Solidity</span> for on-chain AMM pricing, designing a <span class="about-highlight">custom Avalanche Subnet</span> where validators act as order matchers, and picking up <span class="about-highlight">Move</span> to build on an ecosystem most developers considered too early. I've coordinated audits end-to-end with <span class="about-highlight">Dedaub, Sherlock, Code4rena, and MoveBit</span> — with no critical loss-of-funds findings — and increasingly use <span class="about-highlight">LLM agents</span> for first-pass code review and pre-audit security analysis.
                     </p>
                     <p>
-                        I'm looking for my next role as a <span class="about-highlight">smart contract engineer</span> or <span class="about-highlight">backend engineer</span> in web3. I bring end-to-end protocol experience across <span class="about-highlight">Solidity, Move, and Rust</span>, security audit coordination, and the backend systems that keep protocols running — indexers, liquidator bots, risk monitoring, and APIs. If you're building something ambitious on-chain, I'd love to talk.
+                        Most recently I've been building at the intersection of <span class="about-highlight">AI agents and DeFi</span> — an MCP server that exposes on-chain execution strategies as tools callable by LLM agents, letting them plan and run trading workflows end-to-end. I'm open to roles across <span class="about-highlight">smart contract engineering</span>, <span class="about-highlight">security &amp; audits</span>, <span class="about-highlight">backend engineering</span>, and <span class="about-highlight">AI tooling for fintech</span>. If you're building something ambitious on-chain, I'd love to talk.
                     </p>
                 </div>
             </div>
@@ -847,25 +851,55 @@
                     </div>
 
                     <p class="project-description">
-                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos — collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation logic. Peaked at <strong style="color: var(--accent-primary);">$7M TVL</strong>.
+                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos — collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and a liquidation engine. Peaked at <strong style="color: var(--accent-primary);">$7.5M TVL</strong> with $174K cumulative fees and $54K protocol revenue.
                     </p>
 
                     <ul class="project-highlights">
-                        <li>Designed and shipped the full protocol: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation logic — peaked at $7M TVL</li>
-                        <li>Defined risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets</li>
-                        <li>Coordinated end-to-end security audit (scoping → triage → remediation → re-review); co-built backend infra: indexer pipeline, liquidator bot, risk monitoring, REST API</li>
+                        <li>Designed and shipped the full protocol in Move: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation engine — peaked at $7.5M TVL with $174K cumulative fees and $54K protocol revenue</li>
+                        <li>Defined cryptoeconomic risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets — publicly highlighted by the Aptos Foundation at the $5M TVL milestone</li>
+                        <li>Coordinated end-to-end security audit with MoveBit (no loss-of-funds findings); used LLM agents as first-pass PR reviewers and for pre-audit security analysis</li>
+                        <li>Built backend distributed systems in TypeScript: indexer pipeline, liquidator bot, risk monitoring, and REST API with retry logic, state management, and failure handling for production reliability</li>
                     </ul>
 
                     <div class="project-tech">
                         <span class="tech-tag">Move / Aptos</span>
-                        <span class="tech-tag">Rust</span>
                         <span class="tech-tag">TypeScript</span>
                         <span class="tech-tag">Leveraged Lending</span>
                         <span class="tech-tag">Liquidation Engine</span>
+                        <span class="tech-tag">Security Audits</span>
                     </div>
 
                     <a href="https://moar.market" target="_blank" class="project-link">
                         moar.market <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Deploy Trade -->
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">Deploy Trade</div>
+                            <div class="project-role">Side Project</div>
+                        </div>
+                        <div class="project-date">2026</div>
+                    </div>
+
+                    <ul class="project-highlights">
+                        <li>Built an MCP server that exposes DeFi execution strategies as tools callable by LLM agents, enabling agents to plan and run onchain trading workflows end-to-end</li>
+                        <li>Underlying execution layer: event-driven grid trading bot on Hyperliquid perpetual futures (TypeScript, RabbitMQ, PostgreSQL, WebSocket-based order lifecycle management)</li>
+                        <li>Designed for production reliability: state persistence, retry logic, and order reconciliation across bot crashes and exchange disconnects; observability and tracing instrumented across critical paths</li>
+                    </ul>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">MCP Server</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Hyperliquid</span>
+                        <span class="tech-tag">RabbitMQ</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
+
+                    <a href="https://github.com/moar-market/kairos" target="_blank" class="project-link">
+                        GitHub <i class="fab fa-github"></i>
                     </a>
                 </div>
 
@@ -880,15 +914,15 @@
                     </div>
 
                     <p class="project-description">
-                        Decentralized perpetual futures exchange on Avalanche. Built a <strong style="color: var(--accent-primary);">decentralized limit order book (DLOB) on a custom Avalanche Subnet</strong> in V2, after proving the model with a Curve-style vAMM in V1.
+                        Perpetual futures DEX on Avalanche with <strong style="color: var(--accent-primary);">$100M+ in cumulative volume</strong>. Built a <strong style="color: var(--accent-primary);">decentralized limit order book (DLOB) on Hubblenet</strong>, a custom Avalanche Subnet, in V2 — after proving the model with a Curve-style vAMM in V1. Coordinated three external audits (Dedaub, Sherlock, Code4rena) with no critical findings.
                     </p>
 
                     <div style="margin-bottom: 1.5rem;">
                         <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V2: Decentralized Limit Order Book (DLOB) on Avalanche Subnet</div>
                         <ul class="project-highlights" style="margin-left: 0;">
-                            <li>Owned all Solidity smart contracts for the order-book DEX on a custom Avalanche Subnet where validators doubled as order matchers</li>
-                            <li>Built cross-chain asset bridge using LayerZero (lock-mint mechanism) for seamless L1-to-subnet transfers</li>
-                            <li>Co-built liquidator bot, order-matching service, and monitoring infrastructure</li>
+                            <li>Owned all Solidity smart contracts for the order-book DEX on Hubblenet — a custom Avalanche Subnet (10M+ transactions) where validators doubled as order matchers</li>
+                            <li>Built a LayerZero cross-chain asset bridge (lock-mint) that secured multi-million-dollar transfers with no incidents over 2+ years</li>
+                            <li>Built liquidator bot, order-matching service, and monitoring infrastructure; coordinated Sherlock and Code4rena audits end-to-end</li>
                         </ul>
                     </div>
 
@@ -896,7 +930,7 @@
                         <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
                         <ul class="project-highlights" style="margin-left: 0;">
                             <li>Implemented Curve-style vAMM using CurveCrypto invariant — ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
-                            <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system</li>
+                            <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system; coordinated Dedaub audit end-to-end</li>
                         </ul>
                     </div>
 
@@ -906,6 +940,7 @@
                         <span class="tech-tag">DLOB</span>
                         <span class="tech-tag">LayerZero Bridge</span>
                         <span class="tech-tag">CurveCrypto vAMM</span>
+                        <span class="tech-tag">Security Audits</span>
                     </div>
 
                     <a href="https://x.com/HubbleExchange" target="_blank" class="project-link">
@@ -924,35 +959,13 @@
                     </div>
 
                     <p class="project-description">
-                        Smart contract development for a stablecoin index protocol on Ethereum — aggregated yield-bearing stablecoins into a single diversified token. First production Solidity role after transitioning from hardware engineering.
+                        Developed Solidity smart contracts for <strong style="color: var(--accent-primary);">DUSD</strong>, a stablecoin index on Ethereum (later expanded to BSC) — aggregated yield-bearing stablecoins into a diversified, risk-adjusted token. Product suite peaked at <strong style="color: var(--accent-primary);">~$45M+ TVL</strong>, with audits by PeckShield and Quantstamp. First production Solidity role after transitioning from hardware engineering.
                     </p>
 
                     <div class="project-tech">
                         <span class="tech-tag">Solidity</span>
-                        <span class="tech-tag">Ethereum</span>
+                        <span class="tech-tag">Ethereum / BSC</span>
                         <span class="tech-tag">Yield Aggregation</span>
-                    </div>
-                </div>
-
-                <!-- Deploy — Kairos -->
-                <div class="project-card fade-in">
-                    <div class="project-header">
-                        <div>
-                            <div class="project-title">Deploy</div>
-                            <div class="project-role">Side Project</div>
-                        </div>
-                        <div class="project-date">2026</div>
-                    </div>
-
-                    <p class="project-description">
-                        MVP for an automated grid trading bot on <a href="https://hyperliquid.xyz" target="_blank">Hyperliquid</a> perpetual futures. Event-driven TypeScript engine with RabbitMQ, PostgreSQL, and WebSocket-based order lifecycle management.
-                    </p>
-
-                    <div class="project-tech">
-                        <span class="tech-tag">TypeScript</span>
-                        <span class="tech-tag">Hyperliquid</span>
-                        <span class="tech-tag">RabbitMQ</span>
-                        <span class="tech-tag">PostgreSQL</span>
                     </div>
                 </div>
 
@@ -991,8 +1004,8 @@
                     <ul class="skill-list">
                         <li>Solidity — Foundry, Hardhat, EVM internals</li>
                         <li>Move — Aptos framework, resource model</li>
-                        <li>Rust — systems-level blockchain tooling</li>
                         <li>TypeScript / Python — backend services, bots, APIs</li>
+                        <li>Go, Rust — systems & subnet tooling</li>
                     </ul>
                 </div>
 
@@ -1008,6 +1021,25 @@
                 </div>
 
                 <div class="skill-category">
+                    <h3>Security & Audits</h3>
+                    <ul class="skill-list">
+                        <li>Audit coordination — Dedaub, Sherlock, Code4rena, MoveBit (scoping → triage → remediation → re-review)</li>
+                        <li>No critical loss-of-funds findings across any audit coordinated</li>
+                        <li>Code review — reentrancy, oracle manipulation, overflow/underflow</li>
+                        <li>LLM-assisted first-pass review and pre-audit security analysis</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>AI / Agents</h3>
+                    <ul class="skill-list">
+                        <li>MCP servers — on-chain strategies as agent-callable tools</li>
+                        <li>LLM tool-calling & agent orchestration</li>
+                        <li>LLM agents for code review and security analysis</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
                     <h3>Chains & Infrastructure</h3>
                     <ul class="skill-list">
                         <li>Ethereum / EVM ecosystem</li>
@@ -1019,8 +1051,8 @@
                 <div class="skill-category">
                     <h3>Backend & Tooling</h3>
                     <ul class="skill-list">
-                        <li>PostgreSQL, RabbitMQ, Docker, monitoring</li>
-                        <li>Event-driven architecture — WebSocket listeners, message queues, state machines</li>
+                        <li>Node.js, PostgreSQL, RabbitMQ, Docker, observability</li>
+                        <li>Event-driven & distributed systems — WebSocket listeners, message queues, state machines, retry/failure handling</li>
                     </ul>
                 </div>
             </div>
@@ -1083,7 +1115,7 @@
             <div class="contact fade-in">
                 <h2>Let's Build Together</h2>
                 <p class="contact-subtitle">
-                    Open to engineering and founding roles at the intersection of finance and technology. Based in Goa, India — fully remote, any timezone.
+                    Open to roles in smart contract engineering, security &amp; audits, backend systems, and AI tooling for fintech. Based in Goa, India — fully remote, any timezone.
                 </p>
 
                 <div class="contact-details">
@@ -1111,9 +1143,6 @@
                         <button type="submit" class="contact-cta" style="border: none; cursor: pointer; font-size: 1rem;">
                             Send Message
                         </button>
-                        <a href="atul_agarwal_resume.pdf" target="_blank" class="contact-cta" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary);">
-                            Download Resume
-                        </a>
                     </div>
                 </form>
             </div>
