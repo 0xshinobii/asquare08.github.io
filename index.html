@@ -921,6 +921,7 @@
                         <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V2: Decentralized Limit Order Book (DLOB) on Avalanche Subnet</div>
                         <ul class="project-highlights" style="margin-left: 0;">
                             <li>Owned all Solidity smart contracts for the order-book DEX on Hubblenet — a custom Avalanche Subnet (10M+ transactions) where validators doubled as order matchers</li>
+                            <li>Wrote custom precompiles in Go for Hubblenet's Subnet EVM (a geth/coreth-based client), pushing order book matching and margin logic directly into the execution layer for performance at scale.
                             <li>Built a LayerZero cross-chain asset bridge (lock-mint) that secured multi-million-dollar transfers with no incidents over 2+ years</li>
                             <li>Built liquidator bot, order-matching service, and monitoring infrastructure; coordinated Sherlock and Code4rena audits end-to-end</li>
                         </ul>
