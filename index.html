@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atul Agarwal - Protocol Engineer & Builder</title>
-    <meta name="description" content="Blockchain engineer with 5+ years shipping smart contracts across Ethereum, Avalanche, and Aptos. Co-founded Moar Market ($7.5M TVL); early engineer at Hubble Exchange ($150M+ volume). Audit coordination, backend distributed systems, and AI agent tooling for DeFi.">
+    <title>Atul Agarwal — Control Systems &amp; Software Engineer</title>
+    <meta name="description" content="M.Tech in Control &amp; Automation from IIT Delhi, three years designing SoCs at MediaTek and five years building production software. First-author publications in sliding-mode control and frequency-domain system identification. Currently building real-time C++ / ROS 2 motion control on real hardware, and looking to work where control theory meets systems that have to ship.">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -771,7 +771,9 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#robotics">Robotics</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#publications">Publications</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#writing">Writing</a></li>
                 <li><a href="#education">Education</a></li>
@@ -786,10 +788,12 @@
             <div class="hero-content fade-in">
                 <h1>Atul Agarwal</h1>
                 <div class="hero-title">
-                    Protocol Engineer & Builder
+                    Control Systems &amp; Software Engineer
                 </div>
                 <p class="hero-tagline">
-                    5+ years shipping DeFi protocols end-to-end. Now building AI agents that execute onchain.
+                    Control systems by training. Eight years shipping since — three in silicon,
+                    five in production software. Most useful where those layers meet: code that
+                    has to be correct <em>and</em> on time.
                 </p>
 
                 <div class="social-links">
@@ -821,14 +825,109 @@
             <div class="about fade-in">
                 <div class="about-text">
                     <p>
-                        I started my career designing chips at <span class="about-highlight">MediaTek</span>, taught myself software engineering, and made the jump to DeFi in 2021. Since then I've shipped smart contracts across <span class="about-highlight">Ethereum, Avalanche, and Aptos</span> — co-founding Moar Market, a leveraged lending protocol that peaked at <span class="about-highlight">$7.5M TVL</span>, and building the core contracts for Hubble Exchange, a perpetual futures DEX that did <span class="about-highlight">$150M+ in cumulative volume</span>.
+                        I am a <span class="about-highlight">generalist engineer</span> — control theory, chip
+                        design and production software, in that order, each learned from zero.
                     </p>
                     <p>
-                        The common thread is going deep on hard problems: porting <span class="about-highlight">Newton's method solvers to Solidity</span> for on-chain AMM pricing, designing a <span class="about-highlight">custom Avalanche Subnet</span> where validators act as order matchers, and picking up <span class="about-highlight">Move</span> to build on an ecosystem most developers considered too early. I've coordinated audits end-to-end with <span class="about-highlight">Dedaub, Sherlock, Code4rena, and MoveBit</span> — with no critical loss-of-funds findings — and increasingly use <span class="about-highlight">LLM agents</span> for first-pass code review and pre-audit security analysis.
+                        I studied <span class="about-highlight">electrical engineering</span> at IIT Jodhpur,
+                        then a master's in <span class="about-highlight">control &amp; automation</span> at IIT
+                        Delhi. Two papers came out of it: sliding-mode control of a converter feeding a
+                        destabilising load, validated in hardware-in-the-loop, and
+                        <span class="about-highlight">system identification</span> — recovering a system's
+                        dynamics from input&ndash;output data without assuming the model.
                     </p>
                     <p>
-                        Most recently I've been building at the intersection of <span class="about-highlight">AI agents and DeFi</span> — an MCP server that exposes on-chain execution strategies as tools callable by LLM agents, letting them plan and run trading workflows end-to-end. I'm open to roles across <span class="about-highlight">smart contract engineering</span>, <span class="about-highlight">security &amp; audits</span>, <span class="about-highlight">backend engineering</span>, and <span class="about-highlight">AI tooling for fintech</span>. If you're building something ambitious on-chain, I'd love to talk.
+                        None of that prepared me for <span class="about-highlight">MediaTek</span>. Digital
+                        design is its own discipline and I learned it on the job — three years of timing
+                        closure, RTL verification and physical design, shipping across multiple production SoC
+                        tapeouts.
                     </p>
+                    <p>
+                        In 2021 I <span class="about-highlight">taught myself software engineering</span> from
+                        scratch, again with nothing carrying over, and moved into DeFi as a smart contract
+                        engineer. I went on to write the core contracts for
+                        <span class="about-highlight">Hubble Exchange</span>, a perpetuals DEX that cleared
+                        $150M+ in volume, and then co-founded <span class="about-highlight">Moar Market</span>,
+                        a lending protocol on Aptos that peaked at $7.5M TVL — building it in Move along with
+                        the backends, liquidation engine and risk monitoring it needed to stay up. The code is
+                        <span class="about-highlight">public, adversarial and holds user funds directly</span>
+                        — a single bug is not a ticket in a backlog, it is money gone in minutes. Four firms
+                        have audited my contracts, with no loss-of-funds findings.
+                    </p>
+                    <p>
+                        Three fields, none of them handed to me by the last one, and I got good at each. What I
+                        want now is the opposite problem: <span class="about-highlight">robotics is the first
+                        thing I have worked on that needs all three at once</span>. Most recently I built a
+                        real-time C&#43;&#43; and ROS&nbsp;2 motion control stack — 200&nbsp;Hz on a
+                        <span class="about-highlight">PREEMPT_RT</span> kernel, computed torque with online
+                        payload estimation, taken from a MuJoCo model to a real 5-DOF arm. The estimator that
+                        works in simulation recovers almost nothing on hardware; the
+                        <a href="posts/so101/" style="color: var(--accent-primary);">writeup</a> covers the four
+                        reasons why and what replaced it.
+                    </p>
+                    <p>
+                        Control theory, hardware and production software are usually three different people. I
+                        am looking for work where they have to be one. Based in India, open to international
+                        relocation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Robotics Section -->
+    <section class="section" id="robotics">
+        <div class="container">
+            <h2>Robotics &amp; Control</h2>
+
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">Payload-Adaptive Motion Control — SO-ARM101</div>
+                            <div class="project-role">Real-time C&#43;&#43; / ROS&nbsp;2 control stack, sim to hardware</div>
+                        </div>
+                        <div class="project-date">2026</div>
+                    </div>
+
+                    <p class="project-description">
+                        One control loop, written once, driving two plants behind a single
+                        <strong style="color: var(--accent-primary);">PlantInterface</strong>: a MuJoCo model
+                        and a real 5-DOF arm over a Feetech servo bus. Runs at
+                        <strong style="color: var(--accent-primary);">200&nbsp;Hz</strong> on a
+                        <strong style="color: var(--accent-primary);">SCHED_FIFO</strong> thread under a
+                        <strong style="color: var(--accent-primary);">PREEMPT_RT</strong> kernel — that is the
+                        runner today; the tracking figures below are not real-time measurements. Controllers —
+                        PD, computed torque, and adaptive computed torque with online payload estimation —
+                        never learn which side of the plant boundary they are on.
+                    </p>
+
+                    <ul class="project-highlights">
+                        <li><strong>Computed torque vs naive PD (simulation, 200 g known payload):</strong> settled arm RMS 0.0216 → 0.0028 rad (−86.9%), end-effector miss 0.0300 → 0.00018 m (−99.4%), gated by a blocking rigid-body equivalence test — worst disagreement 1.33e-15 N·m on gravity, 8.66e-13 N·m on the nonlinear bias — before any controller runs</li>
+                        <li><strong>Online payload RLS (simulation):</strong> recovers 102.4% of the RMS gap between the empty-model controller and the perfect-model bound; identifies a 200 g payload as 202.3 g</li>
+                        <li><strong>The sim-to-real finding:</strong> that same estimator returns 0.8 g for a 90 g payload and 9.4 g for a 180 g one on hardware — for four coupled reasons, chief among them that commanded torque is a position overlay rather than plant torque, and that acceleration from a 12-bit encoder carries ~13× more noise than signal inside the regressor</li>
+                        <li><strong>The replacement, closed loop:</strong> identify mass statically from motor current at rest, calibrate the instrument, freeze, then track — cutting arm RMS a further 31% at 90 g and 45% at 180 g against computed torque with no payload model, with the payload identified as 82.8 g and 176.0 g against true masses of 90 g and 180 g</li>
+                        <li><strong>Real-time characterisation:</strong> wakeup jitter p99 6.18 µs and p99.9 11.34 µs on a 5000 µs period, against a 2.14 ms serial round-trip — the scheduler is ~189× cheaper than the bus, which is what locates the real bottleneck</li>
+                        <li><strong>Instrumented for honesty:</strong> current logs report stale reads, truncated commands, bridge saturations and missed deadlines in its log header, so a result cannot silently rest on fabricated samples</li>
+                    </ul>
+
+                    <div class="project-tech">
+                        <span class="tech-tag">C&#43;&#43;17</span>
+                        <span class="tech-tag">ROS 2 Jazzy</span>
+                        <span class="tech-tag">PREEMPT_RT</span>
+                        <span class="tech-tag">Pinocchio</span>
+                        <span class="tech-tag">MuJoCo</span>
+                        <span class="tech-tag">Computed Torque</span>
+                        <span class="tech-tag">RLS Estimation</span>
+                        <span class="tech-tag">Serial Bus / Feetech</span>
+                    </div>
+
+                    <a href="posts/so101/" class="project-link">
+                        Read the full writeup <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="https://github.com/0xshinobii/so101-rt-control" target="_blank" class="project-link" style="margin-left: 1.5rem;">
+                        Source &amp; data <i class="fab fa-github"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -837,7 +936,12 @@
     <!-- Experience Section -->
     <section class="section" id="experience">
         <div class="container">
-            <h2>Experience</h2>
+            <h2>Earlier Experience</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Eight years of shipping: three designing silicon at MediaTek, five building production
+                financial systems. Different domains, same demands — hard constraints, externally audited
+                correctness, and systems that fail expensively when the reasoning is wrong.
+            </p>
 
             <div class="projects-grid">
                 <!-- Moar Market -->
@@ -999,6 +1103,54 @@
         </div>
     </section>
 
+    <!-- Publications Section -->
+    <section class="section" id="publications">
+        <div class="container">
+            <h2>Publications</h2>
+
+            <div class="thought-leadership fade-in">
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Peer-reviewed control-systems research, first author on both.
+                </p>
+                <ul class="blog-list">
+                    <li class="blog-item">
+                        <a href="https://doi.org/10.1016/j.ifacol.2018.05.035" target="_blank" class="blog-link">Nonparametric Analysis of Nonlinear Distortions for Biomolecular Systems</a>
+                        <div class="blog-description">
+                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Abhishek Dey, Rishi Relan, Shaunak Sen —
+                            <em>IFAC-PapersOnLine</em> 51(1), 313–318 (2018).
+                            <span style="color: var(--text-tertiary);">IIT Delhi · DTU Compute · doi:10.1016/j.ifacol.2018.05.035</span>
+                            <br><br>
+                            Frequency-domain system identification. Using broadband random-phase multisine
+                            excitation to detect and quantify nonlinear distortion in biomolecular circuits
+                            <em>without</em> assuming a model structure — so a modeller can decide whether a
+                            linear model is still valid at a given operating point before committing to
+                            expensive nonlinear identification. The same question, asked of a robot arm,
+                            is what the payload-estimation work below is doing.
+                        </div>
+                    </li>
+                    <li class="blog-item">
+                        <a href="https://ieeexplore.ieee.org/document/7152056" target="_blank" class="blog-link">Sliding Mode Control of Bidirectional DC/DC Converter with Constant Power Load</a>
+                        <div class="blog-description">
+                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Koyinni Deekshitha, Suresh Singh, Deepak Fulwani —
+                            <em>2015 IEEE First International Conference on DC Microgrids (ICDCM)</em>,
+                            Atlanta, GA, USA, June 2015.
+                            <span style="color: var(--text-tertiary);">IIT Jodhpur · doi:10.1109/ICDCM.2015.7152056</span>
+                            <br><br>
+                            Nonlinear robust control of a plant that is destabilising by construction: a
+                            constant-power load presents negative incremental impedance, so current rises as
+                            voltage falls and conventional linear PID control is insufficient. Designed a
+                            sliding-mode controller for the bidirectional buck-boost converter interfacing
+                            storage in an islanded DC micro-grid, proved existence of the sliding mode and
+                            stability of the chosen switching surface, and validated it in
+                            <strong style="color: var(--accent-primary);">real-time hardware-in-the-loop
+                            simulation on an OPAL-RT digital simulator</strong>.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- Skills Section -->
     <section class="section" id="skills">
         <div class="container">
@@ -1006,59 +1158,71 @@
 
             <div class="skills-section fade-in">
                 <div class="skill-category">
+                    <h3>Control &amp; Signals</h3>
+                    <ul class="skill-list">
+                        <li>Sliding-mode and nonlinear robust control — published, HIL-validated</li>
+                        <li>System identification — frequency-domain, multisine excitation, best linear approximation</li>
+                        <li>Kalman and particle filtering; recursive least squares for online estimation</li>
+                        <li>Computed torque / inverse dynamics; minimum-jerk trajectory generation</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Real-Time &amp; Robotics</h3>
+                    <ul class="skill-list">
+                        <li>C&#43;&#43;17 on PREEMPT_RT — SCHED_FIFO, mlockall, absolute-deadline loops</li>
+                        <li>ROS 2 Jazzy; Pinocchio and MuJoCo for dynamics and simulation</li>
+                        <li>Serial servo bus bring-up — protocol, timing budgets, encoder calibration</li>
+                        <li>From one project, not from production experience — see the writeup</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
                     <h3>Languages</h3>
                     <ul class="skill-list">
+                        <li>TypeScript, Python — backend services, bots, APIs, analysis</li>
                         <li>Solidity — Foundry, Hardhat, EVM internals</li>
                         <li>Move — Aptos framework, resource model</li>
-                        <li>TypeScript / Python — backend services, bots, APIs</li>
-                        <li>Go, Rust — systems & subnet tooling</li>
+                        <li>C&#43;&#43;, Go, Rust</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
-                    <h3>Protocol Design</h3>
+                    <h3>Digital Hardware</h3>
                     <ul class="skill-list">
-                        <li>Perpetual futures exchange — funding rates, margin systems, liquidation engines</li>
-                        <li>Lending & borrowing platforms — leveraged lending, interest rate models, collateral management</li>
-                        <li>Order book architecture — DLOB on custom L1/Subnet</li>
-                        <li>Cross-chain bridging — LayerZero, lock-mint patterns</li>
-                        <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers</li>
+                        <li>Verilog / RTL design for production SoCs — three years, multiple tapeouts</li>
+                        <li>Static timing analysis and timing closure</li>
+                        <li>RTL verification; physical design flow</li>
+                        <li>Reading a datasheet and a register map as a first instinct</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
-                    <h3>Security & Audits</h3>
+                    <h3>Protocol &amp; Systems Design</h3>
                     <ul class="skill-list">
-                        <li>Audit coordination — Dedaub, Sherlock, Code4rena, MoveBit (scoping → triage → remediation → re-review)</li>
-                        <li>No critical loss-of-funds findings across any audit coordinated</li>
-                        <li>Code review — reentrancy, oracle manipulation, overflow/underflow</li>
-                        <li>LLM-assisted first-pass review and pre-audit security analysis</li>
+                        <li>Perpetual futures — funding rates, margin systems, liquidation engines</li>
+                        <li>Lending &amp; borrowing — interest rate models, collateral management, risk parameters</li>
+                        <li>Order book architecture on a custom L1 / Avalanche Subnet</li>
+                        <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers in Solidity</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
-                    <h3>AI / Agents</h3>
+                    <h3>Reliability &amp; Security</h3>
                     <ul class="skill-list">
-                        <li>MCP servers — on-chain strategies as agent-callable tools</li>
-                        <li>LLM tool-calling & agent orchestration</li>
-                        <li>LLM agents for code review and security analysis</li>
+                        <li>Audit coordination end-to-end — Dedaub, Sherlock, Code4rena, MoveBit</li>
+                        <li>Distributed backends — indexers, liquidator bots, risk monitoring, REST services</li>
+                        <li>Retry logic, state management and failure handling for production uptime</li>
+                        <li>Instrumentation that proves a claim rather than asserting it</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
-                    <h3>Chains & Infrastructure</h3>
+                    <h3>AI Tooling</h3>
                     <ul class="skill-list">
-                        <li>Ethereum / EVM ecosystem</li>
-                        <li>Avalanche — custom Subnets, validator operations</li>
-                        <li>Aptos / MoveVM</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <h3>Backend & Tooling</h3>
-                    <ul class="skill-list">
-                        <li>Node.js, PostgreSQL, RabbitMQ, Docker, observability</li>
-                        <li>Event-driven & distributed systems — WebSocket listeners, message queues, state machines, retry/failure handling</li>
+                        <li>MCP servers exposing execution strategies as agent-callable tools</li>
+                        <li>LLM agents for first-pass code review and pre-audit analysis</li>
+                        <li>Agent-driven debugging with full protocol context</li>
                     </ul>
                 </div>
             </div>
@@ -1072,9 +1236,13 @@
 
             <div class="thought-leadership fade-in">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    I write technical deep-dives on DeFi protocol mathematics and mechanism design.
+                    Technical deep-dives — robotics control, and earlier work on protocol mathematics.
                 </p>
                 <ul class="blog-list">
+                    <li class="blog-item">
+                        <a href="posts/so101/" class="blog-link">Payload-Adaptive Tracking: MuJoCo to the SO-ARM101</a>
+                        <div class="blog-description">A real-time C&#43;&#43; / ROS 2 control stack taken to hardware — computed torque, online payload estimation, why the estimator failed on a real servo bus, and what replaced it.</div>
+                    </li>
                     <li class="blog-item">
                         <a href="posts/curveamm/stableswap/" class="blog-link">Understanding the Curve AMM: StableSwap Invariant</a>
                         <div class="blog-description">Deep dive into the math behind Curve's bonding curve — Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
@@ -1097,7 +1265,7 @@
                     <div class="project-header">
                         <div>
                             <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Delhi</div>
-                            <div class="project-role">Master of Technology (M.Tech)</div>
+                            <div class="project-role">M.Tech — Control &amp; Automation</div>
                         </div>
                         <div class="project-date">2017</div>
                     </div>
@@ -1106,7 +1274,7 @@
                     <div class="project-header">
                         <div>
                             <div class="project-title" style="font-size: 1.25rem;">Indian Institute of Technology (IIT) Jodhpur</div>
-                            <div class="project-role">Bachelor of Technology (B.Tech)</div>
+                            <div class="project-role">B.Tech — Electrical Engineering</div>
                         </div>
                         <div class="project-date">2015</div>
                     </div>
@@ -1119,15 +1287,15 @@
     <section class="section" id="contact">
         <div class="container">
             <div class="contact fade-in">
-                <h2>Let's Build Together</h2>
+                <h2>Get in Touch</h2>
                 <p class="contact-subtitle">
-                    Open to roles in smart contract engineering, security &amp; audits, backend systems, and AI tooling for fintech. Based in Goa, India — fully remote, any timezone.
+                    Looking for work in controls, robotics and real-time systems — and open to roles that want both the control-theory side and the production-software side. Based in Goa, India; open to international relocation.
                 </p>
 
                 <div class="contact-details">
                     <div class="contact-detail">
                         <strong>Location:</strong><br>
-                        Goa, India (Remote)
+                        Goa, India — open to relocation
                     </div>
                     <div class="contact-detail">
                         <strong>Twitter:</strong><br>
@@ -1162,7 +1330,7 @@
                 <a href="https://x.com/SirGobta" target="_blank">Twitter</a>
                 <a href="#" class="email-link" data-user="atulagarwal893" data-domain="gmail.com">Email</a>
             </div>
-            <p>Built by Atul Agarwal. © 2026.</p>
+            <p>Built by Atul Agarwal. &copy; 2026.</p>
         </div>
     </footer>
 

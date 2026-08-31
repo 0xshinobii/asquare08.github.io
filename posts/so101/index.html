@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Atul Agarwal">
+    <meta name="description" content="A real-time C++ / ROS 2 payload-adaptive control stack taken from MuJoCo to a real 5-DOF arm — computed torque, online payload estimation, why the estimator fails on a servo bus, and what replaced it.">
+    <meta property="og:title" content="Payload-Adaptive Tracking: MuJoCo to the SO-ARM101">
+    <meta property="og:description" content="Real-time C++ / ROS 2 motion control, and a sim-to-real gap with a named mechanism.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.atulagarwal.dev/posts/so101/">
+    <meta property="article:published_time" content="2026-08-26T00:00:00+00:00">
+    <meta property="og:see_also" content="https://github.com/0xshinobii/so101-rt-control">
+    <title>Payload-Adaptive Tracking: MuJoCo to the SO-ARM101 · Atul Agarwal</title>
+
+    <!-- Fonts (same as main site) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <style>
+        /* Same root variables as main site */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #131829;
+            --bg-tertiary: #1a1f3a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #0066ff;
+            --accent-tertiary: #00ff88;
+            --border-color: #1e293b;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Header — matches main site */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+        }
+        .logo {
+            font-family: 'Fira Code', monospace; font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent-primary); }
+
+        /* Article layout */
+        .article-container {
+            max-width: 780px; margin: 0 auto; padding: 7rem 2rem 4rem;
+        }
+
+        /* Post header */
+        .post-header { margin-bottom: 3rem; }
+        .post-title {
+            font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 700;
+            line-height: 1.3; margin-bottom: 1rem;
+        }
+        .post-meta {
+            color: var(--text-tertiary); font-size: 0.9rem;
+            display: flex; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .post-meta i { margin-right: 0.4rem; }
+
+        /* Article body */
+        .post-body { color: var(--text-secondary); }
+        .post-body p { margin-bottom: 1.5rem; }
+        .post-body a { color: var(--accent-primary); text-decoration: none; }
+        .post-body a:hover { color: var(--accent-tertiary); }
+
+        .post-body h2, .post-body h3 {
+            color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem;
+        }
+        .post-body h2 { font-size: 1.6rem; }
+        .post-body h3 { font-size: 1.3rem; }
+
+        .post-body ul, .post-body ol {
+            margin-bottom: 1.5rem; padding-left: 1.5rem;
+        }
+        .post-body li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+
+        .post-body code {
+            font-family: 'Fira Code', monospace; font-size: 0.85em;
+            background: var(--bg-tertiary); padding: 0.2rem 0.5rem;
+            border-radius: 4px; color: var(--accent-primary);
+        }
+
+        /* "See also" section */
+        .see-also {
+            margin-top: 3rem; padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .see-also h3 { color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem; }
+        .see-also a { color: var(--accent-primary); text-decoration: none; }
+        .see-also a:hover { color: var(--accent-tertiary); }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--accent-primary); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 2rem; transition: var(--transition);
+        }
+        .back-link:hover { color: var(--accent-tertiary); }
+
+        /* Footer — matches main site */
+        footer {
+            padding: 2rem 0; border-top: 1px solid var(--border-color);
+            text-align: center; color: var(--text-tertiary); font-size: 0.9rem;
+        }
+        .footer-content {
+            display: flex; justify-content: center; gap: 1.5rem;
+            margin-bottom: 1rem; flex-wrap: wrap;
+        }
+        .footer-content a { color: var(--accent-primary); text-decoration: none; }
+        .footer-content a:hover { color: var(--accent-tertiary); }
+
+        mjx-container { padding: 0.5rem 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-container { padding: 6rem 1.25rem 3rem; }
+            .nav-links { display: none; }
+        }
+
+        /* Additions for this post: figures, tables, ordered lists. */
+        .post-body figure { margin: 2.5rem 0; }
+        .post-body figure img {
+            width: 100%; height: auto; display: block;
+            background: #ffffff; border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .post-body figure img { cursor: zoom-in; }
+
+        /* Lightbox: the figures are dense, so a click opens them full-viewport. */
+        .lightbox {
+            position: fixed; inset: 0; z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(2, 6, 23, 0.92);
+            padding: 3rem 1.5rem; cursor: zoom-out;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 100%; max-height: 100%;
+            background: #ffffff; border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute; top: 1.25rem; right: 1.5rem;
+            background: none; border: none; cursor: pointer;
+            color: var(--text-secondary); font-size: 2rem; line-height: 1;
+            padding: 0.25rem 0.6rem;
+        }
+        .lightbox-close:hover { color: var(--text-primary); }
+
+        .post-body figcaption {
+            margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6;
+            color: var(--text-tertiary);
+        }
+        .post-body table {
+            width: 100%; border-collapse: collapse; margin: 2rem 0;
+            font-size: 0.92rem; display: block; overflow-x: auto;
+        }
+        .post-body th, .post-body td {
+            padding: 0.7rem 0.9rem; text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .post-body th {
+            color: var(--accent-primary); font-weight: 600;
+            white-space: nowrap;
+        }
+        .post-body td { color: var(--text-secondary); }
+        .post-body ol { margin: 1.25rem 0 1.25rem 1.5rem; }
+        .post-body ol li { margin-bottom: 0.9rem; color: var(--text-secondary); }
+        .post-body code {
+            font-family: 'Fira Code', monospace; font-size: 0.88em;
+            background: var(--bg-tertiary); padding: 0.15em 0.4em;
+            border-radius: 4px; color: var(--accent-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a class="logo" href="/">atul</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#robotics">Robotics</a></li>
+                <li><a href="/#experience">Experience</a></li>
+                <li><a href="/#skills">Skills</a></li>
+                <li><a href="/#publications">Publications</a></li>
+                <li><a href="/#writing">Writing</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Article -->
+    <article class="article-container">
+        <a href="/#writing" class="back-link"><i class="fas fa-arrow-left"></i> Back to Writing</a>
+
+        <div class="post-header">
+            <h1 class="post-title">Payload-Adaptive Tracking: MuJoCo to the SO-ARM101</h1>
+            <div class="post-meta">
+                <span><i class="fa fa-calendar"></i> August 2026</span>
+                <span><i class="fa fa-clock"></i> 9-minute read</span>
+            </div>
+        </div>
+
+        <div class="post-body">
+<p>Most robot arms are told what position to hold. Very few are told what they are
+<em>carrying</em>. Pick up an unknown object and gravity pulls the arm off its
+trajectory — and unless the controller's model knows the extra mass, it has no
+way to push back with the right amount of torque.</p>
+
+<p>This is a control stack that estimates the payload and compensates for it, written
+in real-time C++ against ROS&nbsp;2 and taken from a MuJoCo model to a real 5-DOF
+arm. In simulation the estimator identifies the mass to within a few grams. On the
+real arm it <strong>returns almost nothing</strong> — for four coupled reasons that
+can be named, and that took a different method to work around.</p>
+
+<h2>One loop, two plants</h2>
+
+<p>The whole stack is built around a single abstraction. <code>PlantInterface</code>
+takes torque in and gives state out. MuJoCo implements it by writing torque
+straight into the simulator. The hardware backend implements it by talking to six
+Feetech STS3215 servos over a serial bus. Above that line, the controllers — PD,
+computed torque, adaptive computed torque with online payload estimation — never
+learn which side of the boundary they are on.</p>
+
+<p>The runner puts the loop at 200&nbsp;Hz on a <code>SCHED_FIFO</code> thread with
+<code>mlockall</code>, under a <code>PREEMPT_RT</code> kernel, with its period
+driven by an absolute deadline (<code>clock_nanosleep</code> with
+<code>TIMER_ABSTIME</code>) so a late wakeup never shifts the next one. That is the
+configuration today; the tracking logs below predate it, so the tracking numbers are
+not real-time measurements. The jitter figures further down are, on a separate
+bench.</p>
+
+<figure>
+  <img src="/images/posts/so101/architecture.svg" alt="Control stack architecture with the hard real-time boundary marked">
+  <figcaption>The full stack. Above the red line may allocate, log and block; the
+  200&nbsp;Hz thread below it may not. Click to enlarge.</figcaption>
+</figure>
+
+<h2>What simulation says</h2>
+
+<p>Before writing a line of controller code, I put in a blocking gate: the MuJoCo
+plant and the Pinocchio model the controller uses must agree on gravity, nonlinear
+bias and the mass matrix across five poses: worst disagreement is
+<code>1.33e-15</code>&nbsp;N·m on gravity, <code>8.66e-13</code>&nbsp;N·m on the
+bias, <code>5.64e-12</code> on the mass matrix. If
+they disagree, the benchmark refuses to run. That gate is the reason the simulation
+numbers mean anything.</p>
+
+<p>With it in place, computed torque does what theory says. Against a naive PD
+controller carrying a known 200&nbsp;g payload, settled arm RMS drops from
+<strong>0.0216 to 0.0028&nbsp;rad</strong> and the end-effector miss from
+<strong>0.0300 to 0.00018&nbsp;m</strong>. The mechanism is not gain tuning — plain
+PD <em>must</em> retain position error to generate holding torque, while computed
+torque supplies the modelled gravity torque at zero error.</p>
+
+<p>Then take the payload out of the controller's model and let a recursive
+least-squares estimator find it online. It closes <strong>102.4%</strong> of the RMS
+gap between the empty-model controller and the perfect-model bound. It edges past
+100% because the residual Coulomb deadband differs between the two trajectories, not
+because an estimated model beats a perfect one. The mass itself lands at
+<strong>202.3&nbsp;g</strong> against a true 200&nbsp;g.</p>
+
+<p>That is the result I expected to carry over to hardware. It did not.</p>
+
+<h2>Why the estimator fails on a real servo bus</h2>
+
+<p>The estimator solves
+<code>τ − ID_empty(q, q̇, q̈) = Φ(q, q̇, q̈)·m</code> — the torque left over after
+the empty arm's dynamics are accounted for is attributable to the payload. On a
+torque-controlled plant that identity holds. On this hardware it is false, for four
+coupled reasons:</p>
+
+<ol>
+  <li><strong>τ is not plant torque.</strong> The STS3215 has no closed-loop N·m
+  mode. What the controller emits is realized as a position offset on the servo's
+  own inner PD loop. The torque that actually holds the arm is generated inside the
+  servo, and it is not the number in the equation. This one does not vanish at
+  rest.</li>
+  <li><strong>Acceleration is a double difference of a 12-bit encoder.</strong> One
+  encoder count at 200&nbsp;Hz reads as 61.4&nbsp;rad/s² — against a true
+  minimum-jerk peak near 4.6. Noise is roughly 13× signal, and it sits in the
+  <em>regressor</em>, so it biases the estimate systematically rather than averaging
+  out.</li>
+  <li><strong>Modelled inertia swamps gravity.</strong> The joint armature term turns
+  one count of that noise into 1.72&nbsp;N·m of phantom inertial torque — already
+  2.1× the gravity torque on the shoulder-lift joint, with the wrong sign, 799 times
+  per run.</li>
+  <li><strong>An unmodelled friction floor.</strong> On an earlier run the empty-arm
+  bias came out ~18× its simulation value, consistent with a 345:1 gearbox the model
+  does not represent.</li>
+</ol>
+
+<p>Ported unchanged, that estimator returns <strong>0.8&nbsp;g for a 90&nbsp;g
+payload and 9.4&nbsp;g for a 180&nbsp;g one</strong>. It does not diverge — it
+collapses to near zero and passes untouched through the <code>[0, 0.5]</code>&nbsp;kg
+projection, so the arm tracks within 7% of a controller carrying no payload model at
+all. An earlier run failed more loudly: the same estimator drove the mass to
+<strong>&minus;0.175&nbsp;kg</strong> and only the projection held it at zero. Quiet
+or loud, there is no payload information in it.</p>
+
+<h2>What replaced it</h2>
+
+<p>Causes 2 and 3 vanish at rest. Cause 1 does not. So the hardware path stops
+trying to estimate during motion: hold a pose, read motor current from the servo's
+current register, approach from both directions to cancel Coulomb friction, solve
+for mass, freeze it, then track.</p>
+
+<p>That raw reading turns out to be a biased instrument — it reads about 2.3× high.
+Fitting an affine correction across four masses and applying it <em>inside</em> the
+controller, before the physical mass clamp, is what makes the estimate usable:</p>
+
+<table>
+  <thead>
+    <tr><th>Payload</th><th>Baseline → result</th><th>Settled arm RMS</th><th>Mass estimate</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>90 g</td><td>naive PD → computed torque, empty model</td><td>0.0268 → 0.0093 rad (−65%)</td><td>not estimated</td></tr>
+    <tr><td>180 g</td><td>naive PD → computed torque, empty model</td><td>0.0356 → 0.0177 rad (−50%)</td><td>not estimated</td></tr>
+    <tr><td>90 g</td><td>empty model → calibrated static ID</td><td>0.0093 → 0.0064 rad (−31%)</td><td>82.8 g</td></tr>
+    <tr><td>180 g</td><td>empty model → calibrated static ID</td><td>0.0177 → 0.0097 rad (−45%)</td><td>176.0 g</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size:0.9rem; color:var(--text-tertiary);">Hardware RMS is pooled over
+four joints, excluding wrist-roll, which the controller cannot reach and which holds a
+constant ~0.027&nbsp;rad offset; the simulation figure quoted earlier is a five-joint
+mean, so the two plants are comparable only within themselves. The hardware PD and
+computed-torque gains are retuned for the servo's own inner position loop — same
+controller names as the simulation experiment, not the same experiment.</p>
+
+<figure>
+  <img src="/images/posts/so101/elbow.svg" alt="Elbow tracking error at 90 g and 180 g for four controllers">
+  <figcaption>Elbow error, four controllers, both payloads. Green (calibrated)
+  settles nearest zero; orange is the same estimator on raw current. Click to
+  enlarge.</figcaption>
+</figure>
+
+<p>The detail I find most useful is the orange trace. <strong>An uncalibrated payload
+estimate is worse than not compensating at all</strong> — 0.0127&nbsp;rad against
+0.0093 for the empty model at 90&nbsp;g. Feeding a biased mass into an otherwise
+correct model actively hurts. The calibration is not an optimisation; it is what
+makes the estimate usable in the first place.</p>
+
+<h2>Where the time actually goes</h2>
+
+<p>A real-time kernel is easy to treat as a talisman. It is more useful to measure
+what it buys. Under load, wakeup jitter on this box is 6.18&nbsp;µs at p99 and
+11.34&nbsp;µs at p99.9, on a 5000&nbsp;µs period. The serial round-trip to the
+servos is <strong>2.14&nbsp;ms</strong> — about <strong>189×</strong> larger.</p>
+
+<p>So the scheduler was never the constraint; the bus is. A 2.14&nbsp;ms round-trip
+does not fit inside a 1&nbsp;ms tick, so 1&nbsp;kHz is out of reach on this wiring —
+whether trimming each servo's Return Delay Time would bring it back is untested. The
+useful part is that you only find out which end binds by instrumenting both.</p>
+
+<h2>What this does not claim</h2>
+
+<p><strong>It is an elbow result.</strong> Only the elbow's servo stiffness is
+identified from measurement; the other five values are frozen placeholders. The
+shoulder-lift offset actually regresses in both calibrated runs.</p>
+
+<p><strong>The calibration belongs to one grasp.</strong> Jaw opening moved
+monotonically with mass as the weights were stacked, so the 2.315 scale conflates
+instrument gain with grasp geometry until a fixed-geometry campaign separates them.
+Run-to-run spread in the mass estimate (7.8&nbsp;g at 90&nbsp;g, 14.6&nbsp;g at
+180&nbsp;g) also exceeds the 5.03&nbsp;g fit residual, so the spread is the honest
+bound, not any single run's error.</p>
+
+<p><strong>One held-out mass is not a generalisation test.</strong> Both headline
+payloads are points the calibration was fitted on. A 70&nbsp;g object outside the fit
+came back at 56.7&nbsp;g — 13.3&nbsp;g out, inside the 14.6&nbsp;g run-to-run spread
+but about 19% of the payload. It was also gripped differently, off the stacked-weight
+series, so it moves mass and geometry at once: it establishes neither same-geometry
+interpolation nor that the scale carries to a new centre of mass.</p>
+
+<p>Those caveats are in the repository too, at similar length.</p>
+
+<h2>Source</h2>
+
+<p>Code, all hardware logs, and the full derivation with discarded runs and their
+reasons:
+<a href="https://github.com/0xshinobii/so101-rt-control" target="_blank">github.com/0xshinobii/so101-rt-control</a>.
+Stack is C++17, ROS&nbsp;2 Jazzy, Pinocchio, MuJoCo, on Ubuntu with a
+<code>PREEMPT_RT</code> kernel, against a ThinkRobotics SO-ARM101.</p>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <a href="https://x.com/0xshinobii" target="_blank">Twitter</a>
+            <a href="https://github.com/0xshinobii" target="_blank">GitHub</a>
+            <a href="#" class="email-link" data-user="atulagarwal893" data-domain="gmail.com">Email</a>
+        </div>
+        <p>Built by Atul Agarwal. &copy; 2026.</p>
+    </footer>
+    <!-- Fullscreen viewer for the figures. -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged figure">
+        <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+    (function () {
+        var box = document.getElementById('lightbox');
+        var img = document.getElementById('lightbox-img');
+
+        document.querySelectorAll('.post-body figure img').forEach(function (fig) {
+            fig.addEventListener('click', function () {
+                img.src = fig.currentSrc || fig.src;
+                img.alt = fig.alt;
+                box.classList.add('open');
+                document.body.style.overflow = 'hidden';   // no scrolling behind the overlay
+            });
+        });
+
+        function close() {
+            box.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        // The whole backdrop, close button included, dismisses the viewer.
+        box.addEventListener('click', close);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { close(); }
+        });
+    })();
+    </script>
+
+    <script>
+    document.querySelectorAll('.email-link').forEach(function(link) {
+        var u = link.dataset.user, d = link.dataset.domain;
+        if (u && d) { link.href = 'mail' + 'to:' + u + '@' + d; }
+    });
+    </script>
+
+</body>
+</html>
