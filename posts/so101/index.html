@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Atul Agarwal">
-    <meta name="description" content="A real-time C++ / ROS 2 payload-adaptive control stack taken from MuJoCo to a real 5-DOF arm — computed torque, online payload estimation, why the estimator fails on a servo bus, and what replaced it.">
+    <meta name="description" content="A real-time C++ / ROS 2 payload-adaptive control stack taken from MuJoCo to a real 5-DOF arm: computed torque, online payload estimation, why the estimator fails on a servo bus, and what replaced it.">
     <meta property="og:title" content="Payload-Adaptive Tracking: MuJoCo to the SO-ARM101">
     <meta property="og:description" content="Real-time C++ / ROS 2 motion control, and a sim-to-real gap with a named mechanism.">
     <meta property="og:type" content="article">
@@ -234,22 +234,22 @@
         <div class="post-body">
 <p>Most robot arms are told what position to hold. Very few are told what they are
 <em>carrying</em>. Pick up an unknown object and gravity pulls the arm off its
-trajectory — and unless the controller's model knows the extra mass, it has no
-way to push back with the right amount of torque.</p>
+trajectory. Unless the controller's model knows the extra mass, it has no way to
+push back with the right amount of torque.</p>
 
 <p>This is a control stack that estimates the payload and compensates for it, written
 in real-time C++ against ROS&nbsp;2 and taken from a MuJoCo model to a real 5-DOF
 arm. In simulation the estimator identifies the mass to within a few grams. On the
-real arm it <strong>returns almost nothing</strong> — for four coupled reasons that
-can be named, and that took a different method to work around.</p>
+real arm it <strong>returns almost nothing</strong>. There are four coupled reasons,
+all of them nameable, and working around them took a different method.</p>
 
 <h2>One loop, two plants</h2>
 
 <p>The whole stack is built around a single abstraction. <code>PlantInterface</code>
 takes torque in and gives state out. MuJoCo implements it by writing torque
 straight into the simulator. The hardware backend implements it by talking to six
-Feetech STS3215 servos over a serial bus. Above that line, the controllers — PD,
-computed torque, adaptive computed torque with online payload estimation — never
+Feetech STS3215 servos over a serial bus. Above that line, the controllers (PD,
+computed torque, adaptive computed torque with online payload estimation) never
 learn which side of the boundary they are on.</p>
 
 <p>The runner puts the loop at 200&nbsp;Hz on a <code>SCHED_FIFO</code> thread with
@@ -279,7 +279,7 @@ numbers mean anything.</p>
 <p>With it in place, computed torque does what theory says. Against a naive PD
 controller carrying a known 200&nbsp;g payload, settled arm RMS drops from
 <strong>0.0216 to 0.0028&nbsp;rad</strong> and the end-effector miss from
-<strong>0.0300 to 0.00018&nbsp;m</strong>. The mechanism is not gain tuning — plain
+<strong>0.0300 to 0.00018&nbsp;m</strong>. The mechanism is not gain tuning: plain
 PD <em>must</em> retain position error to generate holding torque, while computed
 torque supplies the modelled gravity torque at zero error.</p>
 
@@ -295,8 +295,8 @@ because an estimated model beats a perfect one. The mass itself lands at
 <h2>Why the estimator fails on a real servo bus</h2>
 
 <p>The estimator solves
-<code>τ − ID_empty(q, q̇, q̈) = Φ(q, q̇, q̈)·m</code> — the torque left over after
-the empty arm's dynamics are accounted for is attributable to the payload. On a
+<code>τ − ID_empty(q, q̇, q̈) = Φ(q, q̇, q̈)·m</code>. The torque left over
+after the empty arm's dynamics are accounted for is attributable to the payload. On a
 torque-controlled plant that identity holds. On this hardware it is false, for four
 coupled reasons:</p>
 
@@ -307,12 +307,12 @@ coupled reasons:</p>
   servo, and it is not the number in the equation. This one does not vanish at
   rest.</li>
   <li><strong>Acceleration is a double difference of a 12-bit encoder.</strong> One
-  encoder count at 200&nbsp;Hz reads as 61.4&nbsp;rad/s² — against a true
+  encoder count at 200&nbsp;Hz reads as 61.4&nbsp;rad/s², against a true
   minimum-jerk peak near 4.6. Noise is roughly 13× signal, and it sits in the
   <em>regressor</em>, so it biases the estimate systematically rather than averaging
   out.</li>
   <li><strong>Modelled inertia swamps gravity.</strong> The joint armature term turns
-  one count of that noise into 1.72&nbsp;N·m of phantom inertial torque — already
+  one count of that noise into 1.72&nbsp;N·m of phantom inertial torque: already
   2.1× the gravity torque on the shoulder-lift joint, with the wrong sign, 799 times
   per run.</li>
   <li><strong>An unmodelled friction floor.</strong> On an earlier run the empty-arm
@@ -321,7 +321,7 @@ coupled reasons:</p>
 </ol>
 
 <p>Ported unchanged, that estimator returns <strong>0.8&nbsp;g for a 90&nbsp;g
-payload and 9.4&nbsp;g for a 180&nbsp;g one</strong>. It does not diverge — it
+payload and 9.4&nbsp;g for a 180&nbsp;g one</strong>. It does not diverge; it
 collapses to near zero and passes untouched through the <code>[0, 0.5]</code>&nbsp;kg
 projection, so the arm tracks within 7% of a controller carrying no payload model at
 all. An earlier run failed more loudly: the same estimator drove the mass to
@@ -335,7 +335,7 @@ trying to estimate during motion: hold a pose, read motor current from the servo
 current register, approach from both directions to cancel Coulomb friction, solve
 for mass, freeze it, then track.</p>
 
-<p>That raw reading turns out to be a biased instrument — it reads about 2.3× high.
+<p>That raw reading turns out to be a biased instrument: it reads about 2.3× high.
 Fitting an affine correction across four masses and applying it <em>inside</em> the
 controller, before the physical mass clamp, is what makes the estimate usable:</p>
 
@@ -355,7 +355,7 @@ controller, before the physical mass clamp, is what makes the estimate usable:</
 four joints, excluding wrist-roll, which the controller cannot reach and which holds a
 constant ~0.027&nbsp;rad offset; the simulation figure quoted earlier is a five-joint
 mean, so the two plants are comparable only within themselves. The hardware PD and
-computed-torque gains are retuned for the servo's own inner position loop — same
+computed-torque gains are retuned for the servo's own inner position loop; same
 controller names as the simulation experiment, not the same experiment.</p>
 
 <figure>
@@ -366,7 +366,7 @@ controller names as the simulation experiment, not the same experiment.</p>
 </figure>
 
 <p>The detail I find most useful is the orange trace. <strong>An uncalibrated payload
-estimate is worse than not compensating at all</strong> — 0.0127&nbsp;rad against
+estimate is worse than not compensating at all</strong>: 0.0127&nbsp;rad against
 0.0093 for the empty model at 90&nbsp;g. Feeding a biased mass into an otherwise
 correct model actively hurts. The calibration is not an optimisation; it is what
 makes the estimate usable in the first place.</p>
@@ -376,11 +376,11 @@ makes the estimate usable in the first place.</p>
 <p>A real-time kernel is easy to treat as a talisman. It is more useful to measure
 what it buys. Under load, wakeup jitter on this box is 6.18&nbsp;µs at p99 and
 11.34&nbsp;µs at p99.9, on a 5000&nbsp;µs period. The serial round-trip to the
-servos is <strong>2.14&nbsp;ms</strong> — about <strong>189×</strong> larger.</p>
+servos is <strong>2.14&nbsp;ms</strong>, about <strong>189×</strong> larger.</p>
 
 <p>So the scheduler was never the constraint; the bus is. A 2.14&nbsp;ms round-trip
-does not fit inside a 1&nbsp;ms tick, so 1&nbsp;kHz is out of reach on this wiring —
-whether trimming each servo's Return Delay Time would bring it back is untested. The
+does not fit inside a 1&nbsp;ms tick, so 1&nbsp;kHz is out of reach on this wiring.
+Whether trimming each servo's Return Delay Time would bring it back is untested. The
 useful part is that you only find out which end binds by instrumenting both.</p>
 
 <h2>What this does not claim</h2>
@@ -398,7 +398,7 @@ bound, not any single run's error.</p>
 
 <p><strong>One held-out mass is not a generalisation test.</strong> Both headline
 payloads are points the calibration was fitted on. A 70&nbsp;g object outside the fit
-came back at 56.7&nbsp;g — 13.3&nbsp;g out, inside the 14.6&nbsp;g run-to-run spread
+came back at 56.7&nbsp;g: 13.3&nbsp;g out, inside the 14.6&nbsp;g run-to-run spread
 but about 19% of the payload. It was also gripped differently, off the stacked-weight
 series, so it moves mass and geometry at once: it establishes neither same-geometry
 interpolation nor that the scale carries to a new centre of mass.</p>

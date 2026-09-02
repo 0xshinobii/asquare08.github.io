@@ -791,7 +791,7 @@
                     Control Systems &amp; Software Engineer
                 </div>
                 <p class="hero-tagline">
-                    Control systems by training. Eight years shipping since — three in silicon,
+                    Control systems by training. Eight years shipping since: three in silicon,
                     five in production software. Most useful where those layers meet: code that
                     has to be correct <em>and</em> on time.
                 </p>
@@ -825,7 +825,7 @@
             <div class="about fade-in">
                 <div class="about-text">
                     <p>
-                        I am a <span class="about-highlight">generalist engineer</span> — control theory, chip
+                        I am a <span class="about-highlight">generalist engineer</span>: control theory, chip
                         design and production software, in that order, each learned from zero.
                     </p>
                     <p>
@@ -833,12 +833,12 @@
                         then a master's in <span class="about-highlight">control &amp; automation</span> at IIT
                         Delhi. Two papers came out of it: sliding-mode control of a converter feeding a
                         destabilising load, validated in hardware-in-the-loop, and
-                        <span class="about-highlight">system identification</span> — recovering a system's
+                        <span class="about-highlight">system identification</span>, recovering a system's
                         dynamics from input&ndash;output data without assuming the model.
                     </p>
                     <p>
                         None of that prepared me for <span class="about-highlight">MediaTek</span>. Digital
-                        design is its own discipline and I learned it on the job — three years of timing
+                        design is its own discipline and I learned it on the job: three years of timing
                         closure, RTL verification and physical design, shipping across multiple production SoC
                         tapeouts.
                     </p>
@@ -848,17 +848,17 @@
                         engineer. I went on to write the core contracts for
                         <span class="about-highlight">Hubble Exchange</span>, a perpetuals DEX that cleared
                         $150M+ in volume, and then co-founded <span class="about-highlight">Moar Market</span>,
-                        a lending protocol on Aptos that peaked at $7.5M TVL — building it in Move along with
+                        a lending protocol on Aptos that peaked at $7.5M TVL, building it in Move along with
                         the backends, liquidation engine and risk monitoring it needed to stay up. The code is
-                        <span class="about-highlight">public, adversarial and holds user funds directly</span>
-                        — a single bug is not a ticket in a backlog, it is money gone in minutes. Four firms
+                        <span class="about-highlight">public, adversarial and holds user funds directly</span>.
+                        A single bug is not a ticket in a backlog, it is money gone in minutes. Four firms
                         have audited my contracts, with no loss-of-funds findings.
                     </p>
                     <p>
                         Three fields, none of them handed to me by the last one, and I got good at each. What I
                         want now is the opposite problem: <span class="about-highlight">robotics is the first
                         thing I have worked on that needs all three at once</span>. Most recently I built a
-                        real-time C&#43;&#43; and ROS&nbsp;2 motion control stack — 200&nbsp;Hz on a
+                        real-time C&#43;&#43; and ROS&nbsp;2 motion control stack: 200&nbsp;Hz on a
                         <span class="about-highlight">PREEMPT_RT</span> kernel, computed torque with online
                         payload estimation, taken from a MuJoCo model to a real 5-DOF arm. The estimator that
                         works in simulation recovers almost nothing on hardware; the
@@ -884,7 +884,7 @@
                 <div class="project-card fade-in">
                     <div class="project-header">
                         <div>
-                            <div class="project-title">Payload-Adaptive Motion Control — SO-ARM101</div>
+                            <div class="project-title">Payload-Adaptive Motion Control on the SO-ARM101</div>
                             <div class="project-role">Real-time C&#43;&#43; / ROS&nbsp;2 control stack, sim to hardware</div>
                         </div>
                         <div class="project-date">2026</div>
@@ -896,18 +896,18 @@
                         and a real 5-DOF arm over a Feetech servo bus. Runs at
                         <strong style="color: var(--accent-primary);">200&nbsp;Hz</strong> on a
                         <strong style="color: var(--accent-primary);">SCHED_FIFO</strong> thread under a
-                        <strong style="color: var(--accent-primary);">PREEMPT_RT</strong> kernel — that is the
-                        runner today; the tracking figures below are not real-time measurements. Controllers —
-                        PD, computed torque, and adaptive computed torque with online payload estimation —
+                        <strong style="color: var(--accent-primary);">PREEMPT_RT</strong> kernel. That is the
+                        runner today; the tracking figures below are not real-time measurements. Controllers
+                        (PD, computed torque, and adaptive computed torque with online payload estimation)
                         never learn which side of the plant boundary they are on.
                     </p>
 
                     <ul class="project-highlights">
-                        <li><strong>Computed torque vs naive PD (simulation, 200 g known payload):</strong> settled arm RMS 0.0216 → 0.0028 rad (−86.9%), end-effector miss 0.0300 → 0.00018 m (−99.4%), gated by a blocking rigid-body equivalence test — worst disagreement 1.33e-15 N·m on gravity, 8.66e-13 N·m on the nonlinear bias — before any controller runs</li>
+                        <li><strong>Computed torque vs naive PD (simulation, 200 g known payload):</strong> settled arm RMS 0.0216 → 0.0028 rad (−86.9%), end-effector miss 0.0300 → 0.00018 m (−99.4%), gated by a blocking rigid-body equivalence test (worst disagreement 1.33e-15 N·m on gravity, 8.66e-13 N·m on the nonlinear bias) before any controller runs</li>
                         <li><strong>Online payload RLS (simulation):</strong> recovers 102.4% of the RMS gap between the empty-model controller and the perfect-model bound; identifies a 200 g payload as 202.3 g</li>
-                        <li><strong>The sim-to-real finding:</strong> that same estimator returns 0.8 g for a 90 g payload and 9.4 g for a 180 g one on hardware — for four coupled reasons, chief among them that commanded torque is a position overlay rather than plant torque, and that acceleration from a 12-bit encoder carries ~13× more noise than signal inside the regressor</li>
-                        <li><strong>The replacement, closed loop:</strong> identify mass statically from motor current at rest, calibrate the instrument, freeze, then track — cutting arm RMS a further 31% at 90 g and 45% at 180 g against computed torque with no payload model, with the payload identified as 82.8 g and 176.0 g against true masses of 90 g and 180 g</li>
-                        <li><strong>Real-time characterisation:</strong> wakeup jitter p99 6.18 µs and p99.9 11.34 µs on a 5000 µs period, against a 2.14 ms serial round-trip — the scheduler is ~189× cheaper than the bus, which is what locates the real bottleneck</li>
+                        <li><strong>The sim-to-real finding:</strong> that same estimator returns 0.8 g for a 90 g payload and 9.4 g for a 180 g one on hardware. Four coupled reasons, chief among them that commanded torque is a position overlay rather than plant torque, and that acceleration from a 12-bit encoder carries ~13× more noise than signal inside the regressor</li>
+                        <li><strong>The replacement, closed loop:</strong> identify mass statically from motor current at rest, calibrate the instrument, freeze, then track, cutting arm RMS a further 31% at 90 g and 45% at 180 g against computed torque with no payload model, with the payload identified as 82.8 g and 176.0 g against true masses of 90 g and 180 g</li>
+                        <li><strong>Real-time characterisation:</strong> wakeup jitter p99 6.18 µs and p99.9 11.34 µs on a 5000 µs period, against a 2.14 ms serial round-trip. The scheduler is ~189× cheaper than the bus, which is what locates the real bottleneck</li>
                         <li><strong>Instrumented for honesty:</strong> current logs report stale reads, truncated commands, bridge saturations and missed deadlines in its log header, so a result cannot silently rest on fabricated samples</li>
                     </ul>
 
@@ -939,7 +939,7 @@
             <h2>Earlier Experience</h2>
             <p style="color: var(--text-secondary); margin-bottom: 2rem;">
                 Eight years of shipping: three designing silicon at MediaTek, five building production
-                financial systems. Different domains, same demands — hard constraints, externally audited
+                financial systems. Different domains, same demands: hard constraints, externally audited
                 correctness, and systems that fail expensively when the reasoning is wrong.
             </p>
 
@@ -955,13 +955,13 @@
                     </div>
 
                     <p class="project-description">
-                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos — collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and a liquidation engine. Peaked at <strong style="color: var(--accent-primary);">$7.5M TVL</strong> with $60M cumulative borrowed.
+                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and a liquidation engine. Peaked at <strong style="color: var(--accent-primary);">$7.5M TVL</strong> with $60M cumulative borrowed.
                     </p>
 
                     <ul class="project-highlights">
-                        <li>Designed and shipped the full protocol in Move: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation engine — peaked at $7.5M TVL with $60M cumulative borrowed</li>
+                        <li>Designed and shipped the full protocol in Move: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation engine; peaked at $7.5M TVL with $60M cumulative borrowed</li>
                         <li>Built an internal AI agent with full protocol context to debug failed transactions and explain PnL drops or gains</li>
-                        <li>Defined cryptoeconomic risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets — publicly highlighted by the Aptos Foundation at the $5M TVL milestone</li>
+                        <li>Defined cryptoeconomic risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets; publicly highlighted by the Aptos Foundation at the $5M TVL milestone</li>
                         <li>Coordinated end-to-end security audit with MoveBit (no loss-of-funds findings); used LLM agents as first-pass PR reviewers and for pre-audit security analysis</li>
                         <li>Built backend distributed systems in TypeScript: indexer pipeline, liquidator bot, risk monitoring, and REST API with retry logic, state management, and failure handling for production reliability</li>
                     </ul>
@@ -1019,13 +1019,13 @@
                     </div>
 
                     <p class="project-description">
-                        Perpetual futures DEX on Avalanche with <strong style="color: var(--accent-primary);">$150M+ in cumulative volume</strong>. Built a <strong style="color: var(--accent-primary);">decentralized limit order book (DLOB) on Hubblenet</strong>, a custom Avalanche Subnet, in V2 — after proving the model with a Curve-style vAMM in V1. Coordinated three external audits (Dedaub, Sherlock, Code4rena) with no critical findings.
+                        Perpetual futures DEX on Avalanche with <strong style="color: var(--accent-primary);">$150M+ in cumulative volume</strong>. Built a <strong style="color: var(--accent-primary);">decentralized limit order book (DLOB) on Hubblenet</strong>, a custom Avalanche Subnet, in V2, after proving the model with a Curve-style vAMM in V1. Coordinated three external audits (Dedaub, Sherlock, Code4rena) with no critical findings.
                     </p>
 
                     <div style="margin-bottom: 1.5rem;">
                         <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.75rem;">V2: Decentralized Limit Order Book (DLOB) on Avalanche Subnet</div>
                         <ul class="project-highlights" style="margin-left: 0;">
-                            <li>Owned all Solidity smart contracts for the order-book DEX on Hubblenet — a custom Avalanche Subnet (10M+ transactions) where validators doubled as order matchers</li>
+                            <li>Owned all Solidity smart contracts for the order-book DEX on Hubblenet, a custom Avalanche Subnet (10M+ transactions) where validators doubled as order matchers</li>
                             <li>Wrote custom precompiles in Go for Hubblenet's Subnet EVM (a geth/coreth-based client), pushing order book matching and margin logic directly into the execution layer for performance at scale</li>
                             <li>Built a LayerZero cross-chain asset bridge (lock-mint) that secured multi-million-dollar transfers with no incidents over 2+ years</li>
                             <li>Built liquidator bot, order-matching service, and monitoring infrastructure; coordinated Sherlock and Code4rena audits end-to-end</li>
@@ -1035,7 +1035,7 @@
                     <div style="margin-bottom: 1.5rem;">
                         <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
                         <ul class="project-highlights" style="margin-left: 0;">
-                            <li>Implemented Curve-style vAMM using CurveCrypto invariant — ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
+                            <li>Implemented Curve-style vAMM using CurveCrypto invariant; ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
                             <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system; coordinated Dedaub audit end-to-end</li>
                         </ul>
                     </div>
@@ -1065,7 +1065,7 @@
                     </div>
 
                     <p class="project-description">
-                        Developed Solidity smart contracts for <strong style="color: var(--accent-primary);">DUSD</strong>, a stablecoin index on Ethereum (later expanded to BSC) — aggregated yield-bearing stablecoins into a diversified, risk-adjusted token. Product suite peaked at <strong style="color: var(--accent-primary);">~$45M+ TVL</strong>, with audits by PeckShield and Quantstamp. First production Solidity role after transitioning from hardware engineering.
+                        Developed Solidity smart contracts for <strong style="color: var(--accent-primary);">DUSD</strong>, a stablecoin index on Ethereum (later expanded to BSC), aggregating yield-bearing stablecoins into a diversified, risk-adjusted token. Product suite peaked at <strong style="color: var(--accent-primary);">~$45M+ TVL</strong>, with audits by PeckShield and Quantstamp. First production Solidity role after transitioning from hardware engineering.
                     </p>
 
                     <div class="project-tech">
@@ -1116,13 +1116,13 @@
                     <li class="blog-item">
                         <a href="https://doi.org/10.1016/j.ifacol.2018.05.035" target="_blank" class="blog-link">Nonparametric Analysis of Nonlinear Distortions for Biomolecular Systems</a>
                         <div class="blog-description">
-                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Abhishek Dey, Rishi Relan, Shaunak Sen —
+                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Abhishek Dey, Rishi Relan, Shaunak Sen.
                             <em>IFAC-PapersOnLine</em> 51(1), 313–318 (2018).
                             <span style="color: var(--text-tertiary);">IIT Delhi · DTU Compute · doi:10.1016/j.ifacol.2018.05.035</span>
                             <br><br>
                             Frequency-domain system identification. Using broadband random-phase multisine
                             excitation to detect and quantify nonlinear distortion in biomolecular circuits
-                            <em>without</em> assuming a model structure — so a modeller can decide whether a
+                            <em>without</em> assuming a model structure, so a modeller can decide whether a
                             linear model is still valid at a given operating point before committing to
                             expensive nonlinear identification. The same question, asked of a robot arm,
                             is what the payload-estimation work below is doing.
@@ -1131,7 +1131,7 @@
                     <li class="blog-item">
                         <a href="https://ieeexplore.ieee.org/document/7152056" target="_blank" class="blog-link">Sliding Mode Control of Bidirectional DC/DC Converter with Constant Power Load</a>
                         <div class="blog-description">
-                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Koyinni Deekshitha, Suresh Singh, Deepak Fulwani —
+                            <strong style="color: var(--text-secondary);">Atul Agarwal</strong>, Koyinni Deekshitha, Suresh Singh, Deepak Fulwani.
                             <em>2015 IEEE First International Conference on DC Microgrids (ICDCM)</em>,
                             Atlanta, GA, USA, June 2015.
                             <span style="color: var(--text-tertiary);">IIT Jodhpur · doi:10.1109/ICDCM.2015.7152056</span>
@@ -1160,8 +1160,8 @@
                 <div class="skill-category">
                     <h3>Control &amp; Signals</h3>
                     <ul class="skill-list">
-                        <li>Sliding-mode and nonlinear robust control — published, HIL-validated</li>
-                        <li>System identification — frequency-domain, multisine excitation, best linear approximation</li>
+                        <li>Sliding-mode and nonlinear robust control: published, HIL-validated</li>
+                        <li>System identification: frequency-domain, multisine excitation, best linear approximation</li>
                         <li>Kalman and particle filtering; recursive least squares for online estimation</li>
                         <li>Computed torque / inverse dynamics; minimum-jerk trajectory generation</li>
                     </ul>
@@ -1170,19 +1170,19 @@
                 <div class="skill-category">
                     <h3>Real-Time &amp; Robotics</h3>
                     <ul class="skill-list">
-                        <li>C&#43;&#43;17 on PREEMPT_RT — SCHED_FIFO, mlockall, absolute-deadline loops</li>
+                        <li>C&#43;&#43;17 on PREEMPT_RT: SCHED_FIFO, mlockall, absolute-deadline loops</li>
                         <li>ROS 2 Jazzy; Pinocchio and MuJoCo for dynamics and simulation</li>
-                        <li>Serial servo bus bring-up — protocol, timing budgets, encoder calibration</li>
-                        <li>From one project, not from production experience — see the writeup</li>
+                        <li>Serial servo bus bring-up: protocol, timing budgets, encoder calibration</li>
+                        <li>From one project, not from production experience: see the writeup</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
                     <h3>Languages</h3>
                     <ul class="skill-list">
-                        <li>TypeScript, Python — backend services, bots, APIs, analysis</li>
-                        <li>Solidity — Foundry, Hardhat, EVM internals</li>
-                        <li>Move — Aptos framework, resource model</li>
+                        <li>TypeScript, Python: backend services, bots, APIs, analysis</li>
+                        <li>Solidity: Foundry, Hardhat, EVM internals</li>
+                        <li>Move: Aptos framework, resource model</li>
                         <li>C&#43;&#43;, Go, Rust</li>
                     </ul>
                 </div>
@@ -1190,7 +1190,7 @@
                 <div class="skill-category">
                     <h3>Digital Hardware</h3>
                     <ul class="skill-list">
-                        <li>Verilog / RTL design for production SoCs — three years, multiple tapeouts</li>
+                        <li>Verilog / RTL design for production SoCs: three years, multiple tapeouts</li>
                         <li>Static timing analysis and timing closure</li>
                         <li>RTL verification; physical design flow</li>
                         <li>Reading a datasheet and a register map as a first instinct</li>
@@ -1200,18 +1200,18 @@
                 <div class="skill-category">
                     <h3>Protocol &amp; Systems Design</h3>
                     <ul class="skill-list">
-                        <li>Perpetual futures — funding rates, margin systems, liquidation engines</li>
-                        <li>Lending &amp; borrowing — interest rate models, collateral management, risk parameters</li>
+                        <li>Perpetual futures: funding rates, margin systems, liquidation engines</li>
+                        <li>Lending &amp; borrowing: interest rate models, collateral management, risk parameters</li>
                         <li>Order book architecture on a custom L1 / Avalanche Subnet</li>
-                        <li>AMM invariants — StableSwap, CurveCrypto, Newton's method solvers in Solidity</li>
+                        <li>AMM invariants: StableSwap, CurveCrypto, Newton's method solvers in Solidity</li>
                     </ul>
                 </div>
 
                 <div class="skill-category">
                     <h3>Reliability &amp; Security</h3>
                     <ul class="skill-list">
-                        <li>Audit coordination end-to-end — Dedaub, Sherlock, Code4rena, MoveBit</li>
-                        <li>Distributed backends — indexers, liquidator bots, risk monitoring, REST services</li>
+                        <li>Audit coordination end-to-end: Dedaub, Sherlock, Code4rena, MoveBit</li>
+                        <li>Distributed backends: indexers, liquidator bots, risk monitoring, REST services</li>
                         <li>Retry logic, state management and failure handling for production uptime</li>
                         <li>Instrumentation that proves a claim rather than asserting it</li>
                     </ul>
@@ -1236,20 +1236,20 @@
 
             <div class="thought-leadership fade-in">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Technical deep-dives — robotics control, and earlier work on protocol mathematics.
+                    Technical deep-dives: robotics control, and earlier work on protocol mathematics.
                 </p>
                 <ul class="blog-list">
                     <li class="blog-item">
                         <a href="posts/so101/" class="blog-link">Payload-Adaptive Tracking: MuJoCo to the SO-ARM101</a>
-                        <div class="blog-description">A real-time C&#43;&#43; / ROS 2 control stack taken to hardware — computed torque, online payload estimation, why the estimator failed on a real servo bus, and what replaced it.</div>
+                        <div class="blog-description">A real-time C&#43;&#43; / ROS 2 control stack taken to hardware: computed torque, online payload estimation, why the estimator failed on a real servo bus, and what replaced it.</div>
                     </li>
                     <li class="blog-item">
                         <a href="posts/curveamm/stableswap/" class="blog-link">Understanding the Curve AMM: StableSwap Invariant</a>
-                        <div class="blog-description">Deep dive into the math behind Curve's bonding curve — Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
+                        <div class="blog-description">Deep dive into the math behind Curve's bonding curve: Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
                     </li>
                     <li class="blog-item">
                         <a href="posts/hubblevamm/" class="blog-link">Hubble vAMM: CurveCrypto Invariant</a>
-                        <div class="blog-description">Technical analysis of extending Curve's invariant to volatile-asset perpetual futures — how Hubble V1 adapted CurveCrypto for on-chain derivatives pricing.</div>
+                        <div class="blog-description">Technical analysis of extending Curve's invariant to volatile-asset perpetual futures, and how Hubble V1 adapted CurveCrypto for on-chain derivatives pricing.</div>
                     </li>
                 </ul>
             </div>
@@ -1289,13 +1289,13 @@
             <div class="contact fade-in">
                 <h2>Get in Touch</h2>
                 <p class="contact-subtitle">
-                    Looking for work in controls, robotics and real-time systems — and open to roles that want both the control-theory side and the production-software side. Based in Goa, India; open to international relocation.
+                    Looking for work in controls, robotics and real-time systems, and open to roles that want both the control-theory side and the production-software side. Based in Goa, India; open to international relocation.
                 </p>
 
                 <div class="contact-details">
                     <div class="contact-detail">
                         <strong>Location:</strong><br>
-                        Goa, India — open to relocation
+                        Goa, India. Open to relocation
                     </div>
                     <div class="contact-detail">
                         <strong>Twitter:</strong><br>
