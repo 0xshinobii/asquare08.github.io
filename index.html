@@ -791,8 +791,8 @@
                     Control Systems &amp; Software Engineer
                 </div>
                 <p class="hero-tagline">
-                    Control systems by training. Eight years shipping since: three in silicon,
-                    five in production software. Most useful where those layers meet: code that
+                    Control systems by training, then eight years shipping: three in silicon,
+                    five in production software. Most useful where those layers meet, on code that
                     has to be correct <em>and</em> on time.
                 </p>
 
@@ -825,7 +825,7 @@
             <div class="about fade-in">
                 <div class="about-text">
                     <p>
-                        I am a <span class="about-highlight">generalist engineer</span>: control theory, chip
+                        I am a <span class="about-highlight">generalist engineer</span>. Control theory, chip
                         design and production software, in that order, each learned from zero.
                     </p>
                     <p>
@@ -838,8 +838,8 @@
                     </p>
                     <p>
                         None of that prepared me for <span class="about-highlight">MediaTek</span>. Digital
-                        design is its own discipline and I learned it on the job: three years of timing
-                        closure, RTL verification and physical design, shipping across multiple production SoC
+                        design is its own discipline and I learned it on the job. Three years of timing closure,
+                        RTL verification and physical design, shipping across multiple production SoC
                         tapeouts.
                     </p>
                     <p>
@@ -858,10 +858,10 @@
                         Three fields, none of them handed to me by the last one, and I got good at each. What I
                         want now is the opposite problem: <span class="about-highlight">robotics is the first
                         thing I have worked on that needs all three at once</span>. Most recently I built a
-                        real-time C&#43;&#43; and ROS&nbsp;2 motion control stack: 200&nbsp;Hz on a
-                        <span class="about-highlight">PREEMPT_RT</span> kernel, computed torque with online
-                        payload estimation, taken from a MuJoCo model to a real 5-DOF arm. The estimator that
-                        works in simulation recovers almost nothing on hardware; the
+                        real-time C&#43;&#43; and ROS&nbsp;2 motion control stack. It runs at 200&nbsp;Hz on a
+                        <span class="about-highlight">PREEMPT_RT</span> kernel, does computed torque with
+                        online payload estimation, and goes from a MuJoCo model to a real 5-DOF arm. The estimator that
+                        works in simulation recovers almost nothing on hardware. The
                         <a href="posts/so101/" style="color: var(--accent-primary);">writeup</a> covers the four
                         reasons why and what replaced it.
                     </p>
@@ -892,12 +892,12 @@
 
                     <p class="project-description">
                         One control loop, written once, driving two plants behind a single
-                        <strong style="color: var(--accent-primary);">PlantInterface</strong>: a MuJoCo model
+                        <strong style="color: var(--accent-primary);">PlantInterface</strong>, a MuJoCo model
                         and a real 5-DOF arm over a Feetech servo bus. Runs at
                         <strong style="color: var(--accent-primary);">200&nbsp;Hz</strong> on a
                         <strong style="color: var(--accent-primary);">SCHED_FIFO</strong> thread under a
                         <strong style="color: var(--accent-primary);">PREEMPT_RT</strong> kernel. That is the
-                        runner today; the tracking figures below are not real-time measurements. Controllers
+                        runner today, and the tracking figures below are not real-time measurements. Controllers
                         (PD, computed torque, and adaptive computed torque with online payload estimation)
                         never learn which side of the plant boundary they are on.
                     </p>
@@ -938,8 +938,8 @@
         <div class="container">
             <h2>Earlier Experience</h2>
             <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                Eight years of shipping: three designing silicon at MediaTek, five building production
-                financial systems. Different domains, same demands: hard constraints, externally audited
+                Three years designing silicon at MediaTek, then five building production financial
+                systems. Different domains, same demands. Hard constraints, externally audited
                 correctness, and systems that fail expensively when the reasoning is wrong.
             </p>
 
@@ -955,13 +955,13 @@
                     </div>
 
                     <p class="project-description">
-                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and a liquidation engine. Peaked at <strong style="color: var(--accent-primary);">$7.5M TVL</strong> with $60M cumulative borrowed.
+                        A <strong style="color: var(--accent-primary);">leveraged lending</strong> protocol on Aptos, built from collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and a liquidation engine. Peaked at <strong style="color: var(--accent-primary);">$7.5M TVL</strong> with $60M cumulative borrowed.
                     </p>
 
                     <ul class="project-highlights">
-                        <li>Designed and shipped the full protocol in Move: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation engine; peaked at $7.5M TVL with $60M cumulative borrowed</li>
+                        <li>Designed and shipped the full protocol in Move: collateral vaults, variable-rate interest models, oracle integrations (Pyth, Switchboard), and liquidation engine. Peaked at $7.5M TVL with $60M cumulative borrowed</li>
                         <li>Built an internal AI agent with full protocol context to debug failed transactions and explain PnL drops or gains</li>
-                        <li>Defined cryptoeconomic risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets; publicly highlighted by the Aptos Foundation at the $5M TVL milestone</li>
+                        <li>Defined cryptoeconomic risk parameters, collateral factors, and liquidation incentive curves for multi-asset markets. Publicly highlighted by the Aptos Foundation at the $5M TVL milestone</li>
                         <li>Coordinated end-to-end security audit with MoveBit (no loss-of-funds findings); used LLM agents as first-pass PR reviewers and for pre-audit security analysis</li>
                         <li>Built backend distributed systems in TypeScript: indexer pipeline, liquidator bot, risk monitoring, and REST API with retry logic, state management, and failure handling for production reliability</li>
                     </ul>
@@ -1035,7 +1035,7 @@
                     <div style="margin-bottom: 1.5rem;">
                         <div style="color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.75rem;">V1: Virtual AMM Perpetuals</div>
                         <ul class="project-highlights" style="margin-left: 0;">
-                            <li>Implemented Curve-style vAMM using CurveCrypto invariant; ported complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
+                            <li>Implemented Curve-style vAMM using CurveCrypto invariant, porting complex math (Newton's method iterative solver) to Solidity for on-chain price computation</li>
                             <li>Designed margin engine, funding rate mechanism, and multi-collateral vault system; coordinated Dedaub audit end-to-end</li>
                         </ul>
                     </div>
@@ -1236,16 +1236,16 @@
 
             <div class="thought-leadership fade-in">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Technical deep-dives: robotics control, and earlier work on protocol mathematics.
+                    Technical deep-dives on robotics control, and earlier work on protocol mathematics.
                 </p>
                 <ul class="blog-list">
                     <li class="blog-item">
                         <a href="posts/so101/" class="blog-link">Payload-Adaptive Tracking: MuJoCo to the SO-ARM101</a>
-                        <div class="blog-description">A real-time C&#43;&#43; / ROS 2 control stack taken to hardware: computed torque, online payload estimation, why the estimator failed on a real servo bus, and what replaced it.</div>
+                        <div class="blog-description">A real-time C&#43;&#43; / ROS 2 control stack taken to hardware, covering computed torque, online payload estimation, why the estimator failed on a real servo bus, and what replaced it.</div>
                     </li>
                     <li class="blog-item">
                         <a href="posts/curveamm/stableswap/" class="blog-link">Understanding the Curve AMM: StableSwap Invariant</a>
-                        <div class="blog-description">Deep dive into the math behind Curve's bonding curve: Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
+                        <div class="blog-description">Deep dive into the math behind Curve's bonding curve, covering Newton's method convergence, swap mechanics, and how the invariant achieves tight stablecoin pricing.</div>
                     </li>
                     <li class="blog-item">
                         <a href="posts/hubblevamm/" class="blog-link">Hubble vAMM: CurveCrypto Invariant</a>
@@ -1289,7 +1289,7 @@
             <div class="contact fade-in">
                 <h2>Get in Touch</h2>
                 <p class="contact-subtitle">
-                    Looking for work in controls, robotics and real-time systems, and open to roles that want both the control-theory side and the production-software side. Based in Goa, India; open to international relocation.
+                    Looking for work in controls, robotics and real-time systems, and open to roles that want both the control-theory side and the production-software side. Based in Goa, India. Open to international relocation.
                 </p>
 
                 <div class="contact-details">

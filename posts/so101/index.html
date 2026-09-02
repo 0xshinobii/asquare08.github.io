@@ -256,13 +256,13 @@ learn which side of the boundary they are on.</p>
 <code>mlockall</code>, under a <code>PREEMPT_RT</code> kernel, with its period
 driven by an absolute deadline (<code>clock_nanosleep</code> with
 <code>TIMER_ABSTIME</code>) so a late wakeup never shifts the next one. That is the
-configuration today; the tracking logs below predate it, so the tracking numbers are
+configuration today. The tracking logs below predate it, so the tracking numbers are
 not real-time measurements. The jitter figures further down are, on a separate
 bench.</p>
 
 <figure>
   <img src="/images/posts/so101/architecture.png" alt="Control stack architecture with the hard real-time boundary marked">
-  <figcaption>The full stack. Above the red line may allocate, log and block; the
+  <figcaption>The full stack. Above the red line may allocate, log and block. The
   200&nbsp;Hz thread below it may not. Click to enlarge.</figcaption>
 </figure>
 
@@ -270,7 +270,7 @@ bench.</p>
 
 <p>Before writing a line of controller code, I put in a blocking gate: the MuJoCo
 plant and the Pinocchio model the controller uses must agree on gravity, nonlinear
-bias and the mass matrix across five poses: worst disagreement is
+bias and the mass matrix across five poses. Worst disagreement is
 <code>1.33e-15</code>&nbsp;N·m on gravity, <code>8.66e-13</code>&nbsp;N·m on the
 bias, <code>5.64e-12</code> on the mass matrix. If
 they disagree, the benchmark refuses to run. That gate is the reason the simulation
@@ -321,7 +321,7 @@ coupled reasons:</p>
 </ol>
 
 <p>Ported unchanged, that estimator returns <strong>0.8&nbsp;g for a 90&nbsp;g
-payload and 9.4&nbsp;g for a 180&nbsp;g one</strong>. It does not diverge; it
+payload and 9.4&nbsp;g for a 180&nbsp;g one</strong>. It does not diverge. It
 collapses to near zero and passes untouched through the <code>[0, 0.5]</code>&nbsp;kg
 projection, so the arm tracks within 7% of a controller carrying no payload model at
 all. An earlier run failed more loudly: the same estimator drove the mass to
@@ -353,22 +353,22 @@ controller, before the physical mass clamp, is what makes the estimate usable:</
 
 <p style="font-size:0.9rem; color:var(--text-tertiary);">Hardware RMS is pooled over
 four joints, excluding wrist-roll, which the controller cannot reach and which holds a
-constant ~0.027&nbsp;rad offset; the simulation figure quoted earlier is a five-joint
+constant ~0.027&nbsp;rad offset. The simulation figure quoted earlier is a five-joint
 mean, so the two plants are comparable only within themselves. The hardware PD and
-computed-torque gains are retuned for the servo's own inner position loop; same
+computed-torque gains are retuned for the servo's own inner position loop. Same
 controller names as the simulation experiment, not the same experiment.</p>
 
 <figure>
   <img src="/images/posts/so101/elbow.png" alt="Elbow tracking error at 90 g and 180 g for four controllers">
   <figcaption>Elbow error, four controllers, both payloads. Green (calibrated)
-  settles nearest zero; orange is the same estimator on raw current. Click to
+  settles nearest zero. Orange is the same estimator on raw current. Click to
   enlarge.</figcaption>
 </figure>
 
 <p>The detail I find most useful is the orange trace. <strong>An uncalibrated payload
 estimate is worse than not compensating at all</strong>: 0.0127&nbsp;rad against
 0.0093 for the empty model at 90&nbsp;g. Feeding a biased mass into an otherwise
-correct model actively hurts. The calibration is not an optimisation; it is what
+correct model actively hurts. The calibration is not an optimisation. It is what
 makes the estimate usable in the first place.</p>
 
 <h2>Where the time actually goes</h2>
@@ -378,7 +378,7 @@ what it buys. Under load, wakeup jitter on this box is 6.18&nbsp;µs at p99 and
 11.34&nbsp;µs at p99.9, on a 5000&nbsp;µs period. The serial round-trip to the
 servos is <strong>2.14&nbsp;ms</strong>, about <strong>189×</strong> larger.</p>
 
-<p>So the scheduler was never the constraint; the bus is. A 2.14&nbsp;ms round-trip
+<p>So the scheduler was never the constraint. The bus is. A 2.14&nbsp;ms round-trip
 does not fit inside a 1&nbsp;ms tick, so 1&nbsp;kHz is out of reach on this wiring.
 Whether trimming each servo's Return Delay Time would bring it back is untested. The
 useful part is that you only find out which end binds by instrumenting both.</p>
@@ -386,7 +386,7 @@ useful part is that you only find out which end binds by instrumenting both.</p>
 <h2>What this does not claim</h2>
 
 <p><strong>It is an elbow result.</strong> Only the elbow's servo stiffness is
-identified from measurement; the other five values are frozen placeholders. The
+identified from measurement. The other five values are frozen placeholders. The
 shoulder-lift offset actually regresses in both calibrated runs.</p>
 
 <p><strong>The calibration belongs to one grasp.</strong> Jaw opening moved
@@ -400,7 +400,7 @@ bound, not any single run's error.</p>
 payloads are points the calibration was fitted on. A 70&nbsp;g object outside the fit
 came back at 56.7&nbsp;g: 13.3&nbsp;g out, inside the 14.6&nbsp;g run-to-run spread
 but about 19% of the payload. It was also gripped differently, off the stacked-weight
-series, so it moves mass and geometry at once: it establishes neither same-geometry
+series, so it moves mass and geometry at once, establishing neither same-geometry
 interpolation nor that the scale carries to a new centre of mass.</p>
 
 <p>Those caveats are in the repository too, at similar length.</p>
